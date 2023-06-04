@@ -190,6 +190,21 @@
                                     <span class="menu-title">Submission Attendance</span>
                                 </a>
                             </div>
+                            <div class="menu-item">
+                                <div class="menu-content pt-4 pb-2">
+                                    <span class="menu-section text-muted text-uppercase fs-8 ls-1 fw-bold">KEGIATAN RAPAT</span>
+                                </div>
+                            </div>
+                            <div class="menu-item">
+                                <a class="menu-link <?= ($Menu == 'SubmissionAttendance' && $this->uri->segment(2) == 'Monitoring') ? 'active' : null ?>" href="<?= base_url('SubmissionAttendance') ?>">
+                                    <span class="menu-icon">
+                                        <span class="svg-icon svg-icon-2">
+                                            <i class="fas fa-hourglass-half fs-2" style="rotate: 45deg;"></i>
+                                        </span>
+                                    </span>
+                                    <span class="menu-title">Submission Attendance</span>
+                                </a>
+                            </div>
                             <?php if ($Sess_Jabatan != 'GURU') : ?>
                                 <div class="menu-item">
                                     <a class="menu-link <?= ($Menu == 'ApprovalAttendance') ? 'active' : null ?>" href="<?= base_url('ApprovalAttendance') ?>">

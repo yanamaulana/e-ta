@@ -65,6 +65,13 @@ class Rapat extends CI_Controller
             'Created_by' => $this->session->userdata('sys_username')
         ]);
 
+        $this->db->insert($this->ttrx_dtl_peserta_rapat, [
+            'No_Meeting_Hdr' => $DocNumber,
+            'UserName' => $this->input->post('ketua_rapat'),
+            'Join_at' => date('Y-m-d H:i:s'),
+            'Join_by' => $this->session->userdata('sys_username')
+        ]);
+
         $error_msg = $this->db->error()["message"];
         $this->db->trans_complete();
         if ($this->db->trans_status() === FALSE) {
@@ -246,6 +253,95 @@ class Rapat extends CI_Controller
         Where SysId is not null 
         AND DATE_FORMAT(Meeting_Date, '%Y-%m-%d') >= '$from'
         AND DATE_FORMAT(Meeting_Date, '%Y-%m-%d') <= '$until' ";
+
+        $totalData = $this->db->query($sql)->num_rows();
+        if (!empty($requestData['search']['value'])) {
+            $sql .= " AND (No_Meeting LIKE '%" . $requestData['search']['value'] . "%' ";
+            $sql .= " OR Meeting_Date LIKE '%" . $requestData['search']['value'] . "%' ";
+            $sql .= " OR Time_Start LIKE '%" . $requestData['search']['value'] . "%' ";
+            $sql .= " OR Time_End LIKE '%" . $requestData['search']['value'] . "%' ";
+            $sql .= " OR Theme LIKE '%" . $requestData['search']['value'] . "%' ";
+            $sql .= " OR Meeting_Room LIKE '%" . $requestData['search']['value'] . "%' ";
+            $sql .= " OR Leader_Name LIKE '%" . $requestData['search']['value'] . "%' ";
+            $sql .= " OR Nominal_Tunjangan LIKE '%" . $requestData['search']['value'] . "%' ";
+            $sql .= " OR Total_Participant LIKE '%" . $requestData['search']['value'] . "%')";
+        }
+        // $sql .= " GROUP BY a.sysid ,a.no_lot ";
+        //----------------------------------------------------------------------------------
+        $sql .= " ORDER BY $order $dir LIMIT " . $requestData['start'] . " ," . $requestData['length'] . " ";
+
+        $totalFiltered = $this->db->query($sql)->num_rows();
+        $query = $this->db->query($sql);
+        $data = array();
+        $no = 1;
+        foreach ($query->result_array() as $row) {
+            $nestedData = array();
+            $nestedData["SysId"]                = $row["SysId"];
+            $nestedData['No_Meeting']           = $row['No_Meeting'];
+            $nestedData['Meeting_Date']         = $row['Meeting_Date'];
+            $nestedData['Time_Start']           = substr($row['Time_Start'], 0, 5);
+            $nestedData['Time_End']             = substr($row['Time_End'], 0, 5);
+            $nestedData['Theme']                = $row['Theme'];
+            $nestedData['Meeting_Room']         = $row['Meeting_Room'];
+            $nestedData['Leader']               = $row['Leader'];
+            $nestedData['Leader_Name']          = $row['Leader_Name'];
+            $nestedData['Note']                 = $row['Note'];
+            $nestedData['Nominal_Tunjangan']    = $row['Nominal_Tunjangan'];
+            $nestedData['Total_Participant']    = $row['Total_Participant'] . ' Peserta';
+            $nestedData['Approve_Admin']        = $row['Approve_Admin'];
+            $nestedData['Approve_Admin_by']     = $row['Approve_Admin_by'];
+            $nestedData['Approve_Admin_at']     = $row['Approve_Admin_at'];
+            $nestedData['Approve_Leader']       = $row['Approve_Leader'];
+            $nestedData['Approve_Leader_by']    = $row['Approve_Leader_by'];
+            $nestedData['Approve_Leader_at']    = $row['Approve_Leader_at'];
+            $nestedData['Created_at']           = $row['Created_at'];
+            $nestedData['Created_by']           = $row['Created_by'];
+
+            $data[] = $nestedData;
+        }
+        //----------------------------------------------------------------------------------
+        $json_data = array(
+            "draw"            => intval($requestData['draw']),
+            "recordsTotal"    => intval($totalData),
+            "recordsFiltered" => intval($totalFiltered),
+            "data"            => $data
+        );
+        //----------------------------------------------------------------------------------
+        echo json_encode($json_data);
+    }
+
+    public function Approval_Leader()
+    {
+        $this->data['page_title']   = "Approval Pimpinan Rapat";
+        $this->data['page_content'] = "Rapat/approval_leader";
+        $this->data['script_page']  = '<script src="' . base_url() . 'assets/Rapat/approval_leader.js"></script>';
+
+        $this->load->view($this->layout, $this->data);
+    }
+
+    public function DT_Approval_Leader()
+    {
+        $requestData = $_REQUEST;
+        $columns = array(
+            0 => "No_Meeting",
+            1 => "Meeting_Date",
+            2 => "Time_Start",
+            3 => "Time_End",
+            4 => "Theme",
+            5 => "Meeting_Room",
+            6 => "Leader_Name",
+            7 => "Nominal_Tunjangan",
+            8 => "Total_Participant",
+            9 => "Approve_Leader",
+            10 => "Approve_Admin",
+        );
+
+        $order = $columns[$requestData['order']['0']['column']];
+        $dir = $requestData['order']['0']['dir'];
+        $username = $this->session->userdata('sys_username');
+
+        $sql = "SELECT * from $this->qview_hdr_rapat 
+        Where SysId is not null and Leader = '$username' and Approve_Leader = 0 ";
 
         $totalData = $this->db->query($sql)->num_rows();
         if (!empty($requestData['search']['value'])) {

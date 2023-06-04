@@ -177,7 +177,7 @@
                             </div>
                             <div class="menu-item">
                                 <div class="menu-content pt-4 pb-2">
-                                    <span class="menu-section text-muted text-uppercase fs-8 ls-1 fw-bold">SUBMISSION ATTENDANCE</span>
+                                    <span class="menu-section text-muted text-uppercase fs-8 ls-1 fw-bold">LUPA ABSEN & KEGIATAN LUAR</span>
                                 </div>
                             </div>
                             <div class="menu-item">
@@ -187,22 +187,7 @@
                                             <i class="fas fa-hourglass-half fs-2" style="rotate: 45deg;"></i>
                                         </span>
                                     </span>
-                                    <span class="menu-title">Submission Attendance</span>
-                                </a>
-                            </div>
-                            <div class="menu-item">
-                                <div class="menu-content pt-4 pb-2">
-                                    <span class="menu-section text-muted text-uppercase fs-8 ls-1 fw-bold">KEGIATAN RAPAT</span>
-                                </div>
-                            </div>
-                            <div class="menu-item">
-                                <a class="menu-link <?= ($Menu == 'SubmissionAttendance' && $this->uri->segment(2) == 'Monitoring') ? 'active' : null ?>" href="<?= base_url('SubmissionAttendance') ?>">
-                                    <span class="menu-icon">
-                                        <span class="svg-icon svg-icon-2">
-                                            <i class="fas fa-hourglass-half fs-2" style="rotate: 45deg;"></i>
-                                        </span>
-                                    </span>
-                                    <span class="menu-title">Submission Attendance</span>
+                                    <span class="menu-title">Pengajuan Absensi</span>
                                 </a>
                             </div>
                             <?php if ($Sess_Jabatan != 'GURU') : ?>
@@ -216,6 +201,33 @@
                                         <span class="menu-title">Approval Attendance</span>
                                     </a>
                                 </div>
+                            <?php endif; ?>
+                            <div class="menu-item">
+                                <div class="menu-content pt-4 pb-2">
+                                    <span class="menu-section text-muted text-uppercase fs-8 ls-1 fw-bold">KEGIATAN RAPAT</span>
+                                </div>
+                            </div>
+                            <div class="menu-item">
+                                <a class="menu-link <?= ($Menu == 'Rapat' && $this->uri->segment(2) == 'Approval_Leader') ? 'active' : null ?>" href="<?= base_url('Rapat/Approval_Leader') ?>">
+                                    <span class="menu-icon">
+                                        <span class="svg-icon svg-icon-2">
+                                            <i class="fas fa-quote-left fs-2"></i>
+                                        </span>
+                                    </span>
+                                    <span class="menu-title">Approval Pimpinan</span>
+                                </a>
+                            </div>
+                            <div class="menu-item">
+                                <a class="menu-link <?= ($Menu == 'Rapat' && $this->uri->segment(2) == 'Rapat_Open') ? 'active' : null ?>" href="<?= base_url('Rapat/Rapat_Open') ?>">
+                                    <span class="menu-icon">
+                                        <span class="svg-icon svg-icon-2">
+                                            <i class="fas fa-users fs-2"></i>
+                                        </span>
+                                    </span>
+                                    <span class="menu-title">Join Rapat</span>
+                                </a>
+                            </div>
+                            <?php if ($Sess_Jabatan != 'GURU') : ?>
                                 <div class="menu-item">
                                     <div class="menu-content pt-4 pb-2">
                                         <span class="menu-section text-muted text-uppercase fs-8 ls-1 fw-bold">Payroll</span>

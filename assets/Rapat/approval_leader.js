@@ -73,9 +73,9 @@ $(document).ready(function () {
 					name: "Approve_Leader",
 					render: function (data, type, row, meta) {
 						if (row.Approve_Leader == 0) {
-							return `<button data-pk="${row.SysId}" class="btn btn-warning btn-icon btn-approve-leader" data-toggle="tooltip" title="Action Approve Leader"><i class="fas fa-sign-in-alt"></i></button>`;
+							return `<button data-pk="${row.SysId}" class="btn btn-warning btn-icon btn-approve-leader" data-toggle="tooltip" title="Action Approve Leader"><i class="fas fa-sign-in-alt"></i></button>&nbsp;<button class="btn btn-primary btn-icon btn-list-peserta" data-pk="${row.SysId}" data-toggle="tooltip" title="List Peserta"><i class="fas fa-users"></i></button>`;
 						} else {
-							return `<button class="btn btn-success" data-toggle="tooltip" title="Leader telah approve ">Approved <i class="fas fa-check"></i></button>`;
+							return `<button class="btn btn-success" data-toggle="tooltip" title="Leader telah approve ">Approved <i class="fas fa-check"></i></button>&nbsp;&nbsp;<button class="btn btn-primary btn-icon btn-list-peserta" data-pk="${row.SysId}" data-toggle="tooltip" title="List Peserta"><i class="fas fa-users"></i></button>`;
 						}
 					}
 				}

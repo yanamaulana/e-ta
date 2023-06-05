@@ -341,7 +341,7 @@ class Rapat extends CI_Controller
         $username = $this->session->userdata('sys_username');
 
         $sql = "SELECT * from $this->qview_hdr_rapat 
-        Where SysId is not null and Leader = '$username' and Approve_Leader = 0 ";
+        Where SysId is not null and Leader = '$username' ";
 
         $totalData = $this->db->query($sql)->num_rows();
         if (!empty($requestData['search']['value'])) {

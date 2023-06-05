@@ -34,7 +34,13 @@ function rupiah($angka)
                                     <td><?= $dtl->Nama; ?></td>
                                     <td><?= rupiah($dtl->Nominal_Tunjangan); ?></td>
                                     <td><?= $dtl->Join_at; ?></td>
-                                    <td><?= $dtl->Calculated; ?></td>
+                                    <td>
+                                        <?php if ($dtl->Calculated == 1) : ?>
+                                            <button class="btn btn-success btn-sm"><i class="fas fa-check"></i> Paid</button>
+                                        <?php else : ?>
+                                            <button class="btn btn-secondary btn-sm"><i class="fas fa-hourglass-half"></i> Un-Paid</button>
+                                        <?php endif; ?>
+                                    </td>
                                 </tr>
                                 <?php $i++; ?>
                             <?php endforeach; ?>

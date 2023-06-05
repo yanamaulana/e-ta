@@ -40,7 +40,7 @@ class My_Schedule extends CI_Controller
 
         if ($this->data['Sql_Schedule']->num_rows() > 0) {
             $this->data['Hdr_Schedule'] = $this->data['Sql_Schedule']->row();
-            $this->data['Dtl_Schedule'] = $this->db->get_where($this->dtl_schedule, ['Schedule_Number' => $this->data['Hdr_Schedule']->Schedule_Number])->result();
+            $this->data['Dtl_Schedule'] = $this->db->get_where('qview_schedule_all', ['Schedule_Number' => $this->data['Hdr_Schedule']->Schedule_Number])->result();
         }
 
         $this->data['HavingUnApproveSchedule'] = $this->db->get_where($this->hdr_schedule, [

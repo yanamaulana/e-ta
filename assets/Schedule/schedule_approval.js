@@ -64,7 +64,7 @@ $(document).ready(function () {
 				name: "Approve",
 				render: function (data, type, row, meta) {
 					return `<button class="btn btn-sm btn-icon btn-success btn-approve" data-pk="${row.SysId}" data-toggle="tooltip" title="Approve"><i class="fas fa-check"></i></button>
-                    &nbsp;<button class="btn btn-sm btn-icon btn-info btn-approve" data-pk="${row.SysId}" data-toggle="tooltip" title="Detail Schedule"><i class="fas fa-clipboard-list"></i></button>
+                    &nbsp;<button class="btn btn-sm btn-icon btn-info btn-preview" data-pk="${row.SysId}" data-toggle="tooltip" title="View Schedule"><i class="fas fa-clipboard-list"></i></button>
                     &nbsp;<button class="btn btn-sm btn-icon btn-danger btn-reject" data-pk="${row.SysId}" data-toggle="tooltip" title="Reject"><i class="fas fas fa-times"></i></button>`
 				}
 			},
@@ -273,5 +273,39 @@ $(document).ready(function () {
 				});
 			}
 		})
+	})
+
+	// btn-preview
+	$(document).on('click', '.btn-preview', function () {
+		$("#location").empty()
+		$.ajax({
+			url: $('meta[name="base_url"]').attr('content') + "ApprovalSchedule/Preview_Schedule",
+			type: "GET",
+			data: {
+				SysId: $(this).attr('data-pk')
+			},
+			beforeSend: function () {
+				Swal.fire({
+					title: 'Loading....',
+					html: '<div class="spinner-border text-primary"></div>',
+					showConfirmButton: false,
+					allowOutsideClick: false,
+					allowEscapeKey: false
+				})
+			},
+			success: function (ajaxData) {
+				Swal.close()
+				$("#location").html(ajaxData);
+				$("#Modal-Detail").modal('show');
+			},
+			error: function () {
+				Swal.fire({
+					title: "Error!",
+					text: "Terjadi kesalahan teknis, Hubungi MIS dept!",
+					icon: "error",
+					allowOutsideClick: false,
+				});
+			}
+		});
 	})
 })

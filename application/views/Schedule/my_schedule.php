@@ -66,12 +66,12 @@
                                             <thead style="background-color: #3B6D8C;">
                                                 <tr class="text-start text-white fw-bolder text-uppercase">
                                                     <th class="text-center text-white">#</th>
-                                                    <th class="text-center text-white">DAY</th>
-                                                    <th class="text-center text-white">CLASS</th>
-                                                    <th class="text-center text-white">SUBJECT</th>
-                                                    <th class="text-center text-white">TIME START</th>
-                                                    <th class="text-center text-white">TIME OVER</th>
-                                                    <th class="text-center text-white">HOUR STANDS</th>
+                                                    <th class="text-center text-white">HARI</th>
+                                                    <th class="text-center text-white">KELAS</th>
+                                                    <th class="text-center text-white">MAPEL</th>
+                                                    <th class="text-center text-white">MULAI PADA</th>
+                                                    <th class="text-center text-white">SELESAI PADA</th>
+                                                    <th class="text-center text-white">JAM BERDIRI</th>
                                                 </tr>
                                             </thead>
                                             <tbody class="text-gray-600 fw-bold" id="tbody">
@@ -83,12 +83,12 @@
                                                             <div class="fv-row">
                                                                 <select class="form-select form-select-sm day" disabled required style="width: 100%;" name="day[]">
                                                                     <option selected disabled value="">Select Day...</option>
-                                                                    <option <?php if ($dtl->Day == "Monday") echo 'selected' ?> value="Monday">Monday</option>
-                                                                    <option <?php if ($dtl->Day == "Tuesday") echo 'selected' ?> value="Tuesday">Tuesday</option>
-                                                                    <option <?php if ($dtl->Day == "Wednesday") echo 'selected' ?> value="Wednesday">Wednesday</option>
-                                                                    <option <?php if ($dtl->Day == "Thursday") echo 'selected' ?> value="Thursday">Thursday</option>
-                                                                    <option <?php if ($dtl->Day == "Friday") echo 'selected' ?> value="Friday">Friday</option>
-                                                                    <option <?php if ($dtl->Day == "Saturday") echo 'selected' ?> value="Saturday">Saturday</option>
+                                                                    <option <?php if ($dtl->Day == "Monday") echo 'selected' ?> value="Monday">Senin</option>
+                                                                    <option <?php if ($dtl->Day == "Tuesday") echo 'selected' ?> value="Tuesday">Selasa</option>
+                                                                    <option <?php if ($dtl->Day == "Wednesday") echo 'selected' ?> value="Wednesday">Rabu</option>
+                                                                    <option <?php if ($dtl->Day == "Thursday") echo 'selected' ?> value="Thursday">Kamis</option>
+                                                                    <option <?php if ($dtl->Day == "Friday") echo 'selected' ?> value="Friday">Jumat</option>
+                                                                    <option <?php if ($dtl->Day == "Saturday") echo 'selected' ?> value="Saturday">Sabtu</option>
                                                                 </select>
                                                             </div>
                                                         </td>
@@ -226,12 +226,12 @@
                                             <thead style="background-color: #3B6D8C;">
                                                 <tr class="text-start text-white fw-bolder text-uppercase">
                                                     <th class="text-center text-white">#</th>
-                                                    <th class="text-center text-white">DAY</th>
-                                                    <th class="text-center text-white">CLASS</th>
-                                                    <th class="text-center text-white">SUBJECT</th>
-                                                    <th class="text-center text-white">TIME START</th>
-                                                    <th class="text-center text-white">TIME OVER</th>
-                                                    <th class="text-center text-white">HOUR STANDS</th>
+                                                    <th class="text-center text-white">HARI</th>
+                                                    <th class="text-center text-white">KELAS</th>
+                                                    <th class="text-center text-white">MAPEL</th>
+                                                    <th class="text-center text-white">WAKTU MULAI</th>
+                                                    <th class="text-center text-white">SELESAI PADA</th>
+                                                    <th class="text-center text-white">JAM BERDIRI</th>
                                                 </tr>
                                             </thead>
                                             <tbody class="text-gray-600 fw-bold" id="tbody">
@@ -243,19 +243,19 @@
                                                             <div class="fv-row">
                                                                 <select class="form-select form-select-sm day" disabled required style="width: 100%;" name="day[]">
                                                                     <option selected disabled value="">Select Day...</option>
-                                                                    <option <?php if ($dtl->Day == "Monday") echo 'selected' ?> value="Monday">Monday</option>
-                                                                    <option <?php if ($dtl->Day == "Tuesday") echo 'selected' ?> value="Tuesday">Tuesday</option>
-                                                                    <option <?php if ($dtl->Day == "Wednesday") echo 'selected' ?> value="Wednesday">Wednesday</option>
-                                                                    <option <?php if ($dtl->Day == "Thursday") echo 'selected' ?> value="Thursday">Thursday</option>
-                                                                    <option <?php if ($dtl->Day == "Friday") echo 'selected' ?> value="Friday">Friday</option>
-                                                                    <option <?php if ($dtl->Day == "Saturday") echo 'selected' ?> value="Saturday">Saturday</option>
+                                                                    <option <?php if ($dtl->Day == "Monday") echo 'selected' ?> value="Monday">Senin</option>
+                                                                    <option <?php if ($dtl->Day == "Tuesday") echo 'selected' ?> value="Tuesday">Selasa</option>
+                                                                    <option <?php if ($dtl->Day == "Wednesday") echo 'selected' ?> value="Wednesday">Rabu</option>
+                                                                    <option <?php if ($dtl->Day == "Thursday") echo 'selected' ?> value="Thursday">Kamis</option>
+                                                                    <option <?php if ($dtl->Day == "Friday") echo 'selected' ?> value="Friday">Jumat</option>
+                                                                    <option <?php if ($dtl->Day == "Saturday") echo 'selected' ?> value="Saturday">Sabtu</option>
                                                                 </select>
                                                             </div>
                                                         </td>
                                                         <td>
                                                             <div class="fv-row">
                                                                 <select class="form-select form-select-sm" disabled required style="width: 100%;" name="class[]">
-                                                                    <option selected disabled value="">Select Class...</option>
+                                                                    <option selected disabled value="">Pilih Kelas...</option>
                                                                     <?php foreach ($Class as $class) : ?>
                                                                         <option <?php if ($dtl->Kelas_ID == $class->SysId) echo 'selected' ?> value="<?= $class->SysId ?>"><?= $class->Kelas ?></option>
                                                                     <?php endforeach ?>
@@ -265,7 +265,7 @@
                                                         <td>
                                                             <div class="fv-row">
                                                                 <select disabled class="form-select form-select-sm subject" required style="width: 100%;" name="subject[]">
-                                                                    <option selected disabled value="">Select Subjects...</option>
+                                                                    <option selected disabled value="">Pilih Mapel...</option>
                                                                     <?php foreach ($Subjects as $subject) : ?>
                                                                         <option <?php if ($dtl->Subject_ID == $subject->SysId) echo 'selected' ?> value="<?= $subject->SysId ?>"><?= $subject->Mata_Pelajaran ?></option>
                                                                     <?php endforeach ?>
@@ -281,7 +281,7 @@
                                                         <td>
                                                             <div class="fv-row">
                                                                 <select class="form-select form-select-sm text-center stand_hour" disabled required name="hour_stand[]">
-                                                                    <option selected disabled value="">Hour Stand...</option>
+                                                                    <option selected disabled value="">Jam Berdiri...</option>
                                                                     <option <?php if ($dtl->Stand_Hour == "1") echo 'selected' ?> value="1">1</option>
                                                                     <option <?php if ($dtl->Stand_Hour == "2") echo 'selected' ?> value="2">2</option>
                                                                     <option <?php if ($dtl->Stand_Hour == "3") echo 'selected' ?> value="3">3</option>

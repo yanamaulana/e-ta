@@ -44,7 +44,7 @@
                 </div>
                 <?php
                 $Menu = $this->uri->segment(1);
-                $Sess_Jabatan = $this->session->userdata('sys_jabatan');
+                $Role = $this->session->userdata('sys_role');
                 ?>
                 <div class="aside-menu flex-column-fluid">
                     <div class="hover-scroll-overlay-y my-5 my-lg-5" id="kt_aside_menu_wrapper" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-height="auto" data-kt-scroll-dependencies="#kt_aside_logo, #kt_aside_footer" data-kt-scroll-wrappers="#kt_aside_menu" data-kt-scroll-offset="0">
@@ -153,7 +153,7 @@
                                     <span class="menu-title">Form Schedule</span>
                                 </a>
                             </div>
-                            <?php if ($Sess_Jabatan != 'GURU') : ?>
+                            <?php if ($Role == 'ADMINISTRATOR') : ?>
                                 <div class="menu-item">
                                     <a class="menu-link <?= ($Menu == 'ApprovalSchedule') ? 'active' : null ?>" href="<?= base_url('ApprovalSchedule') ?>">
                                         <span class="menu-icon">
@@ -190,7 +190,7 @@
                                     <span class="menu-title">Pengajuan Absensi</span>
                                 </a>
                             </div>
-                            <?php if ($Sess_Jabatan != 'GURU') : ?>
+                            <?php if ($Role == 'ADMINISTRATOR') : ?>
                                 <div class="menu-item">
                                     <a class="menu-link <?= ($Menu == 'ApprovalAttendance') ? 'active' : null ?>" href="<?= base_url('ApprovalAttendance') ?>">
                                         <span class="menu-icon">
@@ -227,7 +227,7 @@
                                     <span class="menu-title">Join Rapat</span>
                                 </a>
                             </div>
-                            <?php if ($Sess_Jabatan != 'GURU') : ?>
+                            <?php if ($Role == 'ADMINISTRATOR') : ?>
                                 <div class="menu-item">
                                     <div class="menu-content pt-4 pb-2">
                                         <span class="menu-section text-muted text-uppercase fs-8 ls-1 fw-bold">Payroll</span>

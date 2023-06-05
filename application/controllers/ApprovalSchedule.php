@@ -6,7 +6,11 @@ class ApprovalSchedule extends CI_Controller
     public $layout          = 'layout';
     private $hdr_schedule   = 'ttrx_hdr_teaching_schedule';
     private $dtl_schedule   = 'ttrx_dtl_teaching_schedule';
+    private $qview_schedule_all   = 'qview_schedule_all';
+    private $qview_hdr_schedule_all   = 'qview_hdr_schedule_all';
     private $view_schedule_approval = 'qview_hdr_schedule_need_approval';
+    private $mst_mapel   = 'tmst_mata_pelajaran';
+    private $mst_class   = 'tmst_kelas';
 
     public function __construct()
     {
@@ -82,6 +86,15 @@ class ApprovalSchedule extends CI_Controller
                 'msg' => 'Successfully approve schedule !',
             ]);
         }
+    }
+
+    public function Preview_Schedule()
+    {
+        // qview_schedule_all
+        $this->data['Hdr'] = $this->db->get_where($this->qview_hdr_schedule_all, ['SysId' => $this->input->get('SysId')])->row();
+        $this->data['Dtls'] = $this->db->get_where($this->qview_schedule_all, ['SysId_Hdr' => $this->input->get('SysId')])->result();
+
+        return $this->load->view('Schedule/m_detail_schedule', $this->data);
     }
 
     public function DT_list_schedule_need_Approval()

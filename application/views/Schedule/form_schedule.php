@@ -74,7 +74,7 @@
                             <div class="row">
                                 <div class="col-xl-6 col-md-6">
                                     <div class="fv-row mb-5">
-                                        <label class="form-label">Schedule Number :</label>
+                                        <label class="form-label">No. Jadwal :</label>
                                         <input type="text" readonly class="form-control form-control-sm" id="schedule_number" name="schedule_number" placeholder="AUTO...">
                                     </div>
                                 </div>
@@ -92,12 +92,12 @@
                                             <thead style="background-color: #3B6D8C;">
                                                 <tr class="text-start text-white fw-bolder text-uppercase">
                                                     <th class="text-center text-white">#</th>
-                                                    <th class="text-center text-white">DAY</th>
-                                                    <th class="text-center text-white">CLASS</th>
-                                                    <th class="text-center text-white">SUBJECT</th>
-                                                    <th class="text-center text-white">TIME START</th>
-                                                    <th class="text-center text-white">TIME OVER</th>
-                                                    <th class="text-center text-white">HOUR STANDS</th>
+                                                    <th class="text-center text-white">HARI</th>
+                                                    <th class="text-center text-white">KELAS</th>
+                                                    <th class="text-center text-white">MAPEL</th>
+                                                    <th class="text-center text-white">WAKTU MULAI</th>
+                                                    <th class="text-center text-white">WAKTU SELESAI</th>
+                                                    <th class="text-center text-white">JAM BERDIRI</th>
                                                 </tr>
                                             </thead>
                                             <tbody class="text-gray-600 fw-bold" id="tbody">
@@ -106,20 +106,20 @@
                                                     <td>
                                                         <div class="fv-row">
                                                             <select class="form-select form-select-sm day" required style="width: 100%;" name="day[]">
-                                                                <option selected disabled value="">Select Day...</option>
-                                                                <option value="Monday">Monday</option>
-                                                                <option value="Tuesday">Tuesday</option>
-                                                                <option value="Wednesday">Wednesday</option>
-                                                                <option value="Thursday">Thursday</option>
-                                                                <option value="Friday">Friday</option>
-                                                                <option value="Saturday">Saturday</option>
+                                                                <option selected disabled value="">Pilih Hari...</option>
+                                                                <option value="Monday">Senin</option>
+                                                                <option value="Tuesday">Selasa</option>
+                                                                <option value="Wednesday">Rabu</option>
+                                                                <option value="Thursday">Kamis</option>
+                                                                <option value="Friday">Jumat</option>
+                                                                <option value="Saturday">Sabtu</option>
                                                             </select>
                                                         </div>
                                                     </td>
                                                     <td>
                                                         <div class="fv-row">
                                                             <select class="form-select form-select-sm class" required style="width: 100%;" name="class[]">
-                                                                <option selected disabled value="">Select Class...</option>
+                                                                <option selected disabled value="">Pilih Kelas...</option>
                                                                 <?php foreach ($Class as $class) : ?>
                                                                     <option value="<?= $class->SysId ?>"><?= $class->Kelas ?></option>
                                                                 <?php endforeach ?>
@@ -129,7 +129,7 @@
                                                     <td>
                                                         <div class="fv-row">
                                                             <select class="form-select form-select-sm subject" required data-control="select2" style="width: 100%;" name="subject[]">
-                                                                <option selected disabled value="">Select Subjects...</option>
+                                                                <option selected disabled value="">Pilih Mapel...</option>
                                                                 <?php foreach ($Subjects as $subject) : ?>
                                                                     <option value="<?= $subject->SysId ?>"><?= $subject->Mata_Pelajaran ?></option>
                                                                 <?php endforeach ?>
@@ -137,19 +137,20 @@
                                                         </div>
                                                     </td>
                                                     <td>
-                                                        <div class="fv-row"><input placeholder="Time Start..." value="00:00" type="text" class="form-control text-center form-control-sm time_start" required name="time_start[]"></div>
+                                                        <div class="fv-row"><input placeholder="Waktu Mulai..." value="00:00" type="text" class="form-control text-center form-control-sm time_start" required name="time_start[]"></div>
                                                     </td>
                                                     <td>
-                                                        <div class="fv-row"><input placeholder="Time Over..." value="00:00" type="text" class="form-control text-center form-control-sm time_over" required name="time_over[]"></div>
+                                                        <div class="fv-row"><input placeholder="Waktu Selesai..." value="00:00" type="text" class="form-control text-center form-control-sm time_over" required name="time_over[]"></div>
                                                     </td>
                                                     <td>
                                                         <div class="fv-row">
                                                             <select class="form-select form-select-sm text-center stand_hour" required name="hour_stand[]">
-                                                                <option selected disabled value="">Hour Stand...</option>
-                                                                <option value="1">1</option>
-                                                                <option value="2">2</option>
-                                                                <option value="3">3</option>
-                                                                <option value="4">4</option>
+                                                                <option selected disabled value="">Jam Berdiri...</option>
+                                                                <option value="1">1 Jam</option>
+                                                                <option value="2">2 Jam</option>
+                                                                <option value="3">3 Jam</option>
+                                                                <option value="4">4 Jam</option>
+                                                                <option value="5">5 Jam</option>
                                                             </select>
                                                         </div>
                                                     </td>

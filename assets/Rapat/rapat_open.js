@@ -25,7 +25,7 @@ $(document).ready(function () {
 				[15, 30, 90, 1000]
 			],
 			ajax: {
-				url: $('meta[name="base_url"]').attr('content') + "Rapat/DT_Approval_Leader",
+				url: $('meta[name="base_url"]').attr('content') + "Rapat/DT_Rapat_Open",
 				dataType: "json",
 				type: "POST",
 			},
@@ -71,17 +71,18 @@ $(document).ready(function () {
 				{
 					data: "Approve_Leader",
 					name: "Approve_Leader",
+					orderable: false,
 					render: function (data, type, row, meta) {
-						if (row.Approve_Leader == 0) {
-							return `<button data-pk="${row.SysId}" class="btn btn-warning btn-icon btn-approve-leader" data-toggle="tooltip" title="Action Approve Leader"><i class="fas fa-sign-in-alt"></i></button>&nbsp;<button class="btn btn-primary btn-icon btn-list-peserta" data-pk="${row.SysId}" data-toggle="tooltip" title="List Peserta"><i class="fas fa-users"></i></button>`;
+						if (row.Join == 0) {
+							return `<button data-pk="${row.SysId}" class="btn btn-info btn-icon btn-ikut" data-toggle="tooltip" title="Ikuti Rapat"><i class="fas fa-user-plus"></i></button>&nbsp;<button class="btn btn-primary btn-icon btn-list-peserta" data-pk="${row.SysId}" data-toggle="tooltip" title="List Peserta"><i class="fas fa-users"></i></button>`;
 						} else {
-							return `<button class="btn btn-success" data-toggle="tooltip" title="Leader telah approve ">Approved <i class="fas fa-check"></i></button>&nbsp;&nbsp;<button class="btn btn-primary btn-icon btn-list-peserta" data-pk="${row.SysId}" data-toggle="tooltip" title="List Peserta"><i class="fas fa-users"></i></button>`;
+							return `<button class="badge badge-success" data-toggle="tooltip" title="Anda terdaftar">Anda Terdaftar <i class="fas fa-check"></i></button>&nbsp;&nbsp;<button class="btn btn-primary btn-icon btn-list-peserta" data-pk="${row.SysId}" data-toggle="tooltip" title="List Peserta"><i class="fas fa-users"></i></button>`;
 						}
 					}
 				}
 			],
 			order: [
-				[3, "DESC"]
+				[1, "DESC"]
 			],
 			columnDefs: [{
 				className: "align-middle text-center",
@@ -150,22 +151,22 @@ $(document).ready(function () {
 		});
 	})
 
-	$(document).on('click', '.btn-approve-leader', function () {
+	$(document).on('click', '.btn-ikut', function () {
 		let data = $("#TableData").DataTable().row($(this).parents('tr')).data();
 		let SysId = data.SysId;
 		let No_Meeting = data.No_Meeting;
 		Swal.fire({
 			title: 'System message!',
-			text: `Apakah anda yakin untuk approve kegiatan rapat : ${No_Meeting} !`,
+			text: `Apakah anda yakin untuk mengikuti kegiatan rapat : ${No_Meeting} !`,
 			icon: 'question',
 			showCancelButton: true,
 			confirmButtonColor: '#3085d6',
 			cancelButtonColor: '#d33',
-			confirmButtonText: 'Ya, Approve!'
+			confirmButtonText: 'Ya, ikuti!'
 		}).then((result) => {
 			if (result.isConfirmed) {
 				$.ajax({
-					url: $('meta[name="base_url"]').attr('content') + "Rapat/Approve_Leader",
+					url: $('meta[name="base_url"]').attr('content') + "Rapat/Store_Ikut_Rapat",
 					type: "post",
 					dataType: "json",
 					data: {

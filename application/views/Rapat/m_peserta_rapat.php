@@ -1,10 +1,3 @@
-<?php
-function rupiah($angka)
-{
-    $hasil_rupiah = 'Rp. ' . number_format($angka, 0, ',', '.');
-    return $hasil_rupiah;
-}
-?>
 <div class="modal hide fade" id="Modal-Detail" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
@@ -15,6 +8,8 @@ function rupiah($angka)
                 </div>
             </div>
             <div class="modal-body">
+                <input type="hidden" id="No_Meeting" value="<?= $Hdr->No_Meeting ?>">
+                <input type="hidden" id="Role" value="<?= $this->session->userdata('sys_role') ?>">
                 <div class="pb-5 table-responsive">
                     <table id="Table-Detail" style="width: 100%;" class="table-sm align-middle display compact dt-nowrap table-rounded table-bordered border gy-5 gs-5">
                         <thead style="background-color: #3B6D8C;">
@@ -24,26 +19,11 @@ function rupiah($angka)
                                 <th class="text-center align-middle text-white">Tunjangan Rapat</th>
                                 <th class="text-center align-middle text-white">Waktu Join</th>
                                 <th class="text-center align-middle text-white">Status</th>
+                                <th class="text-center align-middle text-white"><i class="fas fa-cogs"></i></th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php $i = 1 ?>
-                            <?php foreach ($Dtls as $dtl) : ?>
-                                <tr>
-                                    <td><?= $i; ?></td>
-                                    <td><?= $dtl->Nama; ?></td>
-                                    <td><?= rupiah($dtl->Nominal_Tunjangan); ?></td>
-                                    <td><?= $dtl->Join_at; ?></td>
-                                    <td>
-                                        <?php if ($dtl->Calculated == 1) : ?>
-                                            <button class="btn btn-success btn-sm"><i class="fas fa-check"></i> Paid</button>
-                                        <?php else : ?>
-                                            <button class="btn btn-secondary btn-sm"><i class="fas fa-hourglass-half"></i> Un-Paid</button>
-                                        <?php endif; ?>
-                                    </td>
-                                </tr>
-                                <?php $i++; ?>
-                            <?php endforeach; ?>
+
                         </tbody>
                     </table>
                 </div>
@@ -70,35 +50,99 @@ function rupiah($angka)
             }
         })
 
-        var TableData = $("#Table-Detail").DataTable({
+        const rupiah = (number) => {
+            return new Intl.NumberFormat("id-ID", {
+                style: "currency",
+                currency: "IDR"
+            }).format(number);
+        }
+
+        $("#Table-Detail").DataTable({
             destroy: true,
-            // processing: true,
-            // serverSide: true,
+            processing: true,
+            serverSide: true,
             paging: true,
             dom: 'lBfrtip',
             orderCellsTop: true,
-            select: true,
             fixedHeader: {
                 header: true,
                 headerOffset: 48
             },
             "lengthMenu": [
-                [1000],
-                [1000]
+                [15, 30, 90, 1000],
+                [15, 30, 90, 1000]
+            ],
+            ajax: {
+                url: $('meta[name="base_url"]').attr('content') + "Rapat/DT_Peserta_Rapat",
+                dataType: "json",
+                type: "POST",
+                data: {
+                    No_Meeting: $('#No_Meeting').val()
+                }
+            },
+            columns: [{
+                    data: "No_Meeting_Hdr",
+                    name: "No_Meeting_Hdr",
+                    render: function(data, type, row, meta) {
+                        return meta.row + meta.settings._iDisplayStart + 1;
+                    }
+                },
+                {
+                    data: "Nama",
+                    name: "Nama",
+                },
+                {
+                    data: "Nominal_Tunjangan",
+                    name: "Nominal_Tunjangan",
+                    render: function(data) {
+                        return rupiah(data);
+                    }
+                },
+                {
+                    data: "Join_at",
+                    name: "Join_at",
+                },
+                {
+                    data: "Calculated",
+                    name: "Calculated",
+                    orderable: false,
+                    render: function(data, type, row, meta) {
+                        if (data == 1) {
+                            return `<button class="badge badge-success btn-sm"><i class="fas fa-check"></i> Paid</button>`;
+                        } else {
+                            return `<button class="badge badge-secondary btn-sm"><i class="fas fa-hourglass-half"></i> Un-Paid</button>`;
+                        }
+                    }
+                },
+                {
+                    data: "Join_by",
+                    name: "Join_by",
+                    orderable: false,
+                    render: function(data, type, row, meta) {
+                        if (row.Calculated == 1) {
+                            return `<button class="badge badge-success btn-sm"><i class="fas fa-check"></i> Paid</button>`;
+                        } else {
+                            return `<button  class="btn btn-danger btn-sm btn-delete-dtl" data-toggle="tooltip" title="Hapus Keikutsertaan"><i class="fas fa-trash"></i></button>`;
+                        }
+                    }
+                }
+            ],
+            order: [
+                [3, "DESC"]
             ],
             columnDefs: [{
                 className: "align-middle text-center",
-                targets: [0, 1, 3, 4],
+                targets: [0, 1, 2, 3, 4, 5],
             }],
             autoWidth: false,
             responsive: true,
-            // "rowCallback": function(row, data) {
-            //     if (data.is_active == "0") {
-            //         $('td', row).css('background-color', 'pink');
-            //     }
-            // },
+            "rowCallback": function(row, data) {
+                // if (data.Approve == "0") {
+                // $('td', row).css('background-color', 'pink');
+                // }
+            },
             preDrawCallback: function() {
-                $("#Table-Detail tbody td").addClass("blurry");
+                $("#TableData tbody td").addClass("blurry");
             },
             language: {
                 processing: '<i style="color:#4a4a4a" class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only"></span><p><span style="color:#4a4a4a" style="text-align:center" class="loading-text"></span> ',
@@ -106,10 +150,14 @@ function rupiah($angka)
             },
             drawCallback: function() {
                 $("#Table-Detail tbody td").addClass("blurry");
-                setTimeout(function() {
-                    $("#Table-Detail tbody td").removeClass("blurry");
-                });
                 $('[data-toggle="tooltip"]').tooltip();
+            },
+            initComplete: function() {
+                var api = this.api();
+                $("#Table-Detail tbody td").removeClass("blurry");
+                if ($('#Role').val() != 'ADMINISTRATOR') {
+                    api.column(2).visible(false);
+                }
             },
             "buttons": [{
                 text: `Export to :`,
@@ -139,5 +187,70 @@ function rupiah($angka)
             }],
         }).buttons().container().appendTo('#Table-Detail_wrapper .col-md-6:eq(0)');
 
+        $(document).on('click', '.btn-delete-dtl', function() {
+            let data = $("#Table-Detail").DataTable().row($(this).parents('tr')).data();
+            let SysId = data.SysId;
+            let nama = data.Nama;
+            Swal.fire({
+                title: 'System message!',
+                text: `Apakah anda yakin untuk menghapus kepesertaan : ${nama}, Data tidak dapat dikembalikan !`,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, hapus!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: $('meta[name="base_url"]').attr('content') + "Rapat/Delete_Dtl",
+                        type: "post",
+                        dataType: "json",
+                        data: {
+                            SysId: SysId
+                        },
+                        beforeSend: function() {
+                            Swal.fire({
+                                title: 'Loading....',
+                                html: '<div class="spinner-border text-primary"></div>',
+                                showConfirmButton: false,
+                                allowOutsideClick: false,
+                                allowEscapeKey: false
+                            })
+                        },
+                        success: function(response) {
+                            if (response.code == 200) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Success!',
+                                    text: response.msg,
+                                    confirmButtonColor: '#3085d6',
+                                    confirmButtonText: 'Yes, Confirm!'
+                                })
+                                $("#TableData").DataTable().ajax.reload();
+                                $("#btn-delete-dtl").DataTable().ajax.reload();
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops...',
+                                    text: response.msg,
+                                    confirmButtonColor: '#3085d6',
+                                    confirmButtonText: 'Yes, Confirm!',
+                                    footer: '<a href="javascript:void(0)">Notification System</a>'
+                                });
+                            }
+                        },
+                        error: function() {
+                            Swal.close()
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'A error occured, please report this error to administrator !',
+                                footer: '<a href="javascript:void(0)">Notification System</a>'
+                            });
+                        }
+                    });
+                }
+            })
+        })
     })
 </script>

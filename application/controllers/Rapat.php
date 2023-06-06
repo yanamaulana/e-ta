@@ -184,7 +184,32 @@ class Rapat extends CI_Controller
     {
         $SysId = $this->input->post('SysId');
 
+        $Hdr = $this->db->get_where($this->ttrx_hdr_rapat, ['SysId' => $SysId])->row();
+
         $this->db->trans_start();
+
+        $this->db->insert('thst_hdr_rapat', [
+            'SysId' => $Hdr->SysId,
+            'No_Meeting' => $Hdr->No_Meeting,
+            'Meeting_Date' => $Hdr->Meeting_Date,
+            'Time_Start' => $Hdr->Time_Start,
+            'Time_End' => $Hdr->Time_End,
+            'Theme' => $Hdr->Theme,
+            'Meeting_Room' => $Hdr->Meeting_Room,
+            'Leader' => $Hdr->Leader,
+            'Note' => $Hdr->Note,
+            'Nominal_Tunjangan' => $Hdr->Nominal_Tunjangan,
+            'Approve_Admin' => $Hdr->Approve_Admin,
+            'Approve_Admin_by' => $Hdr->Approve_Admin_by,
+            'Approve_Admin_at' => $Hdr->Approve_Admin_at,
+            'Approve_Leader' => $Hdr->Approve_Leader,
+            'Approve_Leader_by' => $Hdr->Approve_Leader_by,
+            'Approve_Leader_at' => $Hdr->Approve_Leader_at,
+            'Created_at' => $Hdr->Created_at,
+            'Created_by' => $Hdr->Created_by,
+            'Delete_at' => date('Y-m-d H:i:s'),
+            'Delete_by' => $this->session->userdata('sys_username')
+        ]);
 
         $this->db->where('SysId', $SysId);
         $this->db->delete($this->ttrx_hdr_rapat);
@@ -210,7 +235,20 @@ class Rapat extends CI_Controller
     {
         $SysId = $this->input->post('SysId');
 
+        $dtl = $this->db->get_where($this->ttrx_dtl_peserta_rapat, ['SysId' => $SysId])->row();
+
         $this->db->trans_start();
+
+        $this->db->insert('thst_dtl_peserta_rapat', [
+            'SysId' => $dtl->SysId,
+            'No_Meeting_Hdr' => $dtl->No_Meeting_Hdr,
+            'UserName' => $dtl->UserName,
+            'Calculated' => $dtl->Calculated,
+            'Join_at' => $dtl->Join_at,
+            'Join_by' => $dtl->Join_by,
+            'Delete_at' => date('Y-m-d H:i:s'),
+            'Delete_by' => $this->session->userdata('sys_username')
+        ]);
 
         $this->db->where('SysId', $SysId);
         $this->db->delete($this->ttrx_dtl_peserta_rapat);

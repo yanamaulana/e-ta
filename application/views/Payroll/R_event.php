@@ -215,9 +215,9 @@ function tgl_indo($tanggal)
                 <tr>
                     <td>6.</td>
                     <td>K. Rapat</td>
-                    <td>&nbsp;</td>
-                    <td>Rp. -</td>
-                    <td>-</td>
+                    <td><?= floatval($Hdr->Jumlah_Rapat) ?></td>
+                    <td><?= rupiah($Payment_Rapat->Nominal) ?></td>
+                    <td><?= rupiah($Hdr->Rapat) ?></td>
                 </tr>
                 <tr>
                     <td>7.</td>
@@ -231,7 +231,7 @@ function tgl_indo($tanggal)
                     <td>JUMLAH</td>
                     <td></td>
                     <td class="text-right">:</td>
-                    <td><?= rupiah($Hdr->Nominal_Jam_Berdiri + $Hdr->Gaji + $Hdr->Nominal_Lembur + $Hdr->Nominal_Piket + $Hdr->Nominal_Upacara + $Hdr->Tunjangan_Jabatan_1 + $Hdr->Tunjangan_Jabatan_2 + $Hdr->Tunjangan_Jabatan_3) ?></td>
+                    <td><?= rupiah($Hdr->Nominal_Jam_Berdiri + $Hdr->Gaji + $Hdr->Nominal_Lembur + $Hdr->Nominal_Piket + $Hdr->Nominal_Upacara + $Hdr->Tunjangan_Jabatan_1 + $Hdr->Tunjangan_Jabatan_2 + $Hdr->Tunjangan_Jabatan_3 + $Hdr->Rapat) ?></td>
                 </tr>
                 <tr>
                     <td>&nbsp;</td>
@@ -282,7 +282,7 @@ function tgl_indo($tanggal)
                     <td>JUMLAH</td>
                     <td></td>
                     <td class="text-right">:</td>
-                    <td><?= rupiah($Hdr->Nominal_Jam_Berdiri + $Hdr->Gaji + $Hdr->Nominal_Lembur + $Hdr->Nominal_Piket + $Hdr->Nominal_Upacara + $Hdr->Tunjangan_Jabatan_1 + $Hdr->Tunjangan_Jabatan_2 + $Hdr->Tunjangan_Jabatan_3) ?></td>
+                    <td><?= rupiah($Hdr->Nominal_Jam_Berdiri + $Hdr->Gaji + $Hdr->Nominal_Lembur + $Hdr->Nominal_Piket + $Hdr->Nominal_Upacara + $Hdr->Tunjangan_Jabatan_1 + $Hdr->Tunjangan_Jabatan_2 + $Hdr->Tunjangan_Jabatan_3 + $Hdr->Rapat) ?></td>
                 </tr>
             </tbody>
         </table>

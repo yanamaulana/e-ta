@@ -9,7 +9,8 @@ class HistoryPayroll extends CI_Controller
     private $Qview_TTrx_Lembur  = 'qview_ttrx_lembur';
 
     private $tmst_other_payment         = 'tmst_other_payment';
-    private $PaymentCode                = 'GURU_PIKET';
+    private $PaymentCode_Piket                = 'GURU_PIKET';
+    private $PaymentCode_Rapat                = 'K_RAPAT';
 
     private $ttrx_over_time = 'ttrx_over_time';
     private $ttrx_payroll_guru_piket = 'ttrx_payroll_guru_piket';
@@ -105,7 +106,9 @@ class HistoryPayroll extends CI_Controller
 
                 $rapats = $this->db->get_where($this->qview_dtl_peserta_rapat, [
                     'Meeting_Date' => $dtl->Tanggal,
-                    'ID' => $dtl->NIK
+                    'ID' => $dtl->NIK,
+                    'Approve_Leader' => 1,
+                    'Approve_Admin' => 1
                 ]);
                 if ($rapats->num_rows() > 0) {
                     $list_rapats = $rapats->result();
@@ -288,7 +291,11 @@ class HistoryPayroll extends CI_Controller
         $this->data['identity'] = $this->db->get_where('tmst_school_identity', ['Code' => 'School_Identity_For_Payroll'])->row();
 
         $this->data['Payment_Piket'] = $this->db->get_where($this->tmst_other_payment, [
-            'Code' => $this->PaymentCode
+            'Code' => $this->PaymentCode_Piket
+        ])->row();
+
+        $this->data['Payment_Rapat'] = $this->db->get_where($this->tmst_other_payment, [
+            'Code' => $this->PaymentCode_Rapat
         ])->row();
 
         $this->load->view('Payroll/R_event', $this->data);
@@ -297,7 +304,11 @@ class HistoryPayroll extends CI_Controller
     public function Report_hdr($sysid)
     {
         $this->data['Payment_Piket'] = $this->db->get_where($this->tmst_other_payment, [
-            'Code' => $this->PaymentCode
+            'Code' => $this->PaymentCode_Piket
+        ])->row();
+
+        $this->data['Payment_Rapat'] = $this->db->get_where($this->tmst_other_payment, [
+            'Code' => $this->PaymentCode_Rapat
         ])->row();
 
         $this->data['Hdrs']   = $this->db->get_where('qview_payroll_hdr_karyawan', ['SysId' => $sysid])->result();
@@ -411,13 +422,15 @@ class HistoryPayroll extends CI_Controller
                 }
 
                 $rapat = $this->db->query("SELECT SUM(Nominal_Tunjangan) as Nominal_Tunjangan, Meeting_Date, UserName FROM $this->qview_dtl_peserta_rapat 
-                WHERE ID = $nik AND Meeting_Date = ' $date' group by Meeting_Date, UserName");
+                WHERE ID = $nik AND Meeting_Date = ' $date' and Approve_Leader = 1 and Approve_Admin = 1 group by Meeting_Date, UserName");
                 if ($rapat->num_rows() > 0) {
                     $row_rapat = $rapat->row();
 
                     $list_rapats = $this->db->get_where($this->qview_dtl_peserta_rapat, [
+                        'Meeting_Date' => $date,
                         'ID' => $nik,
-                        'Meeting_Date' => $date
+                        'Approve_Leader' => 1,
+                        'Approve_Admin' => 1
                     ])->result();
                     foreach ($list_rapats as $list_rapat) {
                         $this->db->where('No_Meeting_Hdr', $list_rapat->No_Meeting_Hdr);

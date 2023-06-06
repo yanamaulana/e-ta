@@ -24,6 +24,7 @@
                                 <th class="text-center align-middle text-white">Tunjangan Lain</th>
                                 <th class="text-center align-middle text-white">Jumlah Jam Lembur</th>
                                 <th class="text-center align-middle text-white">Nominal Lembur</th>
+                                <th class="text-center align-middle text-white">$ Rapat</th>
                             </tr>
                         </thead>
                         <?php function rupiah($angka)
@@ -42,6 +43,7 @@
                             $Tunjangan_Lain = 0;
                             $Jam_Lembur = 0;
                             $Lembur = 0;
+                            $Rapat = 0;
                             ?>
                             <?php foreach ($Dtls as $dtl) : ?>
                                 <tr>
@@ -57,6 +59,7 @@
                                     <td><?= rupiah($dtl->Tunjangan_Lain) ?></td>
                                     <td><?= floatval($dtl->Jam_Lembur) ?></td>
                                     <td><?= rupiah($dtl->Lembur) ?></td>
+                                    <td><?= rupiah($dtl->Rapat) ?></td>
                                 </tr>
                                 <?php
                                 $i++;
@@ -68,6 +71,7 @@
                                 $Tunjangan_Lain += floatval($dtl->Tunjangan_Lain);
                                 $Jam_Lembur += floatval($dtl->Jam_Lembur);
                                 $Lembur += floatval($dtl->Lembur);
+                                $Rapat += floatval($dtl->Rapat);
                                 ?>
                             <?php endforeach; ?>
                         </tbody>
@@ -85,6 +89,7 @@
                                 <td><?= rupiah($Tunjangan_Lain) ?></td>
                                 <td><?= floatval($Jam_Lembur) ?> JAM</td>
                                 <td><?= rupiah($Lembur) ?></td>
+                                <td><?= rupiah($Rapat) ?></td>
                             </tr>
                         </tfoot>
                     </table>

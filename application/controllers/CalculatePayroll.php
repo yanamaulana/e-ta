@@ -216,13 +216,15 @@ class CalculatePayroll extends CI_Controller
                 }
 
                 $rapat = $this->db->query("SELECT SUM(Nominal_Tunjangan) as Nominal_Tunjangan, Meeting_Date, UserName FROM $this->qview_dtl_peserta_rapat 
-                WHERE ID = $nik AND Meeting_Date = '$date' group by Meeting_Date, UserName");
+                WHERE ID = $nik AND Meeting_Date = '$date' and Approve_Leader = 1 and Approve_Admin = 1 group by Meeting_Date, UserName");
                 if ($rapat->num_rows() > 0) {
                     $row_rapat = $rapat->row();
 
                     $list_rapats = $this->db->get_where($this->qview_dtl_peserta_rapat, [
+                        'Meeting_Date' => $date,
                         'ID' => $nik,
-                        'Meeting_Date' => $date
+                        'Approve_Leader' => 1,
+                        'Approve_Admin' => 1
                     ])->result();
                     foreach ($list_rapats as $list_rapat) {
                         $this->db->where('No_Meeting_Hdr', $list_rapat->No_Meeting_Hdr);

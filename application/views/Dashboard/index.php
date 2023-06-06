@@ -82,8 +82,8 @@
                   <i class="fas fa-user fs-2hx text-white"></i>
                 </span>
                 <!--end::Svg Icon-->
-                <div class="text-gray-100 fw-bolder fs-2 mb-2 mt-5"><?= $employee->num_rows() ?> Karyawan Aktif</div>
-                <div class="fw-bold text-white">Terdapat <?= $employee->num_rows() ?> karyawan Aktif</div>
+                <div class="text-gray-100 fw-bolder fs-2 mb-2 mt-5"><?= $employee->num_rows() ?> Pegawai Aktif</div>
+                <div class="fw-bold text-white">Terdapat <?= $employee->num_rows() ?> Pegawai Aktif</div>
               </div>
               <!--end::Body-->
             </a>

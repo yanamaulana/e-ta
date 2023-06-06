@@ -21,6 +21,9 @@ class HistoryPayroll extends CI_Controller
     private $ttrx_event_payroll = 'ttrx_event_payroll';
     private $ttrx_payroll_upacara = 'ttrx_payroll_upacara';
 
+    private $qview_dtl_peserta_rapat = 'qview_dtl_peserta_rapat';
+    private $ttrx_dtl_peserta_rapat = 'ttrx_dtl_peserta_rapat';
+
     public function __construct()
     {
         parent::__construct();
@@ -84,6 +87,13 @@ class HistoryPayroll extends CI_Controller
                     $this->db->update($this->ttrx_payroll_upacara, ['Calculated' => 0]);
                 }
 
+                $upacara  = $this->db->get_where($this->ttrx_payroll_upacara, ['Tanggal' => $dtl->Tanggal, 'ID' => $dtl->NIK]);
+                if ($upacara->num_rows() > 0) {
+                    $this->db->where('Tanggal', $dtl->Tanggal);
+                    $this->db->where('ID', $dtl->NIK);
+                    $this->db->update($this->ttrx_payroll_upacara, ['Calculated' => 0]);
+                }
+
                 $att_trans = $this->db->get_where($this->att_trans, ['Date_Att' => $dtl->Tanggal, 'Access_ID' => $dtl->NIK]);
                 if ($att_trans->num_rows() > 0) {
                     $this->db->where('Date_Att', $dtl->Tanggal);
@@ -91,6 +101,21 @@ class HistoryPayroll extends CI_Controller
                     $this->db->update($this->att_trans, [
                         'Calculated' => 0
                     ]);
+                }
+
+                $rapats = $this->db->get_where($this->qview_dtl_peserta_rapat, [
+                    'Meeting_Date' => $dtl->Tanggal,
+                    'ID' => $dtl->NIK
+                ]);
+                if ($rapats->num_rows() > 0) {
+                    $list_rapats = $rapats->result();
+                    foreach ($list_rapats as $list_rapat) {
+                        $this->db->where('No_Meeting_Hdr', $list_rapat->No_Meeting_Hdr);
+                        $this->db->where('UserName', $list_rapat->UserName);
+                        $this->db->update($this->ttrx_dtl_peserta_rapat, [
+                            'Calculated' => 0,
+                        ]);
+                    }
                 }
             }
             $this->db->delete($this->ttrx_dtl_payroll, ['TagID_PerNIK_Hdr' => $li->TagID_PerNIK]);
@@ -385,6 +410,28 @@ class HistoryPayroll extends CI_Controller
                     $Upacara = 0;
                 }
 
+                $rapat = $this->db->query("SELECT SUM(Nominal_Tunjangan) as Nominal_Tunjangan, Meeting_Date, UserName FROM $this->qview_dtl_peserta_rapat 
+                WHERE ID = $nik AND Meeting_Date = ' $date' group by Meeting_Date, UserName");
+                if ($rapat->num_rows() > 0) {
+                    $row_rapat = $rapat->row();
+
+                    $list_rapats = $this->db->get_where($this->qview_dtl_peserta_rapat, [
+                        'ID' => $nik,
+                        'Meeting_Date' => $date
+                    ])->result();
+                    foreach ($list_rapats as $list_rapat) {
+                        $this->db->where('No_Meeting_Hdr', $list_rapat->No_Meeting_Hdr);
+                        $this->db->where('UserName', $row_rapat->UserName);
+                        $this->db->update($this->ttrx_dtl_peserta_rapat, [
+                            'Calculated' => 1
+                        ]);
+                    }
+
+                    $Rapat = floatval($row_rapat->Nominal_Tunjangan);
+                } else {
+                    $Rapat = 0;
+                }
+
                 $this->db->insert($this->ttrx_dtl_payroll, [
                     'TagID_PerNIK_Hdr' =>  $row->TagID_PerNIK,
                     'Tanggal' => $date,
@@ -399,7 +446,8 @@ class HistoryPayroll extends CI_Controller
                     'Upacara' => $Upacara,
                     'Jabatan_Upacara' => $Jabatan_Upacara,
                     'Jam_Lembur' => $Jam_Lembur,
-                    'Lembur' => $Lembur
+                    'Lembur' => $Lembur,
+                    'Rapat' => $Rapat
                 ]);
 
                 $this->db->where('Date_Att', $date);
@@ -447,7 +495,7 @@ class HistoryPayroll extends CI_Controller
             3 => 'Nama',
             4 => 'Work_Status',
             5 => 'Jabatan',
-            6 => 'is_active',
+            6 => 'Payment_Status',
         );
         $order = $columns[$requestData['order']['0']['column']];
         $dir = $requestData['order']['0']['dir'];
@@ -476,7 +524,7 @@ class HistoryPayroll extends CI_Controller
             $nestedData['Nama'] = $row["Nama"];
             $nestedData['Jabatan'] = $row["Jabatan"];
             $nestedData['Work_Status'] = $row["Work_Status"];
-            $nestedData['is_active'] = $row["is_active"];
+            $nestedData['Payment_Status'] = $row["is_active"];
             $nestedData['Tgl_Dari'] = $row["Tgl_Dari"];
             $nestedData['Tgl_Sampai'] = $row["Tgl_Sampai"];
             $nestedData['Payment_Status'] = $row["Payment_Status"];

@@ -227,6 +227,16 @@
                                     <span class="menu-title">Join Rapat</span>
                                 </a>
                             </div>
+                            <div class="menu-item">
+                                <a class="menu-link <?= ($Menu == 'Rapat' && $this->uri->segment(2) == 'MyHistory') ? 'active' : null ?>" href="<?= base_url('Rapat/MyHistory') ?>">
+                                    <span class="menu-icon">
+                                        <span class="svg-icon svg-icon-2">
+                                            <i class="fas fa-users fs-2"></i>
+                                        </span>
+                                    </span>
+                                    <span class="menu-title">Rapat Saya</span>
+                                </a>
+                            </div>
                             <?php if ($Role == 'ADMINISTRATOR') : ?>
                                 <div class="menu-item">
                                     <div class="menu-content pt-4 pb-2">

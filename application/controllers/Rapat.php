@@ -41,6 +41,15 @@ class Rapat extends CI_Controller
         $this->load->view($this->layout, $this->data);
     }
 
+    public function MyHistory()
+    {
+        $this->data['page_title'] = "History Rapat Yang Pernah Di Ikuti";
+        $this->data['page_content'] = "Rapat/my_history";
+        $this->data['script_page'] = '<script src="' . base_url() . 'assets/Rapat/my_history.js"></script>';
+
+        $this->load->view($this->layout, $this->data);
+    }
+
     public function Store()
     {
         $Payment = $this->db->get_where($this->tmst_other_payment, [
@@ -91,6 +100,14 @@ class Rapat extends CI_Controller
 
     public function Store_Ikut_Rapat()
     {
+        $HdrRapat = $this->db->get_where($this->ttrx_hdr_rapat, ['No_Meeting' => $this->input->post('No_Meeting')])->row();
+        if (date('Y-m-d') > $HdrRapat->Meeting_Date) {
+            return $this->help->Fn_resulting_response([
+                'code' => 200,
+                'msg' => 'Rapat sudah ber-akhir !',
+            ]);
+        }
+
         $this->db->trans_start();
 
         $this->db->insert($this->ttrx_dtl_peserta_rapat, [
@@ -113,6 +130,52 @@ class Rapat extends CI_Controller
             return $this->help->Fn_resulting_response([
                 'code' => 200,
                 'msg' => 'Anda kini terdaftar sebagai peserta rapat !',
+            ]);
+        }
+    }
+
+    public function Store_peserta_rapat()
+    {
+        $UserNames = $this->input->post('IDs');
+        $SysId = $this->input->post('SysId_Add');
+        $No_Meeting = $this->input->post('No_Meeting');
+
+        $this->db->trans_start();
+
+        foreach ($UserNames as $UserName) {
+            $ValidateRedundan = $this->db->get_where($this->qview_dtl_peserta_rapat, [
+                'No_Meeting_Hdr' => $No_Meeting,
+                'UserName' => $UserName,
+            ]);
+            if ($ValidateRedundan->num_rows() > 0) {
+                $Redundan = $ValidateRedundan->row();
+                $this->db->trans_rollback();
+                return $this->help->Fn_resulting_response([
+                    'code' => 505,
+                    'msg'  => "Member dengan nama $Redundan->Nama sudah terdaftar sebagai peserta rapat harap un-check !",
+                ]);
+            }
+
+            $this->db->insert($this->ttrx_dtl_peserta_rapat, [
+                'No_Meeting_Hdr' => $No_Meeting,
+                'UserName' => $UserName,
+                'Join_at' => date('Y-m-d H:i:s'),
+                'Join_by' => $this->session->userdata('sys_username')
+            ]);
+        }
+        $error_msg = $this->db->error()["message"];
+        $this->db->trans_complete();
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+            return $this->help->Fn_resulting_response([
+                'code' => 505,
+                'msg'  => $error_msg,
+            ]);
+        } else {
+            $this->db->trans_commit();
+            return $this->help->Fn_resulting_response([
+                'code' => 200,
+                'msg' => 'Berhasil menambahkan peserta rapat !',
             ]);
         }
     }
@@ -180,6 +243,7 @@ class Rapat extends CI_Controller
     public function M_list_peserta()
     {
         $this->data['Hdr'] = $this->db->get_where($this->qview_hdr_rapat, ['Sysid' => $this->input->get('SysId')])->row();
+        $this->data['Role'] = $this->input->get('Role');
         // $this->data['Dtls'] = $this->db->get_where($this->qview_dtl_peserta_rapat, ['No_Meeting_Hdr' => $this->data['Hdr']->No_Meeting])->result();
 
         return $this->load->view('Rapat/m_peserta_rapat', $this->data);
@@ -196,9 +260,6 @@ class Rapat extends CI_Controller
             4 => "Calculated",
             5 => "Join_by",
         );
-
-        //         SELECT SysId, No_Meeting_Hdr, UserName, Nama, Nominal_Tunjangan, Meeting_Date, Calculated, Join_at, Join_by
-        // FROM eta_db.qview_dtl_peserta_rapat;
 
         $order = $columns[$requestData['order']['0']['column']];
         $dir = $requestData['order']['0']['dir'];
@@ -237,6 +298,75 @@ class Rapat extends CI_Controller
             $nestedData['Calculated']         = $row['Calculated'];
             $nestedData['Join_at']         = $row['Join_at'];
             $nestedData['Join_by']         = $row['Join_by'];
+
+            $data[] = $nestedData;
+        }
+        //----------------------------------------------------------------------------------
+        $json_data = array(
+            "draw"            => intval($requestData['draw']),
+            "recordsTotal"    => intval($totalData),
+            "recordsFiltered" => intval($totalFiltered),
+            "data"            => $data
+        );
+        //----------------------------------------------------------------------------------
+        echo json_encode($json_data);
+    }
+
+    public function DT_My_History()
+    {
+        $requestData = $_REQUEST;
+        $columns = array(
+            0 => "SysId",
+            1 => "No_Meeting_Hdr",
+            2 => "Meeting_Date",
+            3 => "Nama",
+            4 => "Nominal_Tunjangan",
+            5 => "Join_at",
+            6 => 'Approve_Leader',
+            7 => 'Approve_Admin',
+            8 => "Calculated",
+            9 => "Join_by",
+        );
+
+        $order = $columns[$requestData['order']['0']['column']];
+        $dir = $requestData['order']['0']['dir'];
+        $UserName = $this->session->userdata('sys_username');
+
+        $sql = "SELECT * from $this->qview_dtl_peserta_rapat 
+        Where SysId is not null and UserName = '$UserName' ";
+
+        $totalData = $this->db->query($sql)->num_rows();
+        if (!empty($requestData['search']['value'])) {
+            $sql .= " AND (No_Meeting_Hdr LIKE '%" . $requestData['search']['value'] . "%' ";
+            $sql .= " OR UserName LIKE '%" . $requestData['search']['value'] . "%' ";
+            $sql .= " OR Nama LIKE '%" . $requestData['search']['value'] . "%' ";
+            $sql .= " OR Meeting_Date LIKE '%" . $requestData['search']['value'] . "%' ";
+            $sql .= " OR Calculated LIKE '%" . $requestData['search']['value'] . "%' ";
+            $sql .= " OR Join_at LIKE '%" . $requestData['search']['value'] . "%' ";
+            $sql .= " OR Nominal_Tunjangan LIKE '%" . $requestData['search']['value'] . "%' ";
+            $sql .= " OR Join_by LIKE '%" . $requestData['search']['value'] . "%')";
+        }
+        // $sql .= " GROUP BY a.sysid ,a.no_lot ";
+        //----------------------------------------------------------------------------------
+        $sql .= " ORDER BY $order $dir LIMIT " . $requestData['start'] . " ," . $requestData['length'] . " ";
+
+        $totalFiltered = $this->db->query($sql)->num_rows();
+        $query = $this->db->query($sql);
+        $data = array();
+        $no = 1;
+        foreach ($query->result_array() as $row) {
+            $nestedData = array();
+            $nestedData["SysId"]                = $row["SysId"];
+            $nestedData['No_Meeting_Hdr']       = $row['No_Meeting_Hdr'];
+            $nestedData['UserName']             = $row['UserName'];
+            $nestedData['Nama']                 = $row['Nama'];
+            $nestedData['Nominal_Tunjangan']    = $row['Nominal_Tunjangan'];
+            $nestedData['Meeting_Date']         = $row['Meeting_Date'];
+            $nestedData['Approve_Leader']       = $row['Approve_Leader'];
+            $nestedData['Approve_Admin']        = $row['Approve_Admin'];
+            $nestedData['Calculated']           = $row['Calculated'];
+            $nestedData['Join_at']              = $row['Join_at'];
+            $nestedData['Join_by']              = $row['Join_by'];
 
             $data[] = $nestedData;
         }

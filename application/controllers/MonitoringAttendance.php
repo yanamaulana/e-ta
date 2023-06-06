@@ -56,7 +56,18 @@ class MonitoringAttendance extends CI_Controller
         $from = $this->input->post('from');
         $until = $this->input->post('until');
 
-        $sql = "SELECT A.SysId, A.Name, A.Access_ID, A.Card, A.Att_DateTime, A.Date_Att, A.Time_Att, A.IO, A.Schedule_ID, A.Schedule_Number, A.`Day`, A.Kelas_ID, B.Kelas, A.Subject_ID, 
+        $sql = "SELECT A.SysId, A.Name, A.Access_ID, A.Card, A.Att_DateTime, A.Date_Att, TIME_FORMAT(A.Time_Att, '%H:%i') as Time_Att, A.IO, A.Schedule_ID, A.Schedule_Number,
+        case
+            when A.`Day` = 'Monday' then 'Senin'
+            when A.`Day` = 'Tuesday' then 'Selasa'
+            when A.`Day` = 'Wednesday' then 'Rabu'
+            when A.`Day` = 'Thursday' then 'Kamis'
+            when A.`Day` = 'Friday' then 'Jumat'
+            when A.`Day` = 'Saturday' then 'Sabtu'
+            when A.`Day` = 'Sunday' then 'Minggu'
+        else 'Hari tidak valid'
+        end as `Day`,
+        A.Kelas_ID, B.Kelas, A.Subject_ID, 
         C.Mata_Pelajaran, A.Time_Start, A.Time_Over, A.Stand_Hour
         from $this->tbl_attendance AS A
         join $this->mst_class AS B on A.Kelas_ID = B.SysId

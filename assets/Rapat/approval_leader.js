@@ -81,7 +81,7 @@ $(document).ready(function () {
 				}
 			],
 			order: [
-				[3, "DESC"]
+				[1, "DESC"]
 			],
 			columnDefs: [{
 				className: "align-middle text-center",
@@ -123,7 +123,8 @@ $(document).ready(function () {
 			url: $('meta[name="base_url"]').attr('content') + "Rapat/M_list_peserta",
 			type: "GET",
 			data: {
-				SysId: $(this).attr('data-pk')
+				SysId: $(this).attr('data-pk'),
+				Role: $('#Role').val()
 			},
 			beforeSend: function () {
 				Swal.fire({

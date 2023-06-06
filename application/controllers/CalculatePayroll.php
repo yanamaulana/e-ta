@@ -1,4 +1,7 @@
 <?php
+
+use PhpParser\Node\Stmt\Foreach_;
+
 defined('BASEPATH') or exit('No direct script access allowed');
 
 class CalculatePayroll extends CI_Controller
@@ -11,6 +14,8 @@ class CalculatePayroll extends CI_Controller
 
     private $ttrx_payroll_guru_piket = 'ttrx_payroll_guru_piket';
     private $ttrx_payroll_upacara = 'ttrx_payroll_upacara';
+    private $qview_dtl_peserta_rapat = 'qview_dtl_peserta_rapat';
+    private $ttrx_dtl_peserta_rapat = 'ttrx_dtl_peserta_rapat';
     private $tmst_other_payment = 'tmst_other_payment';
     private $PaymentCode = 'GURU_PIKET';
 
@@ -210,6 +215,28 @@ class CalculatePayroll extends CI_Controller
                     $Upacara = 0;
                 }
 
+                $rapat = $this->db->query("SELECT SUM(Nominal_Tunjangan) as Nominal_Tunjangan, Meeting_Date, UserName FROM $this->qview_dtl_peserta_rapat 
+                WHERE ID = $nik AND Meeting_Date = '$date' group by Meeting_Date, UserName");
+                if ($rapat->num_rows() > 0) {
+                    $row_rapat = $rapat->row();
+
+                    $list_rapats = $this->db->get_where($this->qview_dtl_peserta_rapat, [
+                        'ID' => $nik,
+                        'Meeting_Date' => $date
+                    ])->result();
+                    foreach ($list_rapats as $list_rapat) {
+                        $this->db->where('No_Meeting_Hdr', $list_rapat->No_Meeting_Hdr);
+                        $this->db->where('UserName', $row_rapat->UserName);
+                        $this->db->update($this->ttrx_dtl_peserta_rapat, [
+                            'Calculated' => 1
+                        ]);
+                    }
+
+                    $Rapat = floatval($row_rapat->Nominal_Tunjangan);
+                } else {
+                    $Rapat = 0;
+                }
+
                 $this->db->insert($this->ttrx_dtl_payroll, [
                     'TagID_PerNIK_Hdr' =>  $TagID . ':' . $nik,
                     'Tanggal' => $date,
@@ -223,7 +250,8 @@ class CalculatePayroll extends CI_Controller
                     'Jabatan_Upacara' => $Jabatan_Upacara,
                     'Piket' => $Piket,
                     'Jam_Lembur' => $Jam_Lembur,
-                    'Lembur' => $Lembur
+                    'Lembur' => $Lembur,
+                    'Rapat' => $Rapat
                 ]);
 
                 $this->db->where('Date_Att', $date);

@@ -10,26 +10,24 @@
                 </div>
                 <div class="card-body">
                     <div class="row py-2">
-                        <input type="hidden" name="Role" id="Role" value="User" readonly>
                         <div class="pb-5 table-responsive">
                             <table id="TableData" class="table-sm align-middle display compact dt-nowrap table-rounded w-100 table-striped table-bordered border gy-5 gs-5">
                                 <thead style="background-color: #3B6D8C;">
                                     <tr class="text-start text-white fw-bolder text-uppercase">
-                                        <th class="text-center text-white">NO. RAPAT</th>
-                                        <th class="text-center text-white">TANGGAL</th>
-                                        <th class="text-center text-white">MULAI</th>
-                                        <th class="text-center text-white">SELESAI</th>
-                                        <th class="text-center text-white">TEMA RAPAT</th>
-                                        <th class="text-center text-white">RUANGAN</th>
-                                        <th class="text-center text-white">PEMIMPIN</th>
-                                        <th class="text-center text-white">TUNJANGAN</th>
-                                        <th class="text-center text-white"><i class="fas fa-users text-white"></i></th>
-                                        <th class="text-center text-white">APPROVE LEADER</th>
-                                        <!-- <th class="text-center text-white">APPROVE ADMIN</th>
-                                        <th class="text-center text-white"><i class="fas fa-cogs text-white"></i></th> -->
+                                        <th class="text-center align-middle text-white">#</th>
+                                        <th class="text-center align-middle text-white">No. Rapat</th>
+                                        <th class="text-center align-middle text-white">Tanggal</th>
+                                        <th class="text-center align-middle text-white">Nama</th>
+                                        <th class="text-center align-middle text-white">Tunjangan Rapat</th>
+                                        <th class="text-center align-middle text-white">Waktu Join</th>
+                                        <th class="text-center align-middle text-white">Approve Leader</th>
+                                        <th class="text-center align-middle text-white">Approve Admin</th>
+                                        <th class="text-center align-middle text-white">Status</th>
+                                        <th class="text-center align-middle text-white"><i class="fas fa-cogs"></i></th>
                                     </tr>
                                 </thead>
-                                <tbody class="text-gray-600 fw-bold">
+                                <tbody>
+
                                 </tbody>
                             </table>
                         </div>

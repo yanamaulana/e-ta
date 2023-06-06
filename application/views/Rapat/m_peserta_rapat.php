@@ -9,7 +9,7 @@
             </div>
             <div class="modal-body">
                 <input type="hidden" id="No_Meeting" value="<?= $Hdr->No_Meeting ?>">
-                <input type="hidden" id="Role" value="<?= $this->session->userdata('sys_role') ?>">
+                <input type="hidden" id="Role" value="<?= $Role ?>">
                 <div class="pb-5 table-responsive">
                     <table id="Table-Detail" style="width: 100%;" class="table-sm align-middle display compact dt-nowrap table-rounded table-bordered border gy-5 gs-5">
                         <thead style="background-color: #3B6D8C;">
@@ -155,8 +155,8 @@
             initComplete: function() {
                 var api = this.api();
                 $("#Table-Detail tbody td").removeClass("blurry");
-                if ($('#Role').val() != 'ADMINISTRATOR') {
-                    api.column(2).visible(false);
+                if ($('#Role').val() != 'Administrator') {
+                    api.column(5).visible(false);
                 }
             },
             "buttons": [{
@@ -227,7 +227,7 @@
                                     confirmButtonText: 'Yes, Confirm!'
                                 })
                                 $("#TableData").DataTable().ajax.reload();
-                                $("#btn-delete-dtl").DataTable().ajax.reload();
+                                $("#Table-Detail").DataTable().ajax.reload();
                             } else {
                                 Swal.fire({
                                     icon: 'error',

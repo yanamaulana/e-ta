@@ -495,6 +495,7 @@ class Master extends CI_Controller
             $nestedData['SysId'] = $row["SysId"];
             $nestedData['ID'] = $row["ID"];
             $nestedData['Nama'] = $row["Nama"];
+            $nestedData['UserName'] = $row["UserName"];
             $nestedData['Work_Status'] = $row["Work_Status"];
             $nestedData['Jabatan'] = $row["Jabatan"];
             $nestedData['Kode_Salary'] = $row["Kode_Salary"];

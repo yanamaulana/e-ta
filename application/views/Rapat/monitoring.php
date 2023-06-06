@@ -62,3 +62,63 @@
     </div>
 </div>
 <div id="location"></div>
+<div id="location_modal_employee">
+    <div class="modal hide fade" id="Modal-add-member" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="table-title-detail"></h5>
+                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                        <span class="svg-icon svg-icon-2x"><i class="fas fa-times"></i></span>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <form class="form" id="form-add-member">
+                        <input type="hidden" id="SysId_Add" name="SysId_Add">
+                        <input type="hidden" name="Role" id="Role" value="Administrator" readonly>
+                        <input type="hidden" id="No_Meeting" name="No_Meeting">
+                        <div class="pb-5 table-responsive">
+                            <table id="Table-Employee" style="width: 100%;" class="table-sm align-middle display compact dt-nowrap table-rounded table-bordered border gy-5 gs-5">
+                                <thead style="background-color: #3B6D8C;">
+                                    <tr class="text-start text-white fw-bolder text-uppercase">
+                                        <th class="text-center text-white">#
+                                        </th>
+                                        <th class="text-center text-white">ID Access</th>
+                                        <th class="text-center text-white">NAME</th>
+                                        <th class="text-center text-white">WORK STATUS</th>
+                                        <th class="text-center text-white">OFFICE POSITION</th>
+                                        <th class="text-center text-white">CODE SALARY</th>
+                                        <th class="text-center text-white">NOMINAL SALARY</th>
+                                        <th class="text-center text-white">BASIC ALLOWANCE</th>
+                                        <th class="text-center text-white">NOMINAL BASIC ALLOWANCE</th>
+                                        <th class="text-center text-white">OTHER ALLOWANCE</th>
+                                        <th class="text-center text-white">NOMINAL OTHER ALLOWANCE</th>
+                                        <th class="text-center text-white">BANK</th>
+                                        <th class="text-center text-white">ACCOUNT BANK NUMBER</th>
+                                        <th class="text-center text-white">NO KTP</th>
+                                        <th class="text-center text-white">TELEPHONE NUMBER</th>
+                                        <th class="text-center text-white">EMAIL</th>
+                                        <th class="text-center text-white">GENDER</th>
+                                        <th class="text-center text-white">MARTIAL STATUS</th>
+                                        <th class="text-center text-white">DATE JOIN</th>
+                                        <th class="text-center text-white">ADDRESS</th>
+                                        <th class="text-center text-white"><i class="fas fa-cogs text-white"></i></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger float-end" data-bs-dismiss="modal" type="button"><i class="far fa-times-circle"></i> Close</button>
+                    <button id="submit-peserta" type="button" class="btn btn-primary float-end"><i class="fas fa-user-plus"></i> Tambahkan Peserta</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+</div>

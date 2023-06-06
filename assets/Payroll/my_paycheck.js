@@ -66,13 +66,13 @@ $(document).ready(function () {
 				data: "Jabatan",
 				name: "Jabatan "
 			}, {
-				data: "is_active",
-				name: "is_active ",
+				data: "Payment_Status",
+				name: "Payment_Status ",
 				render: function (data, type, row, meta) {
 					if (data == 0) {
-						return '<button class="btn btn-sm btn-secondary">Not-Active</i></button>'
+						return '<button class="btn btn-sm btn-secondary">Un-Paid</i></button>'
 					} else {
-						return '<button class="btn btn-success btn-sm"><i class="fas fa-check"></i> Active</i></button>'
+						return '<button class="btn btn-success btn-sm"><i class="fas fa-check"></i> Paid</i></button>'
 					}
 				}
 			}, {

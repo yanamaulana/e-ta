@@ -326,12 +326,13 @@ class HistoryPayroll extends CI_Controller
         $format = "Y-m-d";
 
         $event = $this->db->get_where($this->ttrx_event_payroll, ['SysId' => $sysid])->row();
-        $DatePayFormat_Start = date("Y-m-d", strtotime($event->Tgl_Dari));
-        $DatePayFormat_End = date("Y-m-d", strtotime($event->Tgl_Sampai . ' + 1 day'));
-        $begin = new DateTime($DatePayFormat_Start);
-        $end = new DateTime($DatePayFormat_End);
-        $interval = new DateInterval('P1D');
-        $period = new DatePeriod($begin, $interval, $end);
+
+        $start = $event->Tgl_Dari;
+        $end = $event->Tgl_Sampai;
+
+        $DatePayFormat_Start = new DateTime($start);
+        $DatePayFormat_End = new DateTime($end);
+        // $currentDate = clone $DatePayFormat_Start;
 
         $hdr = $this->db->get_where($this->ttrx_hdr_payroll, ['TagID_Event' => $event->TagID])->result();
 
@@ -353,8 +354,9 @@ class HistoryPayroll extends CI_Controller
             // =============================== ttrx_hdr_payroll ========================== //
             $nik = $row->NIK;
             $karyawan = $this->db->get_where($this->qview_employee_active, ['ID' => $nik])->row();
-            foreach ($period as $RawDate) {
-                $date = $RawDate->format($format);
+            $currentDate = clone $DatePayFormat_Start;
+            while ($currentDate <= $DatePayFormat_End) {
+                $date = $currentDate->format($format);
 
                 $Att_Per_Day = $this->db->query("SELECT Access_ID, Date_Att, COALESCE(SUM(Stand_Hour),0) AS Sum_Stand_Hour, COALESCE(count(Stand_Hour),0) as Total_Att
                 FROM $this->att_trans 
@@ -364,13 +366,13 @@ class HistoryPayroll extends CI_Controller
 
                 if (empty($Att_Per_Day)) {
                     $TunjanganPokok = 0;
-                    $TunjanganJabatan = 0;
+                    // $TunjanganJabatan = 0;
                     $TunjanganLain  = 0;
                     $Sum_Stand_Hour = 0;
                     $Total_Att = 0;
                 } else {
                     $TunjanganPokok = floatval($karyawan->Nominal_Tunjangan_Pokok) * floatval($Att_Per_Day->Sum_Stand_Hour);
-                    $TunjanganJabatan  = floatval($karyawan->Nominal_Tunjangan_Jabatan) * 1;
+                    // $TunjanganJabatan  = floatval($karyawan->Nominal_Tunjangan_Jabatan) * 1;
                     $TunjanganLain  = floatval($karyawan->Nominal_Tunjangan_Lain) * 1;
                     $Sum_Stand_Hour = $Att_Per_Day->Sum_Stand_Hour;
                     $Total_Att = $Att_Per_Day->Total_Att;
@@ -391,7 +393,7 @@ class HistoryPayroll extends CI_Controller
                     $Lembur = 0;
                 }
 
-                $piket = $this->db->get_where($this->ttrx_payroll_guru_piket, ['ID' => $nik, 'Tanggal' => $date]);
+                $piket = $this->db->query("SELECT SUM(Nominal) as Nominal_Piket, COUNT(SysId) as Jumlah_Piket FROM $this->ttrx_payroll_guru_piket WHERE Tanggal = '$date' and ID = $nik GROUP BY ID, Tanggal");
                 if ($piket->num_rows() > 0) {
                     $this->db->where('Tanggal', $date);
                     $this->db->where('ID', $nik);
@@ -399,10 +401,10 @@ class HistoryPayroll extends CI_Controller
                         'Calculated' => 1
                     ]);
                     $row_piket = $piket->row();
-                    $Waktu_Piket = $row_piket->Waktu_Piket;
-                    $Piket = floatval($row_piket->Nominal);
+                    $Jumlah_Piket = $row_piket->Jumlah_Piket;
+                    $Piket = floatval($row_piket->Nominal_Piket);
                 } else {
-                    $Waktu_Piket = NULL;
+                    $Jumlah_Piket = 0;
                     $Piket = 0;
                 }
 
@@ -421,7 +423,7 @@ class HistoryPayroll extends CI_Controller
                     $Upacara = 0;
                 }
 
-                $rapat = $this->db->query("SELECT SUM(Nominal_Tunjangan) as Nominal_Tunjangan, Meeting_Date, UserName FROM $this->qview_dtl_peserta_rapat 
+                $rapat = $this->db->query("SELECT SUM(Nominal_Tunjangan) as Nominal_Tunjangan, COUNT(SysId) as Jumlah_Rapat, Meeting_Date, UserName FROM $this->qview_dtl_peserta_rapat 
                 WHERE ID = $nik AND Meeting_Date = ' $date' and Approve_Leader = 1 and Approve_Admin = 1 group by Meeting_Date, UserName");
                 if ($rapat->num_rows() > 0) {
                     $row_rapat = $rapat->row();
@@ -441,8 +443,10 @@ class HistoryPayroll extends CI_Controller
                     }
 
                     $Rapat = floatval($row_rapat->Nominal_Tunjangan);
+                    $Jumlah_Rapat = $row_rapat->Jumlah_Rapat;
                 } else {
                     $Rapat = 0;
+                    $Jumlah_Rapat = 0;
                 }
 
                 $this->db->insert($this->ttrx_dtl_payroll, [
@@ -452,14 +456,14 @@ class HistoryPayroll extends CI_Controller
                     'Total_Hours' => $Sum_Stand_Hour,
                     'Total_Att' => $Total_Att,
                     'Tunjangan_Pokok' => $TunjanganPokok,
-                    'Tunjangan_Jabatan' => $TunjanganJabatan,
                     'Tunjangan_Lain' => $TunjanganLain,
-                    'Waktu_Piket' => $Waktu_Piket,
-                    'Piket' => $Piket,
                     'Upacara' => $Upacara,
                     'Jabatan_Upacara' => $Jabatan_Upacara,
+                    'Jumlah_Piket' => $Jumlah_Piket,
+                    'Piket' => $Piket,
                     'Jam_Lembur' => $Jam_Lembur,
                     'Lembur' => $Lembur,
+                    'Jumlah_Rapat' => $Jumlah_Rapat,
                     'Rapat' => $Rapat
                 ]);
 
@@ -468,6 +472,8 @@ class HistoryPayroll extends CI_Controller
                 $this->db->update($this->att_trans, [
                     'Calculated' => 1
                 ]);
+
+                $currentDate->modify('+1 day');
             }
         }
         $error_msg = $this->db->error()["message"];

@@ -12,19 +12,20 @@
                     <table id="Table-Detail" style="width: 100%;" class="table-sm align-middle display compact dt-nowrap table-rounded table-bordered border gy-5 gs-5">
                         <thead style="background-color: #3B6D8C;">
                             <tr class="text-start text-white fw-bolder text-uppercase">
-                                <th class="text-center align-middle text-white">#</th>
-                                <th class="text-center align-middle text-white">Tanggal</th>
-                                <th class="text-center align-middle text-white">Jumlah Tap</th>
-                                <th class="text-center align-middle text-white">Jumlah Jam</th>
-                                <th class="text-center align-middle text-white">$ Jam berdiri</th>
-                                <th class="text-center align-middle text-white">$ Piket</th>
-                                <th class="text-center align-middle text-white">Waktu Piket</th>
-                                <th class="text-center align-middle text-white">$ Upacara</th>
-                                <th class="text-center align-middle text-white">Jabatan Upacara</th>
-                                <th class="text-center align-middle text-white">Tunjangan Lain</th>
-                                <th class="text-center align-middle text-white">Jumlah Jam Lembur</th>
-                                <th class="text-center align-middle text-white">Nominal Lembur</th>
-                                <th class="text-center align-middle text-white">$ Rapat</th>
+                                <th class="text-center align-middle text-uppercase text-white">#</th>
+                                <th class="text-center align-middle text-uppercase text-white">Tanggal</th>
+                                <th class="text-center align-middle text-uppercase text-white">Jumlah Tap</th>
+                                <th class="text-center align-middle text-uppercase text-white">Jumlah Jam</th>
+                                <th class="text-center align-middle text-uppercase text-white">$ Jam berdiri</th>
+                                <th class="text-center align-middle text-uppercase text-white">Jumlah Piket</th>
+                                <th class="text-center align-middle text-uppercase text-white">$ Piket</th>
+                                <th class="text-center align-middle text-uppercase text-white">$ Upacara</th>
+                                <th class="text-center align-middle text-uppercase text-white">Jabatan Upacara</th>
+                                <th class="text-center align-middle text-uppercase text-white">Tunjangan Lain</th>
+                                <th class="text-center align-middle text-uppercase text-white">Jumlah Jam Lembur</th>
+                                <th class="text-center align-middle text-uppercase text-white">Nominal Lembur</th>
+                                <th class="text-center align-middle text-uppercase text-white">Jumlah Rapat</th>
+                                <th class="text-center align-middle text-uppercase text-white">$ Rapat</th>
                             </tr>
                         </thead>
                         <?php function rupiah($angka)
@@ -38,11 +39,13 @@
                             $Total_Att = 0;
                             $Total_Hours = 0;
                             $Tunjangan_Pokok = 0;
+                            $Jumlah_Piket = 0;
                             $Piket = 0;
                             $Upacara = 0;
                             $Tunjangan_Lain = 0;
                             $Jam_Lembur = 0;
                             $Lembur = 0;
+                            $Jumlah_Rapat = 0;
                             $Rapat = 0;
                             ?>
                             <?php foreach ($Dtls as $dtl) : ?>
@@ -52,13 +55,14 @@
                                     <td><?= floatval($dtl->Total_Att) ?></td>
                                     <td><?= floatval($dtl->Total_Hours) ?></td>
                                     <td><?= rupiah($dtl->Tunjangan_Pokok) ?></td>
+                                    <td><?= $dtl->Jumlah_Piket ?></td>
                                     <td><?= rupiah($dtl->Piket) ?></td>
-                                    <td><?= $dtl->Waktu_Piket ?></td>
                                     <td><?= rupiah($dtl->Upacara) ?></td>
                                     <td><?= $dtl->Jabatan_Upacara ?></td>
                                     <td><?= rupiah($dtl->Tunjangan_Lain) ?></td>
                                     <td><?= floatval($dtl->Jam_Lembur) ?></td>
                                     <td><?= rupiah($dtl->Lembur) ?></td>
+                                    <td><?= $dtl->Jumlah_Rapat ?></td>
                                     <td><?= rupiah($dtl->Rapat) ?></td>
                                 </tr>
                                 <?php
@@ -67,10 +71,12 @@
                                 $Total_Hours += floatval($dtl->Total_Hours);
                                 $Tunjangan_Pokok += floatval($dtl->Tunjangan_Pokok);
                                 $Piket += floatval($dtl->Piket);
+                                $Jumlah_Piket += floatval($dtl->Jumlah_Piket);
                                 $Upacara += floatval($dtl->Upacara);
                                 $Tunjangan_Lain += floatval($dtl->Tunjangan_Lain);
                                 $Jam_Lembur += floatval($dtl->Jam_Lembur);
                                 $Lembur += floatval($dtl->Lembur);
+                                $Jumlah_Rapat += floatval($dtl->Jumlah_Rapat);
                                 $Rapat += floatval($dtl->Rapat);
                                 ?>
                             <?php endforeach; ?>
@@ -82,13 +88,14 @@
                                 <td><?= floatval($Total_Att) ?> Tap</td>
                                 <td><?= floatval($Total_Hours) ?> JAM</td>
                                 <td><?= rupiah($Tunjangan_Pokok) ?></td>
+                                <td><?= $Jumlah_Piket ?></td>
                                 <td><?= rupiah($Piket) ?></td>
-                                <td>-</td>
                                 <td><?= rupiah($Upacara) ?></td>
                                 <td>-</td>
                                 <td><?= rupiah($Tunjangan_Lain) ?></td>
                                 <td><?= floatval($Jam_Lembur) ?> JAM</td>
                                 <td><?= rupiah($Lembur) ?></td>
+                                <td><?= $Jumlah_Rapat ?></td>
                                 <td><?= rupiah($Rapat) ?></td>
                             </tr>
                         </tfoot>

@@ -566,7 +566,7 @@ $(document).ready(function () {
 					Swal.fire({
 						icon: 'error',
 						title: 'Oops...',
-						text: response.msg,
+						html: response.msg,
 						confirmButtonColor: '#3085d6',
 						confirmButtonText: 'Ya, Confirm!',
 						footer: '<a href="javascript:void(0)">Notifikasi System</a>'

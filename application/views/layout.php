@@ -130,50 +130,65 @@
                             </div> -->
                             <div class="menu-item">
                                 <div class="menu-content pt-4 pb-2">
-                                    <span class="menu-section text-muted text-uppercase fs-8 ls-1 fw-bold">TEACHER SCHEDULE</span>
+                                    <span class="menu-section text-muted text-uppercase fs-8 ls-1 fw-bold">TEACHER SCHEDULE MENU</span>
                                 </div>
                             </div>
-                            <div class="menu-item">
-                                <a class="menu-link <?= ($Menu == 'My_Schedule') ? 'active' : null ?>" href="<?= base_url('My_Schedule') ?>">
+
+
+                            <div data-kt-menu-trigger="click" class="menu-item menu-accordion <?= ($Menu == 'My_Schedule' || $Menu == 'FormSchedule' || $Menu == 'ApprovalSchedule' || $Menu == 'MyArchiveSchedule') ? 'hover show' : null; ?>">
+                                <span class="menu-link">
                                     <span class="menu-icon">
                                         <span class="svg-icon svg-icon-2">
-                                            <i class="fas fa-th-list fs-2"></i>
+                                            <i class="fas fa-calendar-alt fs-2"></i>
                                         </span>
                                     </span>
-                                    <span class="menu-title">My Schedule</span>
-                                </a>
-                            </div>
-                            <div class="menu-item">
-                                <a class="menu-link <?= ($Menu == 'FormSchedule') ? 'active' : null ?>" href="<?= base_url('FormSchedule') ?>">
-                                    <span class="menu-icon">
-                                        <span class="svg-icon svg-icon-2">
-                                            <i class="fab fa-wpforms fs-2"></i>
-                                        </span>
-                                    </span>
-                                    <span class="menu-title">Form Schedule</span>
-                                </a>
-                            </div>
-                            <?php if ($Role == 'ADMINISTRATOR') : ?>
-                                <div class="menu-item">
-                                    <a class="menu-link <?= ($Menu == 'ApprovalSchedule') ? 'active' : null ?>" href="<?= base_url('ApprovalSchedule') ?>">
-                                        <span class="menu-icon">
-                                            <span class="svg-icon svg-icon-2">
-                                                <i class="far fa-paper-plane fs-2"></i>
+                                    <span class="menu-title">SCHEDULE</span>
+                                    <span class="menu-arrow"></span>
+                                </span>
+                                <div class="menu-sub menu-sub-accordion <?= ($Menu == 'My_Schedule' || $Menu == 'FormSchedule' || $Menu == 'ApprovalSchedule' || $Menu == 'MyArchiveSchedule') ? 'show"' : '" style="display: none; overflow: hidden;"'; ?> kt-hidden-height=" 117">
+                                    <div class="menu-item">
+                                        <a class="menu-link <?= ($Menu == 'My_Schedule') ? 'active' : null ?>" href="<?= base_url('My_Schedule') ?>">
+                                            <span class="menu-icon">
+                                                <span class="svg-icon svg-icon-2">
+                                                    <i class="fas fa-th-list fs-2"></i>
+                                                </span>
                                             </span>
-                                        </span>
-                                        <span class="menu-title">Approval Schedule</span>
-                                    </a>
+                                            <span class="menu-title">My Schedule</span>
+                                        </a>
+                                    </div>
+                                    <div class="menu-item">
+                                        <a class="menu-link <?= ($Menu == 'FormSchedule') ? 'active' : null ?>" href="<?= base_url('FormSchedule') ?>">
+                                            <span class="menu-icon">
+                                                <span class="svg-icon svg-icon-2">
+                                                    <i class="fab fa-wpforms fs-2"></i>
+                                                </span>
+                                            </span>
+                                            <span class="menu-title">Form Schedule</span>
+                                        </a>
+                                    </div>
+                                    <?php if ($Role == 'ADMINISTRATOR') : ?>
+                                        <div class="menu-item">
+                                            <a class="menu-link <?= ($Menu == 'ApprovalSchedule') ? 'active' : null ?>" href="<?= base_url('ApprovalSchedule') ?>">
+                                                <span class="menu-icon">
+                                                    <span class="svg-icon svg-icon-2">
+                                                        <i class="far fa-paper-plane fs-2"></i>
+                                                    </span>
+                                                </span>
+                                                <span class="menu-title">Approval Schedule</span>
+                                            </a>
+                                        </div>
+                                    <?php endif; ?>
+                                    <div class="menu-item">
+                                        <a class="menu-link <?= ($Menu == 'MyArchiveSchedule') ? 'active' : null ?>" href="<?= base_url('MyArchiveSchedule') ?>">
+                                            <span class="menu-icon">
+                                                <span class="svg-icon svg-icon-2">
+                                                    <i class="fas fa-archive fs-2"></i>
+                                                </span>
+                                            </span>
+                                            <span class="menu-title">My Archive Schedule</span>
+                                        </a>
+                                    </div>
                                 </div>
-                            <?php endif; ?>
-                            <div class="menu-item">
-                                <a class="menu-link <?= ($Menu == 'MyArchiveSchedule') ? 'active' : null ?>" href="<?= base_url('MyArchiveSchedule') ?>">
-                                    <span class="menu-icon">
-                                        <span class="svg-icon svg-icon-2">
-                                            <i class="fas fa-archive fs-2"></i>
-                                        </span>
-                                    </span>
-                                    <span class="menu-title">My Archive Schedule</span>
-                                </a>
                             </div>
                             <div class="menu-item">
                                 <div class="menu-content pt-4 pb-2">
@@ -204,78 +219,110 @@
                             <?php endif; ?>
                             <div class="menu-item">
                                 <div class="menu-content pt-4 pb-2">
-                                    <span class="menu-section text-muted text-uppercase fs-8 ls-1 fw-bold">KEGIATAN RAPAT</span>
+                                    <span class="menu-section text-muted text-uppercase fs-8 ls-1 fw-bold">MENU KEGIATAN RAPAT</span>
                                 </div>
                             </div>
-                            <div class="menu-item">
-                                <a class="menu-link <?= ($Menu == 'Rapat' && $this->uri->segment(2) == 'Approval_Leader') ? 'active' : null ?>" href="<?= base_url('Rapat/Approval_Leader') ?>">
-                                    <span class="menu-icon">
-                                        <span class="svg-icon svg-icon-2">
-                                            <i class="fas fa-quote-left fs-2"></i>
-                                        </span>
-                                    </span>
-                                    <span class="menu-title">Approval Pimpinan</span>
-                                </a>
-                            </div>
-                            <div class="menu-item">
-                                <a class="menu-link <?= ($Menu == 'Rapat' && $this->uri->segment(2) == 'Rapat_Open') ? 'active' : null ?>" href="<?= base_url('Rapat/Rapat_Open') ?>">
+                            <div data-kt-menu-trigger="click" class="menu-item menu-accordion <?= ($Menu == 'Rapat') ? 'hover show' : null; ?>">
+                                <span class="menu-link">
                                     <span class="menu-icon">
                                         <span class="svg-icon svg-icon-2">
                                             <i class="fas fa-users fs-2"></i>
                                         </span>
                                     </span>
-                                    <span class="menu-title">Join Rapat</span>
-                                </a>
-                            </div>
-                            <div class="menu-item">
-                                <a class="menu-link <?= ($Menu == 'Rapat' && $this->uri->segment(2) == 'MyHistory') ? 'active' : null ?>" href="<?= base_url('Rapat/MyHistory') ?>">
-                                    <span class="menu-icon">
-                                        <span class="svg-icon svg-icon-2">
-                                            <i class="fas fa-users fs-2"></i>
-                                        </span>
-                                    </span>
-                                    <span class="menu-title">Rapat Saya</span>
-                                </a>
+                                    <span class="menu-title">RAPAT</span>
+                                    <span class="menu-arrow"></span>
+                                </span>
+                                <div class="menu-sub menu-sub-accordion <?= ($Menu == 'Rapat') ? 'show"' : '" style="display: none; overflow: hidden;"'; ?> kt-hidden-height=" 117">
+                                    <div class="menu-item">
+                                        <a class="menu-link <?= ($Menu == 'Rapat' && $this->uri->segment(2) == 'Approval_Leader') ? 'active' : null ?>" href="<?= base_url('Rapat/Approval_Leader') ?>">
+                                            <span class="menu-icon">
+                                                <span class="svg-icon svg-icon-2">
+                                                    <i class="fas fa-quote-left fs-2"></i>
+                                                </span>
+                                            </span>
+                                            <span class="menu-title">Approval Pimpinan</span>
+                                        </a>
+                                    </div>
+                                    <div class="menu-item">
+                                        <a class="menu-link <?= ($Menu == 'Rapat' && $this->uri->segment(2) == 'Rapat_Open') ? 'active' : null ?>" href="<?= base_url('Rapat/Rapat_Open') ?>">
+                                            <span class="menu-icon">
+                                                <span class="svg-icon svg-icon-2">
+                                                    <i class="fas fa-users fs-2"></i>
+                                                </span>
+                                            </span>
+                                            <span class="menu-title">Join Rapat</span>
+                                        </a>
+                                    </div>
+                                    <div class="menu-item">
+                                        <a class="menu-link <?= ($Menu == 'Rapat' && $this->uri->segment(2) == 'MyHistory') ? 'active' : null ?>" href="<?= base_url('Rapat/MyHistory') ?>">
+                                            <span class="menu-icon">
+                                                <span class="svg-icon svg-icon-2">
+                                                    <i class="fas fa-sync-alt fs-2"></i>
+                                                </span>
+                                            </span>
+                                            <span class="menu-title">Rapat Saya</span>
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
                             <?php if ($Role == 'ADMINISTRATOR') : ?>
                                 <div class="menu-item">
                                     <div class="menu-content pt-4 pb-2">
-                                        <span class="menu-section text-muted text-uppercase fs-8 ls-1 fw-bold">Payroll</span>
+                                        <span class="menu-section text-muted text-uppercase fs-8 ls-1 fw-bold">Payroll Menu</span>
                                     </div>
                                 </div>
-                                <div class="menu-item">
-                                    <a class="menu-link <?= ($Menu == 'ManageSalary') ? 'active' : null ?>" href="<?= base_url('ManageSalary') ?>">
+                                <div data-kt-menu-trigger="click" class="menu-item menu-accordion <?= ($Menu == 'ManageSalary' || $Menu == 'CalculatePayroll' || $Menu == 'HistoryPayroll') ? 'hover show' : null; ?>">
+                                    <span class="menu-link">
                                         <span class="menu-icon">
+                                            <!--begin::Svg Icon | path: icons/duotune/finance/fin006.svg-->
                                             <span class="svg-icon svg-icon-2">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                                    <path d="M22 7H2V11H22V7Z" fill="black"></path>
-                                                    <path opacity="0.3" d="M21 19H3C2.4 19 2 18.6 2 18V6C2 5.4 2.4 5 3 5H21C21.6 5 22 5.4 22 6V18C22 18.6 21.6 19 21 19ZM14 14C14 13.4 13.6 13 13 13H5C4.4 13 4 13.4 4 14C4 14.6 4.4 15 5 15H13C13.6 15 14 14.6 14 14ZM16 15.5C16 16.3 16.7 17 17.5 17H18.5C19.3 17 20 16.3 20 15.5C20 14.7 19.3 14 18.5 14H17.5C16.7 14 16 14.7 16 15.5Z" fill="black"></path>
+                                                    <path opacity="0.3" d="M20 15H4C2.9 15 2 14.1 2 13V7C2 6.4 2.4 6 3 6H21C21.6 6 22 6.4 22 7V13C22 14.1 21.1 15 20 15ZM13 12H11C10.5 12 10 12.4 10 13V16C10 16.5 10.4 17 11 17H13C13.6 17 14 16.6 14 16V13C14 12.4 13.6 12 13 12Z" fill="black"></path>
+                                                    <path d="M14 6V5H10V6H8V5C8 3.9 8.9 3 10 3H14C15.1 3 16 3.9 16 5V6H14ZM20 15H14V16C14 16.6 13.5 17 13 17H11C10.5 17 10 16.6 10 16V15H4C3.6 15 3.3 14.9 3 14.7V18C3 19.1 3.9 20 5 20H19C20.1 20 21 19.1 21 18V14.7C20.7 14.9 20.4 15 20 15Z" fill="black"></path>
                                                 </svg>
                                             </span>
+                                            <!--end::Svg Icon-->
                                         </span>
-                                        <span class="menu-title">Manage Salary</span>
-                                    </a>
+                                        <span class="menu-title">PAYROLL</span>
+                                        <span class="menu-arrow"></span>
+                                    </span>
+                                    <div class="menu-sub menu-sub-accordion <?= ($Menu == 'ManageSalary' || $Menu == 'CalculatePayroll' || $Menu == 'HistoryPayroll') ? 'show"' : '" style="display: none; overflow: hidden;"'; ?> kt-hidden-height=" 117">
+                                        <div class="menu-item">
+                                            <a class="menu-link <?= ($Menu == 'ManageSalary') ? 'active' : null ?>" href="<?= base_url('ManageSalary') ?>">
+                                                <span class="menu-icon">
+                                                    <span class="svg-icon svg-icon-2">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                            <path d="M22 7H2V11H22V7Z" fill="black"></path>
+                                                            <path opacity="0.3" d="M21 19H3C2.4 19 2 18.6 2 18V6C2 5.4 2.4 5 3 5H21C21.6 5 22 5.4 22 6V18C22 18.6 21.6 19 21 19ZM14 14C14 13.4 13.6 13 13 13H5C4.4 13 4 13.4 4 14C4 14.6 4.4 15 5 15H13C13.6 15 14 14.6 14 14ZM16 15.5C16 16.3 16.7 17 17.5 17H18.5C19.3 17 20 16.3 20 15.5C20 14.7 19.3 14 18.5 14H17.5C16.7 14 16 14.7 16 15.5Z" fill="black"></path>
+                                                        </svg>
+                                                    </span>
+                                                </span>
+                                                <span class="menu-title">Manage Salary</span>
+                                            </a>
+                                        </div>
+                                        <div class="menu-item">
+                                            <a class="menu-link <?= ($Menu == 'CalculatePayroll') ? 'active' : null ?>" href="<?= base_url('CalculatePayroll') ?>">
+                                                <span class="menu-icon">
+                                                    <span class="svg-icon svg-icon-2">
+                                                        <i class="fas fa-calculator fs-2"></i>
+                                                    </span>
+                                                </span>
+                                                <span class="menu-title">Calculate Payroll</span>
+                                            </a>
+                                        </div>
+                                        <div class="menu-item">
+                                            <a class="menu-link <?= ($Menu == 'HistoryPayroll') ? 'active' : null ?>" href="<?= base_url('HistoryPayroll') ?>">
+                                                <span class="menu-icon">
+                                                    <span class="svg-icon svg-icon-2">
+                                                        <i class="fas fa-book fs-2" style="rotate: 45deg;"></i>
+                                                    </span>
+                                                </span>
+                                                <span class="menu-title">History Payroll</span>
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="menu-item">
-                                    <a class="menu-link <?= ($Menu == 'CalculatePayroll' && $this->uri->segment(2) == '') ? 'active' : null ?>" href="<?= base_url('CalculatePayroll') ?>">
-                                        <span class="menu-icon">
-                                            <span class="svg-icon svg-icon-2">
-                                                <i class="fas fa-calculator fs-2"></i>
-                                            </span>
-                                        </span>
-                                        <span class="menu-title">Calculate Payroll</span>
-                                    </a>
-                                </div>
-                                <div class="menu-item">
-                                    <a class="menu-link <?= ($Menu == 'HistoryPayroll' && $this->uri->segment(2) == '') ? 'active' : null ?>" href="<?= base_url('HistoryPayroll') ?>">
-                                        <span class="menu-icon">
-                                            <span class="svg-icon svg-icon-2">
-                                                <i class="fas fa-book fs-2" style="rotate: 45deg;"></i>
-                                            </span>
-                                        </span>
-                                        <span class="menu-title">History Payroll</span>
-                                    </a>
-                                </div>
+                                <!-- penanda -->
                                 <div class="menu-item">
                                     <div class="menu-content pt-4 pb-2">
                                         <span class="menu-section text-muted text-uppercase fs-8 ls-1 fw-bold">OVER TIME</span>

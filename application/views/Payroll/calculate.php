@@ -26,7 +26,7 @@
                             <div class="col-xl-2 py-2 col-md-3">
                                 <div class="input-group">
                                     <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" value="1" role="switch" id="include_gaji" name="include_gaji">
+                                        <input class="form-check-input" type="checkbox" checked="true" value="1" role="switch" id="include_gaji" name="include_gaji">
                                         <label class="form-check-label" for="flexSwitchCheckDefault"><span class="text-danger">?</span> Include Gaji</label>
                                     </div>
                                 </div>
@@ -34,7 +34,7 @@
                             <div class="col-xl-3 py-2 col-md-3">
                                 <div class="input-group">
                                     <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" value="1" role="switch" id="include_jabatan" name="include_jabatan">
+                                        <input class="form-check-input" type="checkbox" checked="true" value="1" role="switch" id="include_jabatan" name="include_jabatan">
                                         <label class="form-check-label" for="flexSwitchCheckDefault"><span class="text-danger">?</span> Include Tunjangan Jabatan</label>
                                     </div>
                                 </div>

@@ -50,13 +50,8 @@ class CalculatePayroll extends CI_Controller
         $end = $this->input->post('until');
         $niks = $this->input->post('IDs');
 
-        $DatePayFormat_Start = date("Y-m-d", strtotime($start));
-        $DatePayFormat_End = date("Y-m-d", strtotime($end . ' + 1 day'));
-
-        $begin = new DateTime($DatePayFormat_Start);
-        $end = new DateTime($DatePayFormat_End);
-        $interval = new DateInterval('P1D');
-        $period = new DatePeriod($begin, $interval, $end);
+        $DatePayFormat_Start = new DateTime($start);
+        $DatePayFormat_End = new DateTime($end);
 
         // ============================ START Validation ============================//
         $ValidateSalary = $this->db->get_where($this->tmst_employee, [
@@ -80,8 +75,8 @@ class CalculatePayroll extends CI_Controller
         }
 
         $ValidateCalculatedAtt = $this->db->query("SELECT * FROM $this->att_trans 
-        WHERE Date_Att >= date_format('$DatePayFormat_Start','%Y-%m-%d')
-        AND Date_Att <= date_format('$DatePayFormat_End','%Y-%m-%d')
+        WHERE Date_Att >= date_format('$start','%Y-%m-%d')
+        AND Date_Att <= date_format('$end','%Y-%m-%d')
         AND Calculated = 1");
 
         if ($ValidateCalculatedAtt->num_rows() > 0) {
@@ -97,7 +92,7 @@ class CalculatePayroll extends CI_Controller
         }
         // ============================ END Validation ============================//
 
-        $TagID = 'PAY-' . $DatePayFormat_Start . 'SD' . $DatePayFormat_End . '/' . $this->help->Counter_Payroll_Number('Payroll_Doc_Number');
+        $TagID = 'PAY-' . $start . 'SD' . $end . '/' . $this->help->Counter_Payroll_Number('Payroll_Doc_Number');
         $TotEmploye = count($niks);
 
         $this->db->trans_start();
@@ -148,8 +143,10 @@ class CalculatePayroll extends CI_Controller
                 'Label_Tunjangan_Lain' => $karyawan->Tunjangan_Lain,
                 'Tunjangan_Lain' => $karyawan->Nominal_Tunjangan_Lain,
             ]);
-            foreach ($period as $RawDate) {
-                $date = $RawDate->format($format);
+            $currentDate = clone $DatePayFormat_Start;
+            while ($currentDate <= $DatePayFormat_End) {
+                $date = $currentDate->format($format);
+
                 // ================================ ttrx_dtl_payroll ==================== //
                 // SysId, TagID_PerNIK_Hdr, Tanggal, NIK, Total_Att, Total_Hours, Tunjangan_Pokok, Tunjangan_Lain, Jam_Lembur, Lembur
                 $Att_Per_Day = $this->db->query("SELECT Access_ID, Date_Att, COALESCE(SUM(Stand_Hour),0) AS Sum_Stand_Hour, COALESCE(count(Stand_Hour),0) as Total_Att
@@ -185,7 +182,7 @@ class CalculatePayroll extends CI_Controller
                     $Lembur = 0;
                 }
 
-                $piket = $this->db->get_where($this->ttrx_payroll_guru_piket, ['ID' => $nik, 'Tanggal' => $date]);
+                $piket = $this->db->query("SELECT SUM(Nominal) as Nominal_Piket, COUNT(SysId) as Jumlah_Piket FROM $this->ttrx_payroll_guru_piket WHERE Tanggal = '$date' and ID = $nik GROUP BY ID, Tanggal");
                 if ($piket->num_rows() > 0) {
                     $this->db->where('Tanggal', $date);
                     $this->db->where('ID', $nik);
@@ -193,10 +190,10 @@ class CalculatePayroll extends CI_Controller
                         'Calculated' => 1
                     ]);
                     $row_piket = $piket->row();
-                    $Waktu_Piket = $row_piket->Waktu_Piket;
-                    $Piket = floatval($row_piket->Nominal);
+                    $Jumlah_Piket = $row_piket->Jumlah_Piket;
+                    $Piket = floatval($row_piket->Nominal_Piket);
                 } else {
-                    $Waktu_Piket = NULL;
+                    $Jumlah_Piket = 0;
                     $Piket = 0;
                 }
 
@@ -215,7 +212,7 @@ class CalculatePayroll extends CI_Controller
                     $Upacara = 0;
                 }
 
-                $rapat = $this->db->query("SELECT SUM(Nominal_Tunjangan) as Nominal_Tunjangan, Meeting_Date, UserName FROM $this->qview_dtl_peserta_rapat 
+                $rapat = $this->db->query("SELECT SUM(Nominal_Tunjangan) as Nominal_Tunjangan, COUNT(SysId) as Jumlah_Rapat, Meeting_Date, UserName FROM $this->qview_dtl_peserta_rapat 
                 WHERE ID = $nik AND Meeting_Date = '$date' and Approve_Leader = 1 and Approve_Admin = 1 group by Meeting_Date, UserName");
                 if ($rapat->num_rows() > 0) {
                     $row_rapat = $rapat->row();
@@ -235,8 +232,10 @@ class CalculatePayroll extends CI_Controller
                     }
 
                     $Rapat = floatval($row_rapat->Nominal_Tunjangan);
+                    $Jumlah_Rapat = $row_rapat->Jumlah_Rapat;
                 } else {
                     $Rapat = 0;
+                    $Jumlah_Rapat = 0;
                 }
 
                 $this->db->insert($this->ttrx_dtl_payroll, [
@@ -247,12 +246,13 @@ class CalculatePayroll extends CI_Controller
                     'Total_Att' => $Total_Att,
                     'Tunjangan_Pokok' => $TunjanganPokok,
                     'Tunjangan_Lain' => $TunjanganLain,
-                    'Waktu_Piket' => $Waktu_Piket,
                     'Upacara' => $Upacara,
                     'Jabatan_Upacara' => $Jabatan_Upacara,
+                    'Jumlah_Piket' => $Jumlah_Piket,
                     'Piket' => $Piket,
                     'Jam_Lembur' => $Jam_Lembur,
                     'Lembur' => $Lembur,
+                    'Jumlah_Rapat' => $Jumlah_Rapat,
                     'Rapat' => $Rapat
                 ]);
 
@@ -261,6 +261,8 @@ class CalculatePayroll extends CI_Controller
                 $this->db->update($this->att_trans, [
                     'Calculated' => 1
                 ]);
+
+                $currentDate->modify('+1 day');
             }
         }
         // =============================== ttrx_event_payroll =============================== // 
@@ -268,8 +270,8 @@ class CalculatePayroll extends CI_Controller
         $this->db->insert('ttrx_event_payroll', [
             'TagID' => $TagID,
             'Tot_Employee_Calculated' =>  $TotEmploye,
-            'Tgl_Dari' => $DatePayFormat_Start,
-            'Tgl_Sampai' => $this->input->post('until'),
+            'Tgl_Dari' => $start,
+            'Tgl_Sampai' => $end,
             'Created_by' => $this->session->userdata('sys_username'),
         ]);
         // ============ END QUERY

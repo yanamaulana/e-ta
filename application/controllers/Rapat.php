@@ -100,13 +100,16 @@ class Rapat extends CI_Controller
 
     public function Store_Ikut_Rapat()
     {
+        $DateTime = date('Y-m-d H:i:s');
         $HdrRapat = $this->db->get_where($this->ttrx_hdr_rapat, ['No_Meeting' => $this->input->post('No_Meeting')])->row();
-        if (date('Y-m-d') > $HdrRapat->Meeting_Date) {
-            return $this->help->Fn_resulting_response([
-                'code' => 200,
-                'msg' => 'Rapat sudah ber-akhir !',
-            ]);
-        }
+        $End_Meeting = DateTime::createFromFormat("Y-m-d H:i:s", $HdrRapat->Meeting_Date . ' ' . $HdrRapat->Time_End);
+
+        // if ($DateTime > $End_Meeting) {
+        //     return $this->help->Fn_resulting_response([
+        //         'code' => 500,
+        //         'msg' => 'Rapat sudah ber-akhir !',
+        //     ]);
+        // }
 
         $this->db->trans_start();
 
@@ -152,7 +155,7 @@ class Rapat extends CI_Controller
                 $this->db->trans_rollback();
                 return $this->help->Fn_resulting_response([
                     'code' => 505,
-                    'msg'  => "Member dengan nama $Redundan->Nama sudah terdaftar sebagai peserta rapat harap un-check !",
+                    'msg'  => "Member dengan nama <b>$Redundan->Nama</b> sudah terdaftar sebagai peserta rapat harap un-check !",
                 ]);
             }
 
@@ -211,8 +214,8 @@ class Rapat extends CI_Controller
             'Delete_by' => $this->session->userdata('sys_username')
         ]);
 
-        $this->db->where('SysId', $SysId);
-        $this->db->delete($this->ttrx_hdr_rapat);
+        $this->db->delete($this->ttrx_dtl_peserta_rapat, ['No_Meeting_Hdr' => $Hdr->No_Meeting]);
+        $this->db->delete($this->ttrx_hdr_rapat, ['SysId' => $SysId]);
 
         $error_msg = $this->db->error()["message"];
         $this->db->trans_complete();

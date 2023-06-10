@@ -77,6 +77,27 @@ class Master extends CI_Controller
         $this->load->view($this->layout, $this->data);
     }
 
+    public function select_employee_active()
+    {
+        $search = $this->input->get('search');
+        $query = $this->db->query(
+            "SELECT ID, Nama from qview_employee_active where is_active = 1 and nama like '%$search%'"
+        );
+
+        if ($query->num_rows() > 0) {
+            $list = array();
+            $key = 1;
+            foreach ($query->result_array() as $row) {
+                $list[$key]['id'] = $row['ID'];
+                $list[$key]['text'] = $row['Nama'];
+                $key++;
+            }
+            echo json_encode($list);
+        } else {
+            echo "hasil kosong";
+        }
+    }
+
     public function Add_Employee()
     {
         $this->data['page_title'] = "Add New Employee";

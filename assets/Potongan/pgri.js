@@ -1,4 +1,7 @@
 $(document).ready(function () {
+
+});
+$(document).ready(function () {
 	$('.date-picker').flatpickr();
 
 	const rupiah = (number) => {
@@ -15,6 +18,7 @@ $(document).ready(function () {
 			serverSide: true,
 			paging: true,
 			dom: 'lBfrtip',
+			select: true,
 			orderCellsTop: true,
 			fixedHeader: {
 				header: true,
@@ -25,7 +29,7 @@ $(document).ready(function () {
 				[15, 30, 90, 1000]
 			],
 			ajax: {
-				url: $('meta[name="base_url"]').attr('content') + "Rapat/DT_My_History",
+				url: $('meta[name="base_url"]').attr('content') + "PotonganPgri/DT_Potongan_karyawan",
 				dataType: "json",
 				type: "POST",
 			},
@@ -37,12 +41,12 @@ $(document).ready(function () {
 					}
 				},
 				{
-					data: "No_Meeting_Hdr",
-					name: "No_Meeting_Hdr",
+					data: "ID",
+					name: "ID",
 				},
 				{
-					data: "Meeting_Date",
-					name: "Meeting_Date",
+					data: "UserName",
+					name: "UserName",
 				},
 				{
 					data: "Nama",
@@ -50,69 +54,23 @@ $(document).ready(function () {
 					visible: false,
 				},
 				{
-					data: "Nominal_Tunjangan",
-					name: "Nominal_Tunjangan",
+					data: "Nominal",
+					name: "Nominal",
 					render: function (data) {
 						return rupiah(data);
 					}
 				},
 				{
-					data: "Join_at",
-					name: "Join_at",
-				},
-				{
-					data: "Approve_Leader",
-					name: "Approve_Leader",
-					render: function (data, type, row, meta) {
-						if (data == 1) {
-							return `<button class="badge badge-success btn-sm"><i class="fas fa-check"></i> Approve</button>`;
-						} else {
-							return `<button class="badge badge-secondary btn-sm"><i class="fas fa-hourglass-half"></i> Wait Approve</button>`;
-						}
-					}
-				},
-				{
-					data: "Approve_Admin",
-					name: "Approve_Admin",
-					render: function (data, type, row, meta) {
-						if (data == 1) {
-							return `<button class="badge badge-success btn-sm"><i class="fas fa-check"></i> Approve</button>`;
-						} else {
-							return `<button class="badge badge-secondary btn-sm"><i class="fas fa-hourglass-half"></i> Wait Approve</button>`;
-						}
-					}
-				},
-				{
-					data: "Calculated",
-					name: "Calculated",
-					orderable: false,
-					render: function (data, type, row, meta) {
-						if (data == 1) {
-							return `<button class="badge badge-success btn-sm"><i class="fas fa-check"></i> Paid</button>`;
-						} else {
-							return `<button class="badge badge-secondary btn-sm"><i class="fas fa-hourglass-half"></i> Un-Paid</button>`;
-						}
-					}
-				},
-				{
-					data: "Join_by",
-					name: "Join_by",
-					orderable: false,
-					render: function (data, type, row, meta) {
-						if (row.Calculated == 1 || row.Approve_Admin == 1) {
-							return `<button  class="btn btn-secondary btn-sm" data-toggle="tooltip" title="Data Tidak Dapat Dihapus Karena Sudah approve admin"><i class="fas fa-trash"></i></button>`;
-						} else {
-							return `<button  class="btn btn-danger btn-sm btn-delete-dtl" data-toggle="tooltip" title="Hapus Keikutsertaan"><i class="fas fa-trash"></i></button>`;
-						}
-					}
+					data: "Terbilang",
+					name: "Terbilang",
 				}
 			],
 			order: [
-				[2, "DESC"]
+				[3, "ASC"]
 			],
 			columnDefs: [{
 				className: "align-middle text-center",
-				targets: [0, 1, 2, 3, 5, 6, 7, 8, 9],
+				targets: [0, 1, 2, 3, 5],
 			}],
 			autoWidth: false,
 			responsive: true,

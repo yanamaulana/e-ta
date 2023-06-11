@@ -17,18 +17,18 @@
                                 <th class="text-center text-white">ID Access</th>
                                 <th class="text-center text-white">NAMA</th>
                                 <th class="text-center text-white">STATUS KARYAWAN</th>
-                                <th class="text-center text-white">JABATAN</th>
+                                <th class="text-center text-white">JAB. POKOK</th>
                                 <th class="text-center text-white">CODE SALARY</th>
                                 <th class="text-center text-white">NOMINAL SALARY</th>
                                 <th class="text-center text-white">JAM BERDIRI</th>
                                 <th class="text-center text-white">NOMINAL JAM BERDIRI</th>
-                                <th class="text-center text-white">TUNJANGAN JABATAN 1</th>
+                                <th class="text-center text-white">TUN. JABATAN 1</th>
                                 <th class="text-center text-white">$ JABATAN 1</th>
-                                <th class="text-center text-white">TUNJANGAN JABATAN 2</th>
+                                <th class="text-center text-white">TUN. JABATAN 2</th>
                                 <th class="text-center text-white">$ JABATAN 2</th>
-                                <th class="text-center text-white">TUNJANGAN JABATAN 2</th>
+                                <th class="text-center text-white">TUN. JABATAN 2</th>
                                 <th class="text-center text-white">$ JABATAN 2</th>
-                                <th class="text-center text-white">TUNJANGAN LAIN</th>
+                                <th class="text-center text-white">TUN. LAIN</th>
                                 <th class="text-center text-white">$ TUNJANGAN LAIN</th>
 
                             </tr>

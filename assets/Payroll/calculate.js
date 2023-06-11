@@ -1,10 +1,10 @@
-function check_uncheck_checkbox(isChecked) {
+function check_uncheck_checkbox(isChecked, name) {
 	if (isChecked) {
-		$('input[name="IDs[]"]').each(function () {
+		$('input[name="' + name + '"]').each(function () {
 			this.checked = true;
 		});
 	} else {
-		$('input[name="IDs[]"]').each(function () {
+		$('input[name="' + name + '"]').each(function () {
 			this.checked = false;
 		});
 	}
@@ -23,6 +23,13 @@ $(document).ready(function () {
 	})
 
 	$('.date-picker').flatpickr();
+
+	const rupiah = (number) => {
+		return new Intl.NumberFormat("id-ID", {
+			style: "currency",
+			currency: "IDR"
+		}).format(number);
+	}
 
 
 	$('#form-data').validate({
@@ -158,48 +165,63 @@ $(document).ready(function () {
 				name: "Nama",
 			},
 			{
-				data: "Work_Status",
-				name: "Work_Status",
-			},
-			{
 				data: "Jabatan",
 				name: "Jabatan",
 			},
 			{
-				data: "Kode_Salary",
-				name: "Kode_Salary",
-			},
-			{
 				data: "Nominal_Salary",
 				name: "Nominal_Salary",
-			},
-			{
-				data: "Tunjangan_Pokok",
-				name: "Tunjangan_Pokok",
-				visible: false,
+				render: function (data) {
+					return rupiah(data)
+				}
 			},
 			{
 				data: "Nominal_Tunjangan_Pokok",
 				name: "Nominal_Tunjangan_Pokok",
+				render: function (data) {
+					return rupiah(data)
+				}
 			},
 			{
-				data: "Tunjangan_Lain",
-				name: "Tunjangan_Lain",
+				data: "Tunjangan_Jabatan_1",
+				name: "Tunjangan_Jabatan_1",
 			},
 			{
-				data: "Nominal_Tunjangan_Lain",
-				name: "Nominal_Tunjangan_Lain",
+				data: "Nominal_Tunjangan_Jabatan_1",
+				name: "Nominal_Tunjangan_Jabatan_1",
+				render: function (data) {
+					return rupiah(data)
+				}
 			},
 			{
-				data: "Bank",
-				name: "Bank",
-				visible: false,
+				data: "Tunjangan_Jabatan_2",
+				name: "Tunjangan_Jabatan_2",
 			},
 			{
-				data: "No_Rekening",
-				name: "No_Rekening",
-				visible: false,
-			}
+				data: "Nominal_Tunjangan_Jabatan_2",
+				name: "Nominal_Tunjangan_Jabatan_2",
+			},
+			{
+				data: "Tunjangan_Jabatan_3",
+				name: "Tunjangan_Jabatan_3",
+			},
+			{
+				data: "Nominal_Tunjangan_Jabatan_3",
+				name: "Nominal_Tunjangan_Jabatan_3",
+				render: function (data) {
+					return rupiah(data)
+				}
+			},
+			{
+				data: "SysId",
+				name: "SysId",
+				orderable: false,
+				render: function (data, type, row, meta) {
+					return `<div class="form-check text-center">
+                    <input type="checkbox" class="form-check-input text-center" value="${row.ID}" id="${row.SysId}" name="Kasbons[]">
+                  </div>`
+				}
+			},
 		],
 		order: [
 			[2, "ASC"]

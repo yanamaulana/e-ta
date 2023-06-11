@@ -43,6 +43,7 @@ $(document).ready(function () {
 			{
 				data: "Work_Status",
 				name: "Work_Status",
+				visible: false,
 			},
 			{
 				data: "Jabatan",

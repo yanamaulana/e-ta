@@ -19,6 +19,7 @@ class Master extends CI_Controller
         parent::__construct();
         is_logged_in();
         $this->load->model('m_helper', 'help');
+        $this->load->model('m_DataTable', 'M_Datatables');
     }
 
     public function index()
@@ -453,100 +454,13 @@ class Master extends CI_Controller
 
     public function DT_List_Employee_Active()
     {
-        $requestData = $_REQUEST;
-        $columns = array(
-            0 => 'SysId',
-            1 => 'ID',
-            2 => 'Nama',
-            3 => 'Work_Status',
-            4 => 'Jabatan',
-            5 => 'Kode_Salary',
-            6 => 'Nominal_Salary',
-            7 => 'Tunjangan_Pokok',
-            8 => 'Nominal_Tunjangan_Pokok',
-            9 => 'Tunjangan_Lain',
-            10 => 'Nominal_Tunjangan_Lain',
-            11 => 'Bank',
-            12 => 'No_Rekening',
-            13 => 'KTP',
-            14 => 'Telpon',
-            15 => 'Email',
-            16 => 'Gender',
-            17 => 'Status_Pernikahan',
-            18 => 'Tanggal_Join',
-            19 => 'Full_address',
-            20 => 'is_active',
-
-        );
-        $order = $columns[$requestData['order']['0']['column']];
-        $dir = $requestData['order']['0']['dir'];
-
-        $sql = "SELECT * from qview_employee_active WHERE SysId is not null";
-
-        $totalData = $this->db->query($sql)->num_rows();
-        if (!empty($requestData['search']['value'])) {
-            $sql .= " AND (ID LIKE '%" . $requestData['search']['value'] . "%' ";
-            $sql .= " OR Nama LIKE '%" . $requestData['search']['value'] . "%' ";
-            $sql .= " OR Work_Status LIKE '%" . $requestData['search']['value'] . "%' ";
-            $sql .= " OR Jabatan LIKE '%" . $requestData['search']['value'] . "%' ";
-            $sql .= " OR Kode_Salary LIKE '%" . $requestData['search']['value'] . "%' ";
-            $sql .= " OR Nominal_Salary LIKE '%" . $requestData['search']['value'] . "%' ";
-            $sql .= " OR Tunjangan_Pokok LIKE '%" . $requestData['search']['value'] . "%' ";
-            $sql .= " OR Nominal_Tunjangan_Pokok LIKE '%" . $requestData['search']['value'] . "%' ";
-            $sql .= " OR Tunjangan_Lain LIKE '%" . $requestData['search']['value'] . "%' ";
-            $sql .= " OR Nominal_Tunjangan_Lain LIKE '%" . $requestData['search']['value'] . "%' ";
-            $sql .= " OR Bank LIKE '%" . $requestData['search']['value'] . "%' ";
-            $sql .= " OR No_Rekening LIKE '%" . $requestData['search']['value'] . "%' ";
-            $sql .= " OR KTP LIKE '%" . $requestData['search']['value'] . "%' ";
-            $sql .= " OR Telpon LIKE '%" . $requestData['search']['value'] . "%' ";
-            $sql .= " OR Email LIKE '%" . $requestData['search']['value'] . "%' ";
-            $sql .= " OR Gender LIKE '%" . $requestData['search']['value'] . "%' ";
-            $sql .= " OR Status_Pernikahan LIKE '%" . $requestData['search']['value'] . "%' ";
-            $sql .= " OR Tanggal_Join LIKE '%" . $requestData['search']['value'] . "%' ";
-            $sql .= " OR Full_address LIKE '%" . $requestData['search']['value'] . "%' ";
-            $sql .= " OR is_active LIKE '%" . $requestData['search']['value'] . "%') ";
-        }
-        //----------------------------------------------------------------------------------
-        $totalFiltered = $this->db->query($sql)->num_rows();
-        $sql .= " ORDER BY $order $dir LIMIT " . $requestData['start'] . " ," . $requestData['length'] . " ";
-        $query = $this->db->query($sql);
-        $data = array();
-        foreach ($query->result_array() as $row) {
-            $nestedData = array();
-            $nestedData['SysId'] = $row["SysId"];
-            $nestedData['ID'] = $row["ID"];
-            $nestedData['Nama'] = $row["Nama"];
-            $nestedData['UserName'] = $row["UserName"];
-            $nestedData['Work_Status'] = $row["Work_Status"];
-            $nestedData['Jabatan'] = $row["Jabatan"];
-            $nestedData['Kode_Salary'] = $row["Kode_Salary"];
-            $nestedData['Nominal_Salary'] = $this->help->format_idr($row["Nominal_Salary"]);
-            $nestedData['Tunjangan_Pokok'] = $row["Tunjangan_Pokok"];
-            $nestedData['Nominal_Tunjangan_Pokok'] = $this->help->format_idr($row["Nominal_Tunjangan_Pokok"]);
-            $nestedData['Tunjangan_Lain'] = $row["Tunjangan_Lain"];
-            $nestedData['Nominal_Tunjangan_Lain'] = $this->help->format_idr($row["Nominal_Tunjangan_Lain"]);
-            $nestedData['Bank'] = $row["Bank"];
-            $nestedData['No_Rekening'] = $row["No_Rekening"];
-            $nestedData['KTP'] = $row["KTP"];
-            $nestedData['Telpon'] = $row["Telpon"];
-            $nestedData['Email'] = $row["Email"];
-            $nestedData['Gender'] = $row["Gender"];
-            $nestedData['Status_Pernikahan'] = $row["Status_Pernikahan"];
-            $nestedData['Tanggal_Join'] = $row["Tanggal_Join"];
-            $nestedData['Full_address'] = $row["Full_address"];
-            $nestedData['is_active'] = $row["is_active"];
-
-            $data[] = $nestedData;
-        }
-        //----------------------------------------------------------------------------------
-        $json_data = array(
-            "draw" => intval($requestData['draw']),
-            "recordsTotal" => intval($totalData),
-            "recordsFiltered" => intval($totalFiltered),
-            "data" => $data,
-        );
-        //----------------------------------------------------------------------------------
-        echo json_encode($json_data);
+        $tables = 'qview_employee_active';
+        $search = ['Nama'];
+        // jika memakai IS NULL pada where sql
+        $isWhere = null;
+        // $isWhere = 'artikel.deleted_at IS NULL';
+        header('Content-Type: application/json');
+        echo $this->M_Datatables->get_tables($tables, $search, $isWhere);
     }
 
     // ======================== END EMPLOYEE ==============================//

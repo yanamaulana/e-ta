@@ -47,20 +47,22 @@
                             <thead style="background-color: #3B6D8C;">
                                 <tr class="text-start text-white fw-bolder text-uppercase">
                                     <th class="text-center text-white">
-                                        <input class="form-check-input" type="checkbox" id="CheckAll" value="checkall" onclick="check_uncheck_checkbox(this.checked);">
+                                        <input class="form-check-input" type="checkbox" id="CheckAll" value="checkall" onclick="check_uncheck_checkbox(this.checked,'IDs[]');">
                                     </th>
                                     <th class="text-center text-white">ID Access</th>
-                                    <th class="text-center text-white">NAME</th>
-                                    <th class="text-center text-white">WORK STATUS</th>
-                                    <th class="text-center text-white">OFFICE POSITION</th>
-                                    <th class="text-center text-white">CODE SALARY</th>
-                                    <th class="text-center text-white">NOMINAL SALARY</th>
-                                    <th class="text-center text-white">BASIC ALLOWANCE</th>
-                                    <th class="text-center text-white">NOMINAL STAND HOUR</th>
-                                    <th class="text-center text-white">OTHER ALLOWANCE</th>
-                                    <th class="text-center text-white">NOMINAL OTHER ALLOWANCE</th>
-                                    <th class="text-center text-white">BANK</th>
-                                    <th class="text-center text-white">ACCOUNT BANK NUMBER</th>
+                                    <th class="text-center text-white">NAMA</th>
+                                    <th class="text-center text-white">JABATAN POKOK</th>
+                                    <th class="text-center text-white">NOMINAL GAPOK</th>
+                                    <th class="text-center text-white">JAM BERDIRI/JAM</th>
+                                    <th class="text-center text-white">TUN.JABATAN 1</th>
+                                    <th class="text-center text-white">NOMINAL TUN.JABATAN 1</th>
+                                    <th class="text-center text-white">TUN.JABATAN 2</th>
+                                    <th class="text-center text-white">NOMINAL TUN.JABATAN 2</th>
+                                    <th class="text-center text-white">TUN.JABATAN 3</th>
+                                    <th class="text-center text-white">NOMINAL TUN.JABATAN 3</th>
+                                    <th class="text-center text-white bg-danger">
+                                        <input class="form-check-input ml-5" type="checkbox" id="CheckAll" value="checkall" onclick="check_uncheck_checkbox(this.checked,'Kasbons[]');">&nbsp;&nbsp; Angsuran Kasbon
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody class="text-gray-600 fw-bold">

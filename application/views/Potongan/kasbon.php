@@ -4,13 +4,13 @@
             <div class="card-header py-5">
                 <ul class="nav nav-pills nav-fill mb-5 fs-6">
                     <li class="nav-item">
-                        <a class="nav-link mr-5 active" data-bs-toggle="tab" href="#container-tab-1">
+                        <a class="nav-link mr-5" data-bs-toggle="tab" href="#container-tab-1">
                             <h4 class="card-title" id="table-title-main">Form Kasbon</h4>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="tab" href="#container-tab-3">
-                            <h4 class="card-title" id="table-title-history">Sisa Tunggakan & History Pembayaran</h4>
+                        <a class="nav-link active" data-bs-toggle="tab" href="#container-tab-3">
+                            <h4 class="card-title" id="table-title-detail">Saldo Kasbon dan History Angsuran</h4>
                         </a>
                     </li>
                 </ul>
@@ -20,7 +20,7 @@
             </div>
             <div class="card-body pt-0">
                 <div class="tab-content" id="myTabContent">
-                    <div class="tab-pane fade active show" id="container-tab-1" role="tabpanel">
+                    <div class="tab-pane fade" id="container-tab-1" role="tabpanel">
                         <form class="form" id="main-form">
                             <div class="card-body">
                                 <div class="row">
@@ -86,28 +86,21 @@
                             </div>
                         </form>
                     </div>
-                    <div class="tab-pane fade" id="container-tab-3" role="tabpanel">
+                    <div class="tab-pane fade active show" id="container-tab-3" role="tabpanel">
                         <div class="pb-5 table-responsive">
-                            <table id="TableDataHistory" class="table-sm align-middle display compact dt-nowrap table-rounded table-striped table-bordered border gy-5 gs-5 dataTable no-footer dtr-inline">
+                            <table id="TableData" class="table-sm align-middle display compact dt-nowrap table-rounded w-100 table-striped table-bordered border gy-5 gs-5">
                                 <thead style="background-color: #3B6D8C;">
                                     <tr class="text-start text-white fw-bolder text-uppercase">
                                         <th class="text-center text-white">#</th>
-                                        <th class="text-center text-white">NAME</th>
                                         <th class="text-center text-white">ID ACCESS</th>
-                                        <th class="text-center text-white">SOURCE</th>
-                                        <th class="text-center text-white">DATE</th>
-                                        <th class="text-center text-white">TIME</th>
-                                        <th class="text-center text-white">SCHEDULE NUMBER</th>
-                                        <th class="text-center text-white">DAY</th>
-                                        <th class="text-center text-white">CLASS</th>
-                                        <th class="text-center text-white">SUBJECT</th>
-                                        <th class="text-center text-white">START TIME</th>
-                                        <th class="text-center text-white">TIME OVER</th>
-                                        <th class="text-center text-white">STAND HOUR</th>
-                                        <th class="text-center text-white">STATUS</th>
+                                        <th class="text-center text-white">NAMA</th>
+                                        <th class="text-center text-white">SALDO KASBON</th>
+                                        <th class="text-center text-white">NOMINAL ANGSURAN</th>
+                                        <th class="text-center text-white">SISA ANGSURAN</th>
+                                        <th class="text-center text-white"><i class="fas fa-cogs text-white"></i></th>
                                     </tr>
                                 </thead>
-                                <tbody class="text-gray-600 fw-bold">
+                                <tbody class="text-dark fw-bold">
                                 </tbody>
                             </table>
                         </div>

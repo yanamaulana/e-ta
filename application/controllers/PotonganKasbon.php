@@ -11,6 +11,8 @@ class PotonganKasbon extends CI_Controller
     private $ttrx_dtl_transaksi_kasbon  = 'ttrx_dtl_transaksi_kasbon';
     private $tmst_angsuran_kasbon       = 'tmst_angsuran_kasbon';
     private $thst_angsuran_kasbon       = 'thst_angsuran_kasbon';
+    private $qview_mst_hdr_kasbon       = 'qview_mst_hdr_kasbon';
+    private $qview_dtl_transaksi_kasbon       = 'qview_dtl_transaksi_kasbon';
 
     public function __construct()
     {
@@ -18,7 +20,7 @@ class PotonganKasbon extends CI_Controller
         is_logged_in();
         $this->date_time = date("Y-m-d H:i:s");
         $this->load->model('m_helper', 'help');
-        $this->load->model('m_DataTable', 'DataTable');
+        $this->load->model('m_DataTable', 'M_Datatables');
     }
 
     public function index()
@@ -73,13 +75,6 @@ class PotonganKasbon extends CI_Controller
         } else {
             $RowKasbonHdr = $ValidationRedundanHdr->row();
             if ($RowKasbonHdr->Saldo_Kasbon == 0) {
-                $this->db->where('ID', $ID_employee);
-                $this->db->update($this->tmst_hdr_kasbon, [
-                    'Saldo_Kasbon' => $nominal_kasbon,
-                    'Last_Updated_at' => $this->date_time,
-                    'Last_Updated_by' => $this->session->userdata('sys_username'),
-                ]);
-
                 $this->db->insert($this->ttrx_dtl_transaksi_kasbon, [
                     'Aritmatics' => '+',
                     'IN_OUT' => $nominal_kasbon,
@@ -109,14 +104,14 @@ class PotonganKasbon extends CI_Controller
                     'Last_Updated_by' => $this->session->userdata('sys_username'),
                     'Last_Updated_at' => $this->date_time,
                 ]);
-            } else if ($sisa_kasbon > 0) {
+
                 $this->db->where('ID', $ID_employee);
                 $this->db->update($this->tmst_hdr_kasbon, [
-                    'Saldo_Kasbon' => floatval($RowKasbonHdr->Saldo_Kasbon) + $nominal_kasbon,
+                    'Saldo_Kasbon' => $nominal_kasbon,
                     'Last_Updated_at' => $this->date_time,
                     'Last_Updated_by' => $this->session->userdata('sys_username'),
                 ]);
-
+            } else if ($sisa_kasbon > 0) {
                 $this->db->insert($this->ttrx_dtl_transaksi_kasbon, [
                     'Aritmatics' => '+',
                     'IN_OUT' => $nominal_kasbon,
@@ -141,10 +136,17 @@ class PotonganKasbon extends CI_Controller
 
                 $this->db->where('ID', $ID_employee);
                 $this->db->update($this->tmst_angsuran_kasbon, [
-                    'Nominal_Angsuran' => floatval($RowKasbonHdr->Saldo_Kasbon) + $nominal_kasbon / $jumlah_angsuran,
+                    'Nominal_Angsuran' => ($sisa_kasbon + $nominal_kasbon) / $jumlah_angsuran,
                     'Remark_System' => 'PENAMBAHAN SALDO KASBON',
                     'Last_Updated_by' => $this->session->userdata('sys_username'),
                     'Last_Updated_at' => $this->date_time,
+                ]);
+
+                $this->db->where('ID', $ID_employee);
+                $this->db->update($this->tmst_hdr_kasbon, [
+                    'Saldo_Kasbon' => floatval($RowKasbonHdr->Saldo_Kasbon) + $nominal_kasbon,
+                    'Last_Updated_at' => $this->date_time,
+                    'Last_Updated_by' => $this->session->userdata('sys_username'),
                 ]);
             } else {
                 return $this->help->Fn_resulting_response([
@@ -171,59 +173,33 @@ class PotonganKasbon extends CI_Controller
         }
     }
 
-    public function DT_Potongan_karyawan()
+    public function DT_Master_Hdr_Kasbon()
     {
-        $requestData = $_REQUEST;
-        $columns = array(
-            0 => "SysId",
-            1 => "ID",
-            2 => "UserName",
-            3 => "Nama",
-            4 => "Nominal",
-            5 => "Terbilang",
-        );
+        $tables = $this->qview_mst_hdr_kasbon;
+        $search = ['ID', 'Nama', 'Saldo_Kasbon', 'Nominal_Angsuran', 'Sisa_Jumlah_Angsuran'];
+        // jika memakai IS NULL pada where sql
+        $isWhere = null;
+        // $isWhere = 'artikel.deleted_at IS NULL';
+        header('Content-Type: application/json');
+        echo $this->M_Datatables->get_tables($tables, $search, $isWhere);
+    }
 
-        $order = $columns[$requestData['order']['0']['column']];
-        $dir = $requestData['order']['0']['dir'];
+    public function M_detail_transaksi_kasbon()
+    {
+        $this->data['Hdr'] = $this->db->get_where($this->qview_mst_hdr_kasbon, ['Sysid' => $this->input->get('SysId')])->row();
 
-        $sql = "SELECT * from $this->qview_payroll_cuts_pgri 
-        Where SysId is not null ";
+        return $this->load->view('Potongan/m_transaksi_kasbon', $this->data);
+    }
 
-        $totalData = $this->db->query($sql)->num_rows();
-        if (!empty($requestData['search']['value'])) {
-            $sql .= " AND (ID LIKE '%" . $requestData['search']['value'] . "%' ";
-            $sql .= " OR UserName LIKE '%" . $requestData['search']['value'] . "%' ";
-            $sql .= " OR Nama LIKE '%" . $requestData['search']['value'] . "%' ";
-            $sql .= " OR Nominal LIKE '%" . $requestData['search']['value'] . "%' ";
-            $sql .= " OR Terbilang LIKE '%" . $requestData['search']['value'] . "%')";
-        }
-        // $sql .= " GROUP BY a.sysid ,a.no_lot ";
-        //----------------------------------------------------------------------------------
-        $sql .= " ORDER BY $order $dir LIMIT " . $requestData['start'] . " ," . $requestData['length'] . " ";
-
-        $totalFiltered = $this->db->query($sql)->num_rows();
-        $query = $this->db->query($sql);
-        $data = array();
-        $no = 1;
-        foreach ($query->result_array() as $row) {
-            $nestedData = array();
-            $nestedData["SysId"]                = $row["SysId"];
-            $nestedData['ID']       = $row['ID'];
-            $nestedData['UserName']       = $row['UserName'];
-            $nestedData['Nama']       = $row['Nama'];
-            $nestedData['Nominal']       = $row['Nominal'];
-            $nestedData['Terbilang']       = $row['Terbilang'];
-
-            $data[] = $nestedData;
-        }
-        //----------------------------------------------------------------------------------
-        $json_data = array(
-            "draw"            => intval($requestData['draw']),
-            "recordsTotal"    => intval($totalData),
-            "recordsFiltered" => intval($totalFiltered),
-            "data"            => $data
-        );
-        //----------------------------------------------------------------------------------
-        echo json_encode($json_data);
+    public function DT_List_Trx_Employee()
+    {
+        $tables = $this->qview_dtl_transaksi_kasbon;
+        $search = ['Aritmatics', 'IN_OUT', 'Tgl_Tran', 'Tag_Hdr', 'Note', 'Remark_System', 'Saldo_After', 'Saldo_Before'];
+        $where  = ['ID' => $this->input->post('ID')];
+        // jika memakai IS NULL pada where sql
+        $isWhere = null;
+        // $isWhere = 'artikel.deleted_at IS NULL';
+        header('Content-Type: application/json');
+        echo $this->M_Datatables->get_tables_where($tables, $search, $where, $isWhere);
     }
 }

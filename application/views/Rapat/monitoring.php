@@ -45,7 +45,6 @@
                                         <th class="text-center text-white">APPROVE LEADER</th>
                                         <th class="text-center text-white">APPROVE ADMIN</th>
                                         <th class="text-center text-white"><i class="fas fa-cogs text-white"></i></th>
-
                                     </tr>
                                 </thead>
                                 <tbody class="text-gray-600 fw-bold">

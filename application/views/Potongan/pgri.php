@@ -3,7 +3,7 @@
         <div class="py-5">
             <div class="card shadow-sm">
                 <div class="card-header">
-                    <h3 class="card-title"><?= $page_title ?></h3>
+                    <h3 class="card-title" id="table-title-detail"><?= $page_title ?></h3>
                     <div class="card-toolbar">
                         <a href="<?= base_url('Dashboard') ?>" type="button" class="btn btn-sm btn-light-danger"><i class="far fa-arrow-alt-circle-left fs-2"></i> Back</a>
                     </div>

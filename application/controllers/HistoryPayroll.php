@@ -4,6 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class HistoryPayroll extends CI_Controller
 {
     private $layout             = 'layout';
+    private $date_time;
     private $tbl_employee       = 'qview_employee_active';
     private $tbl_overtime       = 'ttrx_over_time';
     private $Qview_TTrx_Lembur  = 'qview_ttrx_lembur';
@@ -29,6 +30,7 @@ class HistoryPayroll extends CI_Controller
     {
         parent::__construct();
         is_logged_in();
+        $this->date_time = date("Y-m-d H:i:s");
         $this->load->model('m_helper', 'help');
     }
 

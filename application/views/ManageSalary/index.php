@@ -30,7 +30,6 @@
                                 <th class="text-center text-white">$ JABATAN 2</th>
                                 <th class="text-center text-white">TUN. LAIN</th>
                                 <th class="text-center text-white">$ TUNJANGAN LAIN</th>
-
                             </tr>
                         </thead>
                         <tbody class="text-gray-600 fw-bold">

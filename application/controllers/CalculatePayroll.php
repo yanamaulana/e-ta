@@ -7,6 +7,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class CalculatePayroll extends CI_Controller
 {
     private $layout             = 'layout';
+    private $date_time;
     private $tbl_employee       = 'qview_employee_active';
     private $tmst_employee      = 'tbl_employee';
     private $tbl_overtime       = 'ttrx_over_time';
@@ -26,10 +27,16 @@ class CalculatePayroll extends CI_Controller
     private $ttrx_dtl_payroll = 'ttrx_dtl_payroll';
     private $ttrx_event_payroll = 'ttrx_event_payroll';
 
+    private $qview_mst_hdr_kasbon = 'qview_mst_hdr_kasbon';
+    private $ttrx_dtl_transaksi_kasbon = 'ttrx_dtl_transaksi_kasbon';
+    private $tmst_hdr_kasbon = 'tmst_hdr_kasbon';
+    private $qview_payroll_cuts_pgri = 'qview_payroll_cuts_pgri';
+
     public function __construct()
     {
         parent::__construct();
         is_logged_in();
+        $this->date_time = date("Y-m-d H:i:s");
         $this->load->model('m_helper', 'help');
     }
 
@@ -49,6 +56,7 @@ class CalculatePayroll extends CI_Controller
         $start = $this->input->post('from');
         $end = $this->input->post('until');
         $niks = $this->input->post('IDs');
+        $ID_Kasbons = $this->input->post('Kasbons');
 
         $DatePayFormat_Start = new DateTime($start);
         $DatePayFormat_End = new DateTime($end);
@@ -60,7 +68,6 @@ class CalculatePayroll extends CI_Controller
             'Fk_Tunjangan_Jabatan_2' => 1,
             'Fk_Tunjangan_Jabatan_3' => 1,
             'Fk_Tunjangan_LainLain' => 1
-
         ]);
         if ($ValidateSalary->num_rows() > 0) {
             $Data = '';
@@ -121,6 +128,45 @@ class CalculatePayroll extends CI_Controller
                 $Nominal_Tunjangan_Jabatan_3 = 0;
             }
 
+
+            $SqlKasbon = $this->db->get_where($this->qview_mst_hdr_kasbon, ['ID' => $nik]);
+            $Nominal_Angsuran_Kasbon = 0;
+            $Include_Angsuran_Kasbon = 0;
+            if (in_array($nik, $ID_Kasbons)) {
+                $Include_Angsuran_Kasbon = 1;
+                if ($SqlKasbon->num_rows() > 0) {
+                    $RowKasbon = $SqlKasbon->row();
+                    $Nominal_Angsuran_Kasbon = floatval($RowKasbon->Nominal_Angsuran);
+
+                    $this->db->insert($this->ttrx_dtl_transaksi_kasbon, [
+                        'ID' => $nik,
+                        'Aritmatics' => '-',
+                        'IN_OUT' => $Nominal_Angsuran_Kasbon,
+                        'Saldo_Before' => floatval($RowKasbon->Saldo_Kasbon),
+                        'Saldo_After' => floatval($RowKasbon->Saldo_Kasbon) - $Nominal_Angsuran_Kasbon,
+                        'Remark_System' => "PAYROLL POTONGAN KASBON",
+                        'Note' => '',
+                        'Created_by' => $this->session->userdata('sys_username'),
+                        'Created_at' => $this->date_time,
+                        'Tag_Hdr' => $TagID . ':' . $nik,
+                    ]);
+
+                    $this->db->where('ID', $nik);
+                    $this->db->update($this->tmst_hdr_kasbon, [
+                        'Saldo_Kasbon' => floatval($RowKasbon->Saldo_Kasbon) - $Nominal_Angsuran_Kasbon,
+                        'Last_Updated_by' => $this->session->userdata('sys_username'),
+                        'Last_Updated_at' => $this->date_time
+                    ]);
+                }
+            }
+
+            $Nominal_Potongan_Keanggotaan_Pgri = 0;
+            $SqlPgri = $this->db->get_where($this->qview_payroll_cuts_pgri, ['ID' => $nik]);
+            if ($SqlPgri->num_rows > 0) {
+                $RowPgri = $SqlPgri->row();
+                $Nominal_Potongan_Keanggotaan_Pgri = floatval($RowPgri->Nominal);
+            }
+
             $this->db->insert($this->ttrx_hdr_payroll, [
                 'TagID_Event' =>  $TagID,
                 'TagID_PerNIK' =>  $TagID . ':' . $nik,
@@ -142,6 +188,9 @@ class CalculatePayroll extends CI_Controller
                 'Tunjangan_Jabatan_3' => $Nominal_Tunjangan_Jabatan_3,
                 'Label_Tunjangan_Lain' => $karyawan->Tunjangan_Lain,
                 'Tunjangan_Lain' => $karyawan->Nominal_Tunjangan_Lain,
+                'Include_Angsuran_Kasbon' => $Include_Angsuran_Kasbon,
+                'Nominal_Angsuran_Kasbon' => $Nominal_Angsuran_Kasbon,
+                'Nominal_Potongan_Keanggotaan_Pgri' => $Nominal_Potongan_Keanggotaan_Pgri
             ]);
             $currentDate = clone $DatePayFormat_Start;
             while ($currentDate <= $DatePayFormat_End) {
@@ -239,21 +288,21 @@ class CalculatePayroll extends CI_Controller
                 }
 
                 $this->db->insert($this->ttrx_dtl_payroll, [
-                    'TagID_PerNIK_Hdr' =>  $TagID . ':' . $nik,
-                    'Tanggal' => $date,
-                    'NIK' => $nik,
-                    'Total_Hours' => $Sum_Stand_Hour,
-                    'Total_Att' => $Total_Att,
-                    'Tunjangan_Pokok' => $TunjanganPokok,
-                    'Tunjangan_Lain' => $TunjanganLain,
-                    'Upacara' => $Upacara,
-                    'Jabatan_Upacara' => $Jabatan_Upacara,
-                    'Jumlah_Piket' => $Jumlah_Piket,
-                    'Piket' => $Piket,
-                    'Jam_Lembur' => $Jam_Lembur,
-                    'Lembur' => $Lembur,
-                    'Jumlah_Rapat' => $Jumlah_Rapat,
-                    'Rapat' => $Rapat
+                    'TagID_PerNIK_Hdr'  =>  $TagID . ':' . $nik,
+                    'Tanggal'           => $date,
+                    'NIK'               => $nik,
+                    'Total_Hours'       => $Sum_Stand_Hour,
+                    'Total_Att'         => $Total_Att,
+                    'Tunjangan_Pokok'   => $TunjanganPokok,
+                    'Tunjangan_Lain'    => $TunjanganLain,
+                    'Upacara'           => $Upacara,
+                    'Jabatan_Upacara'   => $Jabatan_Upacara,
+                    'Jumlah_Piket'      => $Jumlah_Piket,
+                    'Piket'             => $Piket,
+                    'Jam_Lembur'        => $Jam_Lembur,
+                    'Lembur'            => $Lembur,
+                    'Jumlah_Rapat'      => $Jumlah_Rapat,
+                    'Rapat'             => $Rapat
                 ]);
 
                 $this->db->where('Date_Att', $date);

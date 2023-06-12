@@ -244,16 +244,16 @@ function tgl_indo($tanggal)
                 <tr>
                     <td>9</td>
                     <td>Kasbon</td>
-                    <td>&nbsp;</td>
-                    <td>Rp. -</td>
-                    <td>Rp. -</td>
+                    <td><?= $Hdr->Include_Angsuran_Kasbon ?></td>
+                    <td><?= rupiah($Hdr->Nominal_Angsuran_Kasbon) ?></td>
+                    <td><?= rupiah($Hdr->Nominal_Angsuran_Kasbon) ?></td>
                 </tr>
                 <tr>
                     <td>10</td>
                     <td>PGRI</td>
-                    <td>&nbsp;</td>
-                    <td>Rp. -</td>
-                    <td>Rp. -</td>
+                    <td>1</td>
+                    <td><?= rupiah($Hdr->Nominal_Potongan_Keanggotaan_Pgri) ?></td>
+                    <td><?= rupiah($Hdr->Nominal_Potongan_Keanggotaan_Pgri) ?></td>
                 </tr>
                 <tr>
                     <td>11</td>
@@ -262,7 +262,7 @@ function tgl_indo($tanggal)
                     <td>Rp. -</td>
                     <td>Rp. -</td>
                 </tr>
-                <tr>
+                <!-- <tr>
                     <td>12</td>
                     <td>BJB 2</td>
                     <td>&nbsp;</td>
@@ -275,14 +275,14 @@ function tgl_indo($tanggal)
                     <td>&nbsp;</td>
                     <td>Rp. -</td>
                     <td>Rp. -</td>
-                </tr>
+                </tr> -->
                 <!-- ================ TOTAL SETELAH DI POTONG =================-->
                 <tr style="border-top: solid black 2px;">
                     <td>14</td>
                     <td>JUMLAH</td>
                     <td></td>
                     <td class="text-right">:</td>
-                    <td><?= rupiah($Hdr->Nominal_Jam_Berdiri + $Hdr->Gaji + $Hdr->Nominal_Lembur + $Hdr->Nominal_Piket + $Hdr->Nominal_Upacara + $Hdr->Tunjangan_Jabatan_1 + $Hdr->Tunjangan_Jabatan_2 + $Hdr->Tunjangan_Jabatan_3 + $Hdr->Rapat) ?></td>
+                    <td><?= rupiah(($Hdr->Nominal_Jam_Berdiri + $Hdr->Gaji + $Hdr->Nominal_Lembur + $Hdr->Nominal_Piket + $Hdr->Nominal_Upacara + $Hdr->Tunjangan_Jabatan_1 + $Hdr->Tunjangan_Jabatan_2 + $Hdr->Tunjangan_Jabatan_3 + $Hdr->Rapat) - ($Hdr->Nominal_Angsuran_Kasbon + $Hdr->Nominal_Potongan_Keanggotaan_Pgri)) ?></td>
                 </tr>
             </tbody>
         </table>

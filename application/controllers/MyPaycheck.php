@@ -24,7 +24,7 @@ class MyPaycheck extends CI_Controller
 
     public function index()
     {
-        $this->data['page_title'] = "My Paycheck";
+        $this->data['page_title'] = "Slip Gaji Saya";
         $this->data['page_content'] = "Payroll/my_paycheck";
         $this->data['script_page'] = '<script src="' . base_url() . 'assets/Payroll/my_paycheck.js"></script>';
 

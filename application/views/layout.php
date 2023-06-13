@@ -76,7 +76,7 @@
                                             <i class="fas fa-chart-line fs-2"></i>
                                         </span>
                                     </span>
-                                    <span class="menu-title">My Attendance</span>
+                                    <span class="menu-title">Absensi Saya</span>
                                 </a>
                                 <a class="menu-link <?= ($Menu == 'MyPaycheck') ? 'active' : null ?>" href="<?= base_url('MyPaycheck') ?>">
                                     <span class="menu-icon">
@@ -84,7 +84,7 @@
                                             <i class="fas fas fa-file fs-2"></i>
                                         </span>
                                     </span>
-                                    <span class="menu-title">My Paycheck</span>
+                                    <span class="menu-title">Slip Gaji Saya</span>
                                 </a>
                             </div>
                             <!-- <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
@@ -130,7 +130,7 @@
                             </div> -->
                             <div class="menu-item">
                                 <div class="menu-content pt-4 pb-2">
-                                    <span class="menu-section text-muted text-uppercase fs-8 ls-1 fw-bold">TEACHER SCHEDULE MENU</span>
+                                    <span class="menu-section text-muted text-uppercase fs-8 ls-1 fw-bold">MENU JADWAL MENGAJAR</span>
                                 </div>
                             </div>
                             <div data-kt-menu-trigger="click" class="menu-item menu-accordion <?= ($Menu == 'My_Schedule' || $Menu == 'FormSchedule' || $Menu == 'ApprovalSchedule' || $Menu == 'MyArchiveSchedule') ? 'hover show' : null; ?>">
@@ -140,7 +140,7 @@
                                             <i class="fas fa-calendar-alt fs-2"></i>
                                         </span>
                                     </span>
-                                    <span class="menu-title">SCHEDULE</span>
+                                    <span class="menu-title">JADWAL MENGAJAR</span>
                                     <span class="menu-arrow"></span>
                                 </span>
                                 <div class="menu-sub menu-sub-accordion <?= ($Menu == 'My_Schedule' || $Menu == 'FormSchedule' || $Menu == 'ApprovalSchedule' || $Menu == 'MyArchiveSchedule') ? 'show"' : '" style="display: none; overflow: hidden;"'; ?> kt-hidden-height=" 117">
@@ -151,7 +151,7 @@
                                                     <i class="fas fa-th-list fs-2"></i>
                                                 </span>
                                             </span>
-                                            <span class="menu-title">My Schedule</span>
+                                            <span class="menu-title">Jadwal Saya</span>
                                         </a>
                                     </div>
                                     <div class="menu-item">
@@ -161,7 +161,7 @@
                                                     <i class="fab fa-wpforms fs-2"></i>
                                                 </span>
                                             </span>
-                                            <span class="menu-title">Form Schedule</span>
+                                            <span class="menu-title">Form Jadwal</span>
                                         </a>
                                     </div>
                                     <?php if ($Role == 'ADMINISTRATOR') : ?>
@@ -172,7 +172,7 @@
                                                         <i class="far fa-paper-plane fs-2"></i>
                                                     </span>
                                                 </span>
-                                                <span class="menu-title">Approval Schedule</span>
+                                                <span class="menu-title">Approval Jadwal</span>
                                             </a>
                                         </div>
                                     <?php endif; ?>
@@ -183,7 +183,7 @@
                                                     <i class="fas fa-archive fs-2"></i>
                                                 </span>
                                             </span>
-                                            <span class="menu-title">My Archive Schedule</span>
+                                            <span class="menu-title">Arsip Jadwal Mengajar</span>
                                         </a>
                                     </div>
                                 </div>
@@ -333,7 +333,7 @@
                                             </span>
                                             <!--end::Svg Icon-->
                                         </span>
-                                        <span class="menu-title">PAYROLL CUTS</span>
+                                        <span class="menu-title">POTONGAN PAYROLL</span>
                                         <span class="menu-arrow"></span>
                                     </span>
                                     <div class="menu-sub menu-sub-accordion <?= ($Menu == 'PotonganKasbon' || $Menu == 'PotonganKoperasi' || $Menu == 'PotonganPgri') ? 'show"' : '" style="display: none; overflow: hidden;"'; ?> kt-hidden-height=" 117">
@@ -441,13 +441,6 @@
                                         </div>
                                     </div>
                                 </div>
-
-
-
-
-
-
-
                                 <div data-kt-menu-trigger="click" class="menu-item menu-accordion <?= ($Menu == 'Rapat' || $Menu == 'OverTime') ? 'hover show' : null; ?>">
                                     <span class="menu-link">
                                         <span class="menu-icon">

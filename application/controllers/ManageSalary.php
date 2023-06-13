@@ -47,12 +47,10 @@ class ManageSalary extends CI_Controller
 
     public function Store_Update_Employee_Salary()
     {
+        $Stand_Hour = 1;
         if ($this->input->post('Stand_Hour') == null) {
-            $Stand_Hour = 1;
-        } else {
-            $Stand_Hour = $this->input->post('Stand_Hour');
+            $Stand_Hour = 0;
         }
-
         $this->db->trans_start();
         $this->db->where('SysId', $this->input->post('SysId'));
         $this->db->update($this->tbl_employee, [

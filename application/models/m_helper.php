@@ -125,4 +125,33 @@ class m_helper extends CI_Model
 
         return $identity_number;
     }
+
+    public function terbilangRupiah($nilai)
+    {
+        $nilai = abs($nilai);
+        $huruf = array("", "satu", "dua", "tiga", "empat", "lima", "enam", "tujuh", "delapan", "sembilan", "sepuluh", "sebelas");
+        $temp = "";
+        if ($nilai < 12) {
+            $temp = " " . $huruf[$nilai];
+        } else if ($nilai < 20) {
+            $temp = $this->terbilangRupiah($nilai - 10) . " belas";
+        } else if ($nilai < 100) {
+            $temp = $this->terbilangRupiah($nilai / 10) . " puluh" . $this->terbilangRupiah($nilai % 10);
+        } else if ($nilai < 200) {
+            $temp = " seratus" . $this->terbilangRupiah($nilai - 100);
+        } else if ($nilai < 1000) {
+            $temp = $this->terbilangRupiah($nilai / 100) . " ratus" . $this->terbilangRupiah($nilai % 100);
+        } else if ($nilai < 2000) {
+            $temp = " seribu" . $this->terbilangRupiah($nilai - 1000);
+        } else if ($nilai < 1000000) {
+            $temp = $this->terbilangRupiah($nilai / 1000) . "ribu" . $this->terbilangRupiah($nilai % 1000);
+        } else if ($nilai < 1000000000) {
+            $temp = $this->terbilangRupiah($nilai / 1000000) . " juta" . $this->terbilangRupiah($nilai % 1000000);
+        } else if ($nilai < 1000000000000) {
+            $temp = $this->terbilangRupiah($nilai / 1000000000) . " milyar" . $this->terbilangRupiah(fmod($nilai, 1000000000));
+        } else if ($nilai < 1000000000000000) {
+            $temp = $this->terbilangRupiah($nilai / 1000000000000) . " triliun" . $this->terbilangRupiah(fmod($nilai, 1000000000000));
+        }
+        return $temp;
+    }
 }

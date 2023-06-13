@@ -21,7 +21,7 @@ class ApprovalSchedule extends CI_Controller
 
     public function index()
     {
-        $this->data['page_title'] = "Schedule Approval";
+        $this->data['page_title'] = "Approval Jadwal Mengajar";
         $this->data['page_content'] = "Schedule/schedule_approval";
         $this->data['script_page'] = '<script src="' . base_url() . 'assets/Schedule/schedule_approval.js"></script>';
 

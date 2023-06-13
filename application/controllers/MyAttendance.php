@@ -20,7 +20,7 @@ class MyAttendance extends CI_Controller
 
     public function index()
     {
-        $this->data['page_title'] = "My Attendance";
+        $this->data['page_title'] = "Absensi Saya";
         $this->data['page_content'] = "MyAttendance/index";
         $this->data['script_page'] = '<script src="' . base_url() . 'assets/Monitoring/attendance.js"></script>';
 

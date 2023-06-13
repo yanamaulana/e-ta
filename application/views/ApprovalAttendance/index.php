@@ -5,12 +5,12 @@
                 <ul class="nav nav-pills nav-fill mb-5 fs-6">
                     <li class="nav-item">
                         <a class="nav-link mr-5 active" data-bs-toggle="tab" href="#kt_tab_pane_4">
-                            <h4 class="card-title" id="table-title-main">List Approval Data Submission Attendance</h4>
+                            <h4 class="card-title" id="table-title-main">List Approval Data Pengajuan Absensi</h4>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" data-bs-toggle="tab" href="#kt_tab_pane_5">
-                            <h4 class="card-title" id="table-title-history">History Approval Submission Attendance</h4>
+                            <h4 class="card-title" id="table-title-history">Riwayat Approval Pengajuan Absensi</h4>
                         </a>
                     </li>
                 </ul>

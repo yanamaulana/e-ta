@@ -64,10 +64,10 @@ class CalculatePayroll extends CI_Controller
         // ============================ START Validation ============================//
         $ValidateSalary = $this->db->get_where($this->tmst_employee, [
             'Fk_Salary' => 0,
-            'Fk_Tunjangan_Jabatan_1' => 1,
-            'Fk_Tunjangan_Jabatan_2' => 1,
-            'Fk_Tunjangan_Jabatan_3' => 1,
-            'Fk_Tunjangan_LainLain' => 1
+            'Fk_Tunjangan_Jabatan_1' => 0,
+            'Fk_Tunjangan_Jabatan_2' => 0,
+            'Fk_Tunjangan_Jabatan_3' => 0,
+            'Fk_Tunjangan_LainLain' => 0
         ]);
         if ($ValidateSalary->num_rows() > 0) {
             $Data = '';

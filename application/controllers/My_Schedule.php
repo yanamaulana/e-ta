@@ -20,7 +20,7 @@ class My_Schedule extends CI_Controller
 
     public function index($SysId = null)
     {
-        $this->data['page_title'] = "My Schedule";
+        $this->data['page_title'] = "Jadwal Mengajar Saya";
         $this->data['page_content'] = "Schedule/my_schedule";
         $this->data['script_page'] = '<script src="' . base_url() . 'assets/Schedule/my_schedule.js"></script>';
 
@@ -81,7 +81,7 @@ class My_Schedule extends CI_Controller
 
     public function Form_Revision_Schedule($SysId)
     {
-        $this->data['page_title'] = "Form Revision Schedule";
+        $this->data['page_title'] = "Form Revisi Jadwal Mengajar";
         $this->data['page_content'] = "Schedule/form_revision_schedule";
         $this->data['script_page'] = '<script src="' . base_url() . 'assets/Schedule/form_revision_schedule.js"></script>';
 

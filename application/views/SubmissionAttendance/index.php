@@ -5,12 +5,12 @@
                 <ul class="nav nav-pills nav-fill mb-5 fs-6">
                     <li class="nav-item">
                         <a class="nav-link mr-5 active" data-bs-toggle="tab" href="#kt_tab_pane_4">
-                            <h4 class="card-title" id="table-title-main">Add Submission & Submission Progress</h4>
+                            <h4 class="card-title" id="table-title-main">Pengajuan Baru & Monitoring Pengajuan</h4>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" data-bs-toggle="tab" href="#kt_tab_pane_5">
-                            <h4 class="card-title" id="table-title-history">History Submission</h4>
+                            <h4 class="card-title" id="table-title-history">Riwayat Pengajuan</h4>
                         </a>
                     </li>
                 </ul>

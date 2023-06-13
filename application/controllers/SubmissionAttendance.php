@@ -26,7 +26,7 @@ class SubmissionAttendance extends CI_Controller
 
     public function index()
     {
-        $this->data['page_title'] = "Submission Attendance";
+        $this->data['page_title'] = "Pengajuan Absensi";
         $this->data['page_content'] = "SubmissionAttendance/index";
         $this->data['script_page'] = '<script src="' . base_url() . 'assets/SubmissionAttendance/index.js"></script>';
 

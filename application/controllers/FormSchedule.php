@@ -20,7 +20,7 @@ class FormSchedule extends CI_Controller
 
     public function index()
     {
-        $this->data['page_title'] = "Form Teaching Schedule";
+        $this->data['page_title'] = "Form Jadwal Mengajar";
         $this->data['page_content'] = "Schedule/form_schedule";
         $this->data['script_page'] = '<script src="' . base_url() . 'assets/Schedule/form_schedule.js"></script>';
 

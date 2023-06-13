@@ -42,7 +42,7 @@
                             </div>
                             <div class="fv-row mb-5">
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" value="2" <?php if ($data->Fk_Tunjangan_Pokok == 2) echo 'checked' ?> role="switch" id="Stand_Hour" name="Stand_Hour">
+                                    <input class="form-check-input" type="checkbox" value="1" <?php if ($data->Fk_Tunjangan_Pokok == 1) echo 'checked' ?> role="switch" id="Stand_Hour" name="Stand_Hour">
                                     <label class="form-check-label" for="flexSwitchCheckDefault" style="font-weight: 500;"><span class="text-danger">?</span> Stand Hour Allowance</label>
                                 </div>
                             </div>
@@ -50,7 +50,7 @@
                                 <label class="form-label">Tunjangan Jabatan 1 :</label>
                                 <select class="form-select form-control" data-control="select2" data-placeholder="Select an option" id="Fk_Tunjangan_Jabatan_1" name="Fk_Tunjangan_Jabatan_1">
                                     <option selected disabled>-Select an option-</option>
-                                    <option selected <?php if ($data->Fk_Tunjangan_Jabatan_1 == 1) echo 'selected' ?> value="1">TIDAK ADA</option>
+                                    <option selected <?php if ($data->Fk_Tunjangan_Jabatan_1 == 0) echo 'selected' ?> value="0">TIDAK ADA</option>
                                     <?php foreach ($tunjangans as $tunjangan) : ?>
                                         <option <?php if ($data->Fk_Tunjangan_Jabatan_1 == $tunjangan->SysId) echo "selected" ?> value="<?= $tunjangan->SysId ?>"><?= $tunjangan->Nama ?> (<?= $this->help->format_idr($tunjangan->Nominal) ?>)</option>
                                     <?php endforeach; ?>
@@ -60,7 +60,7 @@
                                 <label class="form-label">Tunjangan Jabatan 2 :</label>
                                 <select class="form-select form-control" data-control="select2" data-placeholder="Select an option" id="Fk_Tunjangan_Jabatan_2" name="Fk_Tunjangan_Jabatan_2">
                                     <option selected disabled>-Select an option-</option>
-                                    <option selected <?php if ($data->Fk_Tunjangan_Jabatan_2 == 1) echo 'selected' ?> value="1">TIDAK ADA</option>
+                                    <option selected <?php if ($data->Fk_Tunjangan_Jabatan_2 == 0) echo 'selected' ?> value="0">TIDAK ADA</option>
                                     <?php foreach ($tunjangans as $tunjangan) : ?>
                                         <option <?php if ($data->Fk_Tunjangan_Jabatan_2 == $tunjangan->SysId) echo "selected" ?> value="<?= $tunjangan->SysId ?>"><?= $tunjangan->Nama ?> (<?= $this->help->format_idr($tunjangan->Nominal) ?>)</option>
                                     <?php endforeach; ?>
@@ -70,7 +70,7 @@
                                 <label class="form-label">Tunjangan Jabatan 3 :</label>
                                 <select class="form-select form-control" data-control="select2" data-placeholder="Select an option" id="Fk_Tunjangan_Jabatan_3" name="Fk_Tunjangan_Jabatan_3">
                                     <option selected disabled>-Select an option-</option>
-                                    <option selected <?php if ($data->Fk_Tunjangan_Jabatan_3 == 1) echo 'selected' ?> value="1">TIDAK ADA</option>
+                                    <option selected <?php if ($data->Fk_Tunjangan_Jabatan_3 == 0) echo 'selected' ?> value="0">TIDAK ADA</option>
                                     <?php foreach ($tunjangans as $tunjangan) : ?>
                                         <option <?php if ($data->Fk_Tunjangan_Jabatan_3 == $tunjangan->SysId) echo "selected" ?> value="<?= $tunjangan->SysId ?>"><?= $tunjangan->Nama ?> (<?= $this->help->format_idr($tunjangan->Nominal) ?>)</option>
                                     <?php endforeach; ?>
@@ -80,7 +80,7 @@
                                 <label class="form-label">Tunjangan Lain-Lain :</label>
                                 <select class="form-select form-control" data-control="select2" data-placeholder="Select an option" id="Fk_Tunjangan_LainLain" name="Fk_Tunjangan_LainLain">
                                     <option selected disabled>-Select an option-</option>
-                                    <option selected <?php if ($data->Fk_Tunjangan_LainLain == 1) echo 'selected' ?> value="1">TIDAK ADA</option>
+                                    <option selected <?php if ($data->Fk_Tunjangan_LainLain == 0) echo 'selected' ?> value="0">TIDAK ADA</option>
                                     <?php foreach ($tunjangans as $tunjangan) : ?>
                                         <option <?php if ($data->Fk_Tunjangan_LainLain == $tunjangan->SysId) echo "selected" ?> value="<?= $tunjangan->SysId ?>"><?= $tunjangan->Nama ?> (<?= $this->help->format_idr($tunjangan->Nominal) ?>)</option>
                                     <?php endforeach; ?>

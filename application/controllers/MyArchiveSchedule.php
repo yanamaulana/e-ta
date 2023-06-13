@@ -20,7 +20,7 @@ class MyArchiveSchedule extends CI_Controller
 
     public function index()
     {
-        $this->data['page_title'] = "My Archive Schedule";
+        $this->data['page_title'] = "Arsip Jadwal Mengajar Saya";
         $this->data['page_content'] = "Schedule/my_archive_schedule";
         $this->data['script_page'] = '<script src="' . base_url() . 'assets/Schedule/my_archive_schedule.js"></script>';
 

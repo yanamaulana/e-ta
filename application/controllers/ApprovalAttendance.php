@@ -27,7 +27,7 @@ class ApprovalAttendance extends CI_Controller
 
     public function index()
     {
-        $this->data['page_title'] = "Approval Submission Attendance";
+        $this->data['page_title'] = "Approval Pengajuan Absensi";
         $this->data['page_content'] = "ApprovalAttendance/index";
         $this->data['script_page'] = '<script src="' . base_url() . 'assets/ApprovalAttendance/index.js"></script>';
 

@@ -272,7 +272,8 @@ $(document).ready(function () {
 					success: function (response) {
 						Swal.close()
 						if (response.code == 200) {
-							$('#Table-Hdr').DataTable().ajax.reload();
+							$('#Table-Hdr').DataTable().destroy();
+							$('#Table-Hdr tbody').empty();
 							Swal.fire({
 								title: "Berhasil!",
 								text: response.msg,

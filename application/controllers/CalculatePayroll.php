@@ -38,6 +38,7 @@ class CalculatePayroll extends CI_Controller
         is_logged_in();
         $this->date_time = date("Y-m-d H:i:s");
         $this->load->model('m_helper', 'help');
+        $this->load->model('m_history', 'history');
     }
 
     public function index()
@@ -107,27 +108,25 @@ class CalculatePayroll extends CI_Controller
             // =============================== ttrx_hdr_payroll ========================== //
             // TagID_Event, TagID_PerNIK, NIK, Gaji
             $karyawan = $this->db->get_where($this->qview_employee_active, ['ID' => $nik])->row();
-
+            $gaji = 0;
+            $Include_Gaji = 0;
             if ($this->input->post('include_gaji') == 1) {
                 $gaji = floatval($karyawan->Nominal_Salary);
                 $Include_Gaji = 1;
-            } else {
-                $gaji = 0;
-                $Include_Gaji = 0;
             }
 
+            $Include_Tunjangan_Jabatan      = 0;
+            $Nominal_Tunjangan_Jabatan_1    = 0;
+            $Nominal_Tunjangan_Jabatan_2    = 0;
+            $Nominal_Tunjangan_Jabatan_3    = 0;
+            $Nominal_Tunjangan_Lain         = 0;
             if ($this->input->post('include_jabatan') == 1) {
                 $Include_Tunjangan_Jabatan = 1;
                 $Nominal_Tunjangan_Jabatan_1 = floatval($karyawan->Nominal_Tunjangan_Jabatan_1);
                 $Nominal_Tunjangan_Jabatan_2 = floatval($karyawan->Nominal_Tunjangan_Jabatan_2);
                 $Nominal_Tunjangan_Jabatan_3 = floatval($karyawan->Nominal_Tunjangan_Jabatan_3);
-            } else {
-                $Include_Tunjangan_Jabatan = 0;
-                $Nominal_Tunjangan_Jabatan_1 = 0;
-                $Nominal_Tunjangan_Jabatan_2 = 0;
-                $Nominal_Tunjangan_Jabatan_3 = 0;
+                $Nominal_Tunjangan_Lain      = floatval($karyawan->Nominal_Tunjangan_Lain);
             }
-
 
             $SqlKasbon = $this->db->get_where($this->qview_mst_hdr_kasbon, ['ID' => $nik]);
             $Nominal_Angsuran_Kasbon = 0;
@@ -137,7 +136,6 @@ class CalculatePayroll extends CI_Controller
                 if ($SqlKasbon->num_rows() > 0) {
                     $RowKasbon = $SqlKasbon->row();
                     $Nominal_Angsuran_Kasbon = floatval($RowKasbon->Nominal_Angsuran);
-
                     $this->db->insert($this->ttrx_dtl_transaksi_kasbon, [
                         'ID' => $nik,
                         'Aritmatics' => '-',
@@ -186,8 +184,9 @@ class CalculatePayroll extends CI_Controller
                 'Fk_Tunjangan_Jabatan_3' => $karyawan->Fk_Tunjangan_Jabatan_3,
                 'Label_Tunjangan_Jabatan_3' => $karyawan->Tunjangan_Jabatan_3,
                 'Tunjangan_Jabatan_3' => $Nominal_Tunjangan_Jabatan_3,
-                'Label_Tunjangan_Lain' => $karyawan->Tunjangan_Lain,
-                'Tunjangan_Lain' => $karyawan->Nominal_Tunjangan_Lain,
+                'Fk_Tunjangan_Lain' => $karyawan->Fk_Tunjangan_LainLain,
+                'Label_Tunjangan_Lain' => $karyawan->Label_Tunjangan_Lain,
+                'Nominal_Tunjangan_Lain' => $Nominal_Tunjangan_Lain,
                 'Include_Angsuran_Kasbon' => $Include_Angsuran_Kasbon,
                 'Nominal_Angsuran_Kasbon' => $Nominal_Angsuran_Kasbon,
                 'Nominal_Potongan_Keanggotaan_Pgri' => $Nominal_Potongan_Keanggotaan_Pgri
@@ -195,7 +194,6 @@ class CalculatePayroll extends CI_Controller
             $currentDate = clone $DatePayFormat_Start;
             while ($currentDate <= $DatePayFormat_End) {
                 $date = $currentDate->format($format);
-
                 // ================================ ttrx_dtl_payroll ==================== //
                 // SysId, TagID_PerNIK_Hdr, Tanggal, NIK, Total_Att, Total_Hours, Tunjangan_Pokok, Tunjangan_Lain, Jam_Lembur, Lembur
                 $Att_Per_Day = $this->db->query("SELECT Access_ID, Date_Att, COALESCE(SUM(Stand_Hour),0) AS Sum_Stand_Hour, COALESCE(count(Stand_Hour),0) as Total_Att
@@ -204,19 +202,21 @@ class CalculatePayroll extends CI_Controller
                 AND Access_ID = $karyawan->ID
                 group by Access_ID, Date_Att")->row();
 
+
+                $TunjanganPokok = floatval($karyawan->Nominal_Tunjangan_Pokok) * floatval($Att_Per_Day->Sum_Stand_Hour);
+                $TunjanganLain  = 0;
+                $Sum_Stand_Hour = $Att_Per_Day->Sum_Stand_Hour;
+                $Total_Att = $Att_Per_Day->Total_Att;
                 if (empty($Att_Per_Day)) {
                     $TunjanganPokok = 0;
                     $TunjanganLain  = 0;
                     $Sum_Stand_Hour = 0;
                     $Total_Att = 0;
-                } else {
-                    $TunjanganPokok = floatval($karyawan->Nominal_Tunjangan_Pokok) * floatval($Att_Per_Day->Sum_Stand_Hour);
-                    $TunjanganLain  = 0;
-                    $Sum_Stand_Hour = $Att_Per_Day->Sum_Stand_Hour;
-                    $Total_Att = $Att_Per_Day->Total_Att;
                 }
 
                 $ot = $this->db->get_where($this->ttrx_over_time, ['ID' => $nik, 'Tanggal' => $date]);
+                $Jam_Lembur = 0;
+                $Lembur = 0;
                 if ($ot->num_rows() > 0) {
                     $this->db->where('Tanggal', $date);
                     $this->db->where('ID', $nik);
@@ -226,12 +226,11 @@ class CalculatePayroll extends CI_Controller
                     $row_ot = $ot->row();
                     $Jam_Lembur = $row_ot->Jumlah_Jam;
                     $Lembur = floatval($row_ot->Nominal);
-                } else {
-                    $Jam_Lembur = 0;
-                    $Lembur = 0;
                 }
 
                 $piket = $this->db->query("SELECT SUM(Nominal) as Nominal_Piket, COUNT(SysId) as Jumlah_Piket FROM $this->ttrx_payroll_guru_piket WHERE Tanggal = '$date' and ID = $nik GROUP BY ID, Tanggal");
+                $Jumlah_Piket = 0;
+                $Piket = 0;
                 if ($piket->num_rows() > 0) {
                     $this->db->where('Tanggal', $date);
                     $this->db->where('ID', $nik);
@@ -241,12 +240,11 @@ class CalculatePayroll extends CI_Controller
                     $row_piket = $piket->row();
                     $Jumlah_Piket = $row_piket->Jumlah_Piket;
                     $Piket = floatval($row_piket->Nominal_Piket);
-                } else {
-                    $Jumlah_Piket = 0;
-                    $Piket = 0;
                 }
 
                 $upacara = $this->db->get_where($this->ttrx_payroll_upacara, ['ID' => $nik, 'Tanggal' => $date]);
+                $Jabatan_Upacara = NULL;
+                $Upacara = 0;
                 if ($upacara->num_rows() > 0) {
                     $this->db->where('Tanggal', $date);
                     $this->db->where('ID', $nik);
@@ -256,13 +254,12 @@ class CalculatePayroll extends CI_Controller
                     $row_upacara = $upacara->row();
                     $Jabatan_Upacara = $row_upacara->Jabatan_Upacara;
                     $Upacara = floatval($row_upacara->Nominal);
-                } else {
-                    $Jabatan_Upacara = NULL;
-                    $Upacara = 0;
                 }
 
                 $rapat = $this->db->query("SELECT SUM(Nominal_Tunjangan) as Nominal_Tunjangan, COUNT(SysId) as Jumlah_Rapat, Meeting_Date, UserName FROM $this->qview_dtl_peserta_rapat 
                 WHERE ID = $nik AND Meeting_Date = '$date' and Approve_Leader = 1 and Approve_Admin = 1 group by Meeting_Date, UserName");
+                $Rapat = 0;
+                $Jumlah_Rapat = 0;
                 if ($rapat->num_rows() > 0) {
                     $row_rapat = $rapat->row();
 
@@ -282,9 +279,6 @@ class CalculatePayroll extends CI_Controller
 
                     $Rapat = floatval($row_rapat->Nominal_Tunjangan);
                     $Jumlah_Rapat = $row_rapat->Jumlah_Rapat;
-                } else {
-                    $Rapat = 0;
-                    $Jumlah_Rapat = 0;
                 }
 
                 $this->db->insert($this->ttrx_dtl_payroll, [
@@ -336,7 +330,7 @@ class CalculatePayroll extends CI_Controller
             $this->db->trans_commit();
             return $this->help->Fn_resulting_response([
                 'code' => 200,
-                'msg' => 'Successfully Calculated Payroll, check calculate result at history !',
+                'msg' => 'Data Penggajian berhasil di kalkulasi harap di cek kembali pada tab history payroll !!!',
             ]);
         }
     }

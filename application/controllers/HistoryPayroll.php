@@ -22,6 +22,8 @@ class HistoryPayroll extends CI_Controller
     private $ttrx_dtl_payroll = 'ttrx_dtl_payroll';
     private $ttrx_event_payroll = 'ttrx_event_payroll';
     private $ttrx_payroll_upacara = 'ttrx_payroll_upacara';
+    private $qview_mst_hdr_kasbon_all = 'qview_mst_hdr_kasbon_all';
+    private $ttrx_dtl_transaksi_kasbon = 'ttrx_dtl_transaksi_kasbon';
 
     private $qview_dtl_peserta_rapat = 'qview_dtl_peserta_rapat';
     private $ttrx_dtl_peserta_rapat = 'ttrx_dtl_peserta_rapat';
@@ -32,6 +34,8 @@ class HistoryPayroll extends CI_Controller
         is_logged_in();
         $this->date_time = date("Y-m-d H:i:s");
         $this->load->model('m_helper', 'help');
+        $this->load->model('m_history', 'history');
+        $this->load->model('m_DataTable', 'M_Datatables');
     }
 
     public function index()
@@ -52,22 +56,32 @@ class HistoryPayroll extends CI_Controller
         $row_hdr = $hdr->result();
 
         $this->db->trans_start();
-        $this->db->insert('thst_deleted_event_payroll', [
-            'SysId' => $row_event->SysId,
-            'TagID' => $row_event->TagID,
-            'Tot_Employee_Calculated' => $row_event->Tot_Employee_Calculated,
-            'Tgl_Dari' => $row_event->Tgl_Dari,
-            'Tgl_Sampai' => $row_event->Tgl_Sampai,
-            'Payment_Status' => $row_event->Payment_Status,
-            'Payment_Status_Change_at' => $row_event->Payment_Status_Change_at,
-            'Payment_Status_Change_By' => $row_event->Payment_Status_Change_By,
-            'Created_by' => $row_event->Created_by,
-            'Created_at' => $row_event->Created_at,
-            'deleted_by' => $this->session->userdata('sys_username')
-        ]);
+        $this->history->Hst_Event_Payroll($row_event, 'DELETE');
         foreach ($row_hdr as $li) {
-            $detail = $this->db->get_where($this->ttrx_dtl_payroll, ['TagID_PerNIK_Hdr' => $li->TagID_PerNIK]);
+            if ($li->Include_Angsuran_Kasbon == 1) {
+                $RowKasbon = $this->db->get_where($this->qview_mst_hdr_kasbon_all, ['ID' => $li->NIK])->row();
+                $this->db->insert($this->ttrx_dtl_transaksi_kasbon, [
+                    'ID' => $li->NIK,
+                    'Aritmatics' => '+',
+                    'IN_OUT' => floatval($li->Nominal_Angsuran_Kasbon),
+                    'Saldo_Before' => floatval($RowKasbon->Saldo_Kasbon),
+                    'Saldo_After' => floatval($RowKasbon->Saldo_Kasbon) + floatval($li->Nominal_Angsuran_Kasbon),
+                    'Remark_System' => 'DELETE PAYROLL ROLLBACK KASBON',
+                    'Note' => '',
+                    'Created_by' => $this->session->userdata('sys_username'),
+                    'Created_at' => $this->date_time,
+                    'Tag_Hdr' => $li->TagID_PerNIK,
+                ]);
 
+                $this->db->where('ID', $li->NIK);
+                $this->db->update($this->tmst_hdr_kasbon, [
+                    'Saldo_Kasbon' => floatval($RowKasbon->Saldo_Kasbon) + floatval($li->Nominal_Angsuran_Kasbon),
+                    'Last_Updated_by' => $this->session->userdata('sys_username'),
+                    'Last_Updated_at' => $this->date_time
+                ]);
+            }
+            $this->history->History_Hdr_Payroll($li, 'DELETE');
+            $detail = $this->db->get_where($this->ttrx_dtl_payroll, ['TagID_PerNIK_Hdr' => $li->TagID_PerNIK]);
             foreach ($detail->result() as $dtl) {
                 $lembur = $this->db->get_where($this->ttrx_over_time, ['Tanggal' => $dtl->Tanggal, 'ID' => $dtl->NIK]);
                 if ($lembur->num_rows() > 0) {
@@ -147,6 +161,9 @@ class HistoryPayroll extends CI_Controller
 
     public function Event_Payroll_DataTable()
     {
+
+
+
         $requestData = $_REQUEST;
         $columns = array(
             0 => 'SysId',
@@ -203,60 +220,71 @@ class HistoryPayroll extends CI_Controller
     public function Hdr_Payroll_DataTable()
     {
         $TagID = $this->input->post('TagID');
-        $requestData = $_REQUEST;
-        $columns = array(
-            0 => 'SysId',
-            1 => 'TagID_PerNIK',
-            2 => 'NIK',
-            3 => 'Nama',
-            4 => 'Work_Status',
-            5 => 'Jabatan',
-            6 => 'is_active',
-        );
-        $order = $columns[$requestData['order']['0']['column']];
-        $dir = $requestData['order']['0']['dir'];
-
-        $sql = "SELECT * from qview_payroll_hdr_karyawan WHERE TagID_Event  = '$TagID' ";
-
-        $totalData = $this->db->query($sql)->num_rows();
-        if (!empty($requestData['search']['value'])) {
-            $sql .= " AND (TagID_PerNIK LIKE '%" . $requestData['search']['value'] . "%' ";
-            $sql .= " OR NIK LIKE '%" . $requestData['search']['value'] . "%' ";
-            $sql .= " OR Nama LIKE '%" . $requestData['search']['value'] . "%' ";
-            $sql .= " OR Work_Status LIKE '%" . $requestData['search']['value'] . "%' ";
-            $sql .= " OR Jabatan LIKE '%" . $requestData['search']['value'] . "%') ";
-        }
-        //----------------------------------------------------------------------------------
-        $totalFiltered = $this->db->query($sql)->num_rows();
-        $sql .= " ORDER BY $order $dir LIMIT " . $requestData['start'] . " ," . $requestData['length'] . " ";
-        $query = $this->db->query($sql);
-        $data = array();
-        foreach ($query->result_array() as $row) {
-            $nestedData = array();
-            $nestedData['SysId'] = $row["SysId"];
-            $nestedData['TagID_Event'] = $row["TagID_Event"];
-            $nestedData['TagID_PerNIK'] = $row["TagID_PerNIK"];
-            $nestedData['NIK'] = $row["NIK"];
-            $nestedData['Nama'] = $row["Nama"];
-            $nestedData['Jabatan'] = $row["Jabatan"];
-            $nestedData['Work_Status'] = $row["Work_Status"];
-            $nestedData['is_active'] = $row["is_active"];
-            $nestedData['Tgl_Dari'] = $row["Tgl_Dari"];
-            $nestedData['Tgl_Sampai'] = $row["Tgl_Sampai"];
-            $nestedData['Payment_Status'] = $row["Payment_Status"];
-
-            $data[] = $nestedData;
-        }
-        //----------------------------------------------------------------------------------
-        $json_data = array(
-            "draw" => intval($requestData['draw']),
-            "recordsTotal" => intval($totalData),
-            "recordsFiltered" => intval($totalFiltered),
-            "data" => $data,
-        );
-        //----------------------------------------------------------------------------------
-        echo json_encode($json_data);
+        $tables = "qview_payroll_hdr_karyawan";
+        $search = array('TagID_PerNIK', 'NIK', 'Nama', 'Work_Status', 'Jabatan');
+        $where  = array('TagID_Event' => $TagID);
+        // jika memakai IS NULL pada where sql
+        $isWhere = null;
+        // $isWhere = 'artikel.deleted_at IS NULL';
+        header('Content-Type: application/json');
+        echo $this->M_Datatables->get_tables_where($tables, $search, $where, $isWhere);
     }
+    // {
+    //     $TagID = $this->input->post('TagID');
+    //     $requestData = $_REQUEST;
+    //     $columns = array(
+    //         0 => 'SysId',
+    //         1 => 'TagID_PerNIK',
+    //         2 => 'NIK',
+    //         3 => 'Nama',
+    //         4 => 'Work_Status',
+    //         5 => 'Jabatan',
+    //         6 => 'is_active',
+    //     );
+    //     $order = $columns[$requestData['order']['0']['column']];
+    //     $dir = $requestData['order']['0']['dir'];
+
+    //     $sql = "SELECT * from qview_payroll_hdr_karyawan WHERE TagID_Event  = '$TagID' ";
+
+    //     $totalData = $this->db->query($sql)->num_rows();
+    //     if (!empty($requestData['search']['value'])) {
+    //         $sql .= " AND (TagID_PerNIK LIKE '%" . $requestData['search']['value'] . "%' ";
+    //         $sql .= " OR NIK LIKE '%" . $requestData['search']['value'] . "%' ";
+    //         $sql .= " OR Nama LIKE '%" . $requestData['search']['value'] . "%' ";
+    //         $sql .= " OR Work_Status LIKE '%" . $requestData['search']['value'] . "%' ";
+    //         $sql .= " OR Jabatan LIKE '%" . $requestData['search']['value'] . "%') ";
+    //     }
+    //     //----------------------------------------------------------------------------------
+    //     $totalFiltered = $this->db->query($sql)->num_rows();
+    //     $sql .= " ORDER BY $order $dir LIMIT " . $requestData['start'] . " ," . $requestData['length'] . " ";
+    //     $query = $this->db->query($sql);
+    //     $data = array();
+    //     foreach ($query->result_array() as $row) {
+    //         $nestedData = array();
+    //         $nestedData['SysId'] = $row["SysId"];
+    //         $nestedData['TagID_Event'] = $row["TagID_Event"];
+    //         $nestedData['TagID_PerNIK'] = $row["TagID_PerNIK"];
+    //         $nestedData['NIK'] = $row["NIK"];
+    //         $nestedData['Nama'] = $row["Nama"];
+    //         $nestedData['Jabatan'] = $row["Jabatan"];
+    //         $nestedData['Work_Status'] = $row["Work_Status"];
+    //         $nestedData['is_active'] = $row["is_active"];
+    //         $nestedData['Tgl_Dari'] = $row["Tgl_Dari"];
+    //         $nestedData['Tgl_Sampai'] = $row["Tgl_Sampai"];
+    //         $nestedData['Payment_Status'] = $row["Payment_Status"];
+
+    //         $data[] = $nestedData;
+    //     }
+    //     //----------------------------------------------------------------------------------
+    //     $json_data = array(
+    //         "draw" => intval($requestData['draw']),
+    //         "recordsTotal" => intval($totalData),
+    //         "recordsFiltered" => intval($totalFiltered),
+    //         "data" => $data,
+    //     );
+    //     //----------------------------------------------------------------------------------
+    //     echo json_encode($json_data);
+    // }
 
     public function change_status_event_payroll($sysid)
     {
@@ -328,27 +356,17 @@ class HistoryPayroll extends CI_Controller
         $format = "Y-m-d";
 
         $event = $this->db->get_where($this->ttrx_event_payroll, ['SysId' => $sysid])->row();
-
+        $this->history->Hst_Event_Payroll($event, 'RECALCULATE');
         $start = $event->Tgl_Dari;
         $end = $event->Tgl_Sampai;
 
         $DatePayFormat_Start = new DateTime($start);
         $DatePayFormat_End = new DateTime($end);
-        // $currentDate = clone $DatePayFormat_Start;
 
         $hdr = $this->db->get_where($this->ttrx_hdr_payroll, ['TagID_Event' => $event->TagID])->result();
 
         $this->db->trans_start();
         foreach ($hdr as $li_hdr) {
-            $detail = $this->db->get_where($this->ttrx_dtl_payroll, ['TagID_PerNIK_Hdr' => $li_hdr->TagID_PerNIK]);
-            foreach ($detail->result() as $li) {
-                $lembur = $this->db->get_where($this->ttrx_over_time, ['Tanggal' => $li->Tanggal, 'ID' => $li->NIK]);
-                if ($lembur->num_rows() > 0) {
-                    $this->db->where('Tanggal', $li->Tanggal);
-                    $this->db->where('ID', $li->Tanggal);
-                    $this->db->update($this->ttrx_over_time, ['Calculated' => 0]);
-                }
-            }
             $this->db->delete($this->ttrx_dtl_payroll, ['TagID_PerNIK_Hdr' => $li_hdr->TagID_PerNIK]);
         }
 
@@ -357,6 +375,36 @@ class HistoryPayroll extends CI_Controller
             $nik = $row->NIK;
             $karyawan = $this->db->get_where($this->qview_employee_active, ['ID' => $nik])->row();
             $currentDate = clone $DatePayFormat_Start;
+
+            if ($row->Include_Angsuran_Kasbon == 1) {
+                $RowAngsuranPayroll = $this->db->get_where($this->ttrx_dtl_transaksi_kasbon, ['Tag_Hdr' => $row->TagID_PerNIK]);
+                if ($RowAngsuranPayroll->num_rows() > 0) {
+                    $RowAngsuranPayroll = $RowAngsuranPayroll->row();
+                    $RowHdrKasbon = $this->db->get_where($this->qview_mst_hdr_kasbon_all, ['ID' => $nik])->row();
+                    if ($RowAngsuranPayroll->IN_OUT != $RowHdrKasbon->Nominal_Angsuran) {
+                        $this->history->History_Hdr_Payroll($row, 'RECALCULATE KASBON');
+                        $this->history->Hst_Transaksi_Kasbon($RowAngsuranPayroll, 'AKSI CALCULATE : PERUBAHAN TRANSAKSI ANGSURAN, KARNA MASTER ANGSURAN KASBON TELAH BERUBAH');
+                        $this->db->where('SysId', $RowAngsuranPayroll->SysId);
+                        $this->db->update($this->ttrx_dtl_transaksi_kasbon, [
+                            'IN_OUT' => floatval($RowHdrKasbon->Nominal_Angsuran),
+                            'Saldo_Before' => floatval($RowAngsuranPayroll->Saldo_Before),
+                            'Saldo_After' => floatval($RowAngsuranPayroll->Saldo_Before) - floatval($RowHdrKasbon->Nominal_Angsuran),
+                            'Note' => 'TELAH RECALCULATE'
+                        ]);
+                        $this->db->where('ID', $nik);
+                        $this->db->update('tmst_hdr_kasbon', [
+                            'Saldo_Kasbon' => floatval($RowAngsuranPayroll->Saldo_Before) - floatval($RowHdrKasbon->Nominal_Angsuran),
+                            'Last_Updated_by' => $this->date_time,
+                            'Last_Updated_at' => $this->session->userdata('sys_username')
+                        ]);
+                        $this->db->where('TagID_PerNIK', $row->TagID_PerNIK);
+                        $this->db->update($this->ttrx_hdr_payroll, [
+                            'Nominal_Angsuran_Kasbon' => floatval($RowHdrKasbon->Nominal_Angsuran)
+                        ]);
+                    }
+                }
+            }
+
             while ($currentDate <= $DatePayFormat_End) {
                 $date = $currentDate->format($format);
 
@@ -368,87 +416,51 @@ class HistoryPayroll extends CI_Controller
 
                 if (empty($Att_Per_Day)) {
                     $TunjanganPokok = 0;
-                    // $TunjanganJabatan = 0;
                     $TunjanganLain  = 0;
                     $Sum_Stand_Hour = 0;
                     $Total_Att = 0;
                 } else {
                     $TunjanganPokok = floatval($karyawan->Nominal_Tunjangan_Pokok) * floatval($Att_Per_Day->Sum_Stand_Hour);
-                    // $TunjanganJabatan  = floatval($karyawan->Nominal_Tunjangan_Jabatan) * 1;
-                    $TunjanganLain  = floatval($karyawan->Nominal_Tunjangan_Lain) * 1;
+                    $TunjanganLain  = 0;
                     $Sum_Stand_Hour = $Att_Per_Day->Sum_Stand_Hour;
                     $Total_Att = $Att_Per_Day->Total_Att;
                 }
 
                 $ot = $this->db->get_where($this->ttrx_over_time, ['ID' => $nik, 'Tanggal' => $date]);
+                $Jam_Lembur = 0;
+                $Lembur = 0;
                 if ($ot->num_rows() > 0) {
-                    $this->db->where('Tanggal', $date);
-                    $this->db->where('ID', $nik);
-                    $this->db->update($this->ttrx_over_time, [
-                        'Calculated' => 1
-                    ]);
                     $row_ot = $ot->row();
                     $Jam_Lembur = $row_ot->Jumlah_Jam;
                     $Lembur = $row_ot->Nominal;
-                } else {
-                    $Jam_Lembur = 0;
-                    $Lembur = 0;
                 }
 
                 $piket = $this->db->query("SELECT SUM(Nominal) as Nominal_Piket, COUNT(SysId) as Jumlah_Piket FROM $this->ttrx_payroll_guru_piket WHERE Tanggal = '$date' and ID = $nik GROUP BY ID, Tanggal");
+                $Jumlah_Piket = 0;
+                $Piket = 0;
                 if ($piket->num_rows() > 0) {
-                    $this->db->where('Tanggal', $date);
-                    $this->db->where('ID', $nik);
-                    $this->db->update($this->ttrx_payroll_guru_piket, [
-                        'Calculated' => 1
-                    ]);
                     $row_piket = $piket->row();
                     $Jumlah_Piket = $row_piket->Jumlah_Piket;
                     $Piket = floatval($row_piket->Nominal_Piket);
-                } else {
-                    $Jumlah_Piket = 0;
-                    $Piket = 0;
                 }
 
                 $upacara = $this->db->get_where($this->ttrx_payroll_upacara, ['ID' => $nik, 'Tanggal' => $date]);
+                $Jabatan_Upacara = NULL;
+                $Upacara = 0;
                 if ($upacara->num_rows() > 0) {
-                    $this->db->where('Tanggal', $date);
-                    $this->db->where('ID', $nik);
-                    $this->db->update($this->ttrx_payroll_upacara, [
-                        'Calculated' => 1
-                    ]);
                     $row_upacara = $upacara->row();
                     $Jabatan_Upacara = $row_upacara->Jabatan_Upacara;
                     $Upacara = floatval($row_upacara->Nominal);
-                } else {
-                    $Jabatan_Upacara = NULL;
-                    $Upacara = 0;
                 }
 
                 $rapat = $this->db->query("SELECT SUM(Nominal_Tunjangan) as Nominal_Tunjangan, COUNT(SysId) as Jumlah_Rapat, Meeting_Date, UserName FROM $this->qview_dtl_peserta_rapat 
                 WHERE ID = $nik AND Meeting_Date = ' $date' and Approve_Leader = 1 and Approve_Admin = 1 group by Meeting_Date, UserName");
+                $Rapat = 0;
+                $Jumlah_Rapat = 0;
                 if ($rapat->num_rows() > 0) {
                     $row_rapat = $rapat->row();
-
-                    $list_rapats = $this->db->get_where($this->qview_dtl_peserta_rapat, [
-                        'Meeting_Date' => $date,
-                        'ID' => $nik,
-                        'Approve_Leader' => 1,
-                        'Approve_Admin' => 1
-                    ])->result();
-                    foreach ($list_rapats as $list_rapat) {
-                        $this->db->where('No_Meeting_Hdr', $list_rapat->No_Meeting_Hdr);
-                        $this->db->where('UserName', $row_rapat->UserName);
-                        $this->db->update($this->ttrx_dtl_peserta_rapat, [
-                            'Calculated' => 1
-                        ]);
-                    }
-
                     $Rapat = floatval($row_rapat->Nominal_Tunjangan);
                     $Jumlah_Rapat = $row_rapat->Jumlah_Rapat;
-                } else {
-                    $Rapat = 0;
-                    $Jumlah_Rapat = 0;
                 }
 
                 $this->db->insert($this->ttrx_dtl_payroll, [
@@ -467,12 +479,6 @@ class HistoryPayroll extends CI_Controller
                     'Lembur' => $Lembur,
                     'Jumlah_Rapat' => $Jumlah_Rapat,
                     'Rapat' => $Rapat
-                ]);
-
-                $this->db->where('Date_Att', $date);
-                $this->db->where('Access_ID', $nik);
-                $this->db->update($this->att_trans, [
-                    'Calculated' => 1
                 ]);
 
                 $currentDate->modify('+1 day');

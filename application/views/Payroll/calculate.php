@@ -47,7 +47,9 @@
                             <thead style="background-color: #3B6D8C;">
                                 <tr class="text-start text-white fw-bolder text-uppercase">
                                     <th class="text-center text-white">
-                                        <input class="form-check-input" type="checkbox" id="CheckAll" value="checkall" onclick="check_uncheck_checkbox(this.checked,'IDs[]');">
+                                        <div class="form-check form-check-custom form-check-solid form-check-sm" data-toggle="tooltip" title="Semua Karyawan Akan Include Calculate" data-bs-placement="left" data-bs-custom-class="tooltip-dark" data-bs-dismiss="click">
+                                            <input class="form-check-input form-check-sm" type="checkbox" id="CheckAll" value="checkall" onclick="check_uncheck_checkbox(this.checked,'IDs[]');">
+                                        </div>
                                     </th>
                                     <th class="text-center text-white">ID Access</th>
                                     <th class="text-center text-white">NAMA</th>
@@ -61,7 +63,9 @@
                                     <th class="text-center text-white">TUN.JABATAN 3</th>
                                     <th class="text-center text-white">NOMINAL TUN.JABATAN 3</th>
                                     <th class="text-center text-white bg-danger">
-                                        <input class="form-check-input ml-5" type="checkbox" id="CheckAll" value="checkall" onclick="check_uncheck_checkbox(this.checked,'Kasbons[]');">&nbsp;&nbsp; Angsuran Kasbon
+                                        <div class="form-check form-check-custom form-check-solid form-check-sm" data-toggle="tooltip" title="Semua karyawan yang memiliki angsuran kasbon, Total THP dipotong angsuran kasbon" data-bs-placement="left" data-bs-custom-class="tooltip-dark" data-bs-dismiss="click">
+                                            <input class="form-check-input form-check-sm" type="checkbox" id="CheckAll" value="checkall" onclick="check_uncheck_checkbox(this.checked,'Kasbons[]');">
+                                        </div>
                                     </th>
                                 </tr>
                             </thead>

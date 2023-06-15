@@ -138,7 +138,7 @@ class Auth extends CI_Controller
 		$this->db->trans_start();
 		$this->db->insert($this->tbl_employee, [
 			'ID' => $this->input->post('ID'),
-			'UserName' => $this->input->post('UserName'),
+			'UserName' => strtoupper($this->input->post('UserName')),
 			'Nama' => ucwords(strtolower($this->input->post('Nama'))),
 			'Fk_Jabatan' => $this->input->post('Fk_Jabatan'),
 			'KTP' => $this->input->post('KTP'),

@@ -125,6 +125,7 @@ $(document).ready(function () {
 	}
 
 
+
 	var TableData = $("#TableData").DataTable({
 		destroy: true,
 		processing: true,
@@ -135,7 +136,7 @@ $(document).ready(function () {
 		// select: true,
 		fixedHeader: {
 			header: true,
-			headerOffset: 48
+			headerOffset: 60
 		},
 		"lengthMenu": [
 			[1000],
@@ -151,7 +152,7 @@ $(document).ready(function () {
 				name: "SysId",
 				orderable: false,
 				render: function (data, type, row, meta) {
-					return `<div class="form-check text-center">
+					return `<div class="form-check form-check-sm form-check-custom text-center" data-toggle="tooltip" data-bs-placement="left" data-bs-custom-class="tooltip-dark" data-bs-dismiss="click" title="Include perhitungan Payroll">
                     <input type="checkbox" class="form-check-input text-center" value="${row.ID}" id="${row.SysId}" name="IDs[]">
                   </div>`
 				}
@@ -159,18 +160,22 @@ $(document).ready(function () {
 			{
 				data: "ID",
 				name: "ID",
+				orderable: false,
 			},
 			{
 				data: "Nama",
 				name: "Nama",
+				orderable: false,
 			},
 			{
 				data: "Jabatan",
 				name: "Jabatan",
+				orderable: false,
 			},
 			{
 				data: "Nominal_Salary",
 				name: "Nominal_Salary",
+				orderable: false,
 				render: function (data) {
 					return rupiah(data)
 				}
@@ -178,6 +183,7 @@ $(document).ready(function () {
 			{
 				data: "Nominal_Tunjangan_Pokok",
 				name: "Nominal_Tunjangan_Pokok",
+				orderable: false,
 				render: function (data) {
 					return rupiah(data)
 				}
@@ -185,10 +191,12 @@ $(document).ready(function () {
 			{
 				data: "Tunjangan_Jabatan_1",
 				name: "Tunjangan_Jabatan_1",
+				orderable: false,
 			},
 			{
 				data: "Nominal_Tunjangan_Jabatan_1",
 				name: "Nominal_Tunjangan_Jabatan_1",
+				orderable: false,
 				render: function (data) {
 					return rupiah(data)
 				}
@@ -196,18 +204,25 @@ $(document).ready(function () {
 			{
 				data: "Tunjangan_Jabatan_2",
 				name: "Tunjangan_Jabatan_2",
+				orderable: false,
 			},
 			{
 				data: "Nominal_Tunjangan_Jabatan_2",
 				name: "Nominal_Tunjangan_Jabatan_2",
+				orderable: false,
+				render: function (data) {
+					return rupiah(data)
+				}
 			},
 			{
 				data: "Tunjangan_Jabatan_3",
 				name: "Tunjangan_Jabatan_3",
+				orderable: false,
 			},
 			{
 				data: "Nominal_Tunjangan_Jabatan_3",
 				name: "Nominal_Tunjangan_Jabatan_3",
+				orderable: false,
 				render: function (data) {
 					return rupiah(data)
 				}
@@ -217,7 +232,7 @@ $(document).ready(function () {
 				name: "SysId",
 				orderable: false,
 				render: function (data, type, row, meta) {
-					return `<div class="form-check text-center">
+					return `<div class="form-check form-check-sm form-check-custom text-center" data-toggle="tooltip" data-bs-placement="left" data-bs-custom-class="tooltip-dark" data-bs-dismiss="click" title="Total Thp akan di potong angsuran kasbon">
                     <input type="checkbox" class="form-check-input text-center" value="${row.ID}" id="${row.SysId}" name="Kasbons[]">
                   </div>`
 				}
@@ -231,7 +246,7 @@ $(document).ready(function () {
 			targets: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
 		}],
 		autoWidth: false,
-		responsive: true,
+		responsive: false,
 		"rowCallback": function (row, data) {
 			if (data.is_active == "0") {
 				$('td', row).css('background-color', 'pink');
@@ -239,6 +254,11 @@ $(document).ready(function () {
 		},
 		preDrawCallback: function () {
 			$("#TableData tbody td").addClass("blurry");
+		},
+		initComplete: function () {
+			$('table#TableData th').css('font-size', '0.8em');
+			$('table#TableData td').css('font-size', '0.8em');
+			$('table#TableData td').css('color', 'black');
 		},
 		language: {
 			processing: '<i style="color:#4a4a4a" class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only"></span><p><span style="color:#4a4a4a" style="text-align:center" class="loading-text"></span> ',

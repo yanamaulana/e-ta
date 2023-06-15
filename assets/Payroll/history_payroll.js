@@ -31,6 +31,9 @@ $(document).ready(function () {
 		"serverSide": true,
 		"ordering": true,
 		// "select": true,
+		dom: 'lfrtip',
+		lengthMenu: [5, 20, 50, 100],
+		"pageLength": 5,
 		"order": [
 			[0, 'desc'],
 		],
@@ -52,7 +55,7 @@ $(document).ready(function () {
 			orderable: false,
 			render: function (data, type, row, meta) {
 				if (row.Payment_Status == 0) {
-					return `<div class="btn-group-vertical" role="group">
+					return `<div class="btn-group" role="group">
                     <button class="btn btn-icon btn-sm btn-warning btn-recalculate" data-toggle="tooltip" title="Recalculate slip ${row.Tot_Employee_Calculated} karyawan"><i class="fas fa-calculator"></i></button>
                     <button class="btn btn-icon btn-sm btn-primary btn-print-all" data-toggle="tooltip" title="Print slip ${row.Tot_Employee_Calculated} karyawan"><i class="fas fa-print"></i></button>
                     <button class="btn btn-icon btn-sm btn-success btn-finish" data-toggle="tooltip" title="Ubah status jadi selesai dibayarkan"><i class="fas fa-flag-checkered"></i></button>
@@ -95,12 +98,17 @@ $(document).ready(function () {
 			targets: [1, 2, 3, 4, 5, 6, 7],
 		}],
 		bAutoWidth: false,
-		responsive: true,
+		responsive: false,
 		rowCallback: function (row, data) {
 			// for change color tr
 		},
 		preDrawCallback: function () {
 			$("#Table-Event  tbody td").addClass("blurry");
+		},
+		initComplete: function () {
+			$('table#Table-Event th').css('font-size', '0.8em');
+			$('table#Table-Event td').css('font-size', '0.8em');
+			$('table#Table-Event td').css('color', 'black');
 		},
 		language: {
 			processing: '<i style="color:#4a4a4a" class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only"></span><p><span style="color:#4a4a4a" class="loading-text">Loading Data</span> ',
@@ -313,7 +321,8 @@ $(document).ready(function () {
 			"ordering": true,
 			// "select": true,
 			dom: 'lfrtip',
-			"pageLength": 10,
+			"pageLength": 15,
+			lengthMenu: [15, 25, 50, 100],
 			"order": [
 				[3, 'asc']
 			],
@@ -347,13 +356,25 @@ $(document).ready(function () {
 				data: "Jabatan",
 				name: "Jabatan "
 			}, {
+				data: "Nominal_Angsuran_Kasbon",
+				name: "Nominal_Angsuran_Kasbon ",
+				render: function (data) {
+					return rupiah(data)
+				}
+			}, {
+				data: "Nominal_Potongan_Keanggotaan_Pgri",
+				name: "Nominal_Potongan_Keanggotaan_Pgri ",
+				render: function (data) {
+					return rupiah(data)
+				}
+			}, {
 				data: "is_active",
 				name: "is_active ",
 				render: function (data, type, row, meta) {
 					if (data == 0) {
-						return '<button class="btn btn-sm btn-secondary">Not-Active</i></button>'
+						return '<span class="badge badge-secondary"><i class="text-white fas fa-times"></i> Resign</span>'
 					} else {
-						return '<button class="btn btn-success btn-sm"><i class="fas fa-check"></i> Active</i></button>'
+						return '<span class="badge badge-success"><i class="text-white fas fa-check"></i> Aktif</i></span>'
 					}
 				}
 			}, {
@@ -362,13 +383,13 @@ $(document).ready(function () {
 				orderable: false,
 				render: function (data, type, row, meta) {
 					if (row.kasbon == 0 || row.Payment_Status == 1) {
-						return `<div class="btn-group-vertical" role="group">
+						return `<div class="btn-group" role="group">
                         <button data-pk="${row.SysId}" class="btn btn-sm btn-icon btn-success btn-detail" data-toggle="tooltip" title="detail waktu absensi"><i class="fas fa-calendar-alt"></i></button>
                         <button class="btn btn-icon btn-primary btn-sm btn-icon btn-print-hdr" data-toggle="tooltip" title="Print slip gaji ${row.Nama}"><i class="fas fa-print"></i></button>
                         </div>`;
 					} else {
 						// <button data-pk="${row.SysId}" class="btn btn-sm btn-icon btn-warning btn-kasbon" data-toggle="tooltip" title="Potongan Kasbon"><i class="fas fa-fax"></i></button>
-						return `<div class="btn-group-vertical" role="group">
+						return `<div class="btn-group" role="group">
                         <button data-pk="${row.SysId}" class="btn btn-sm btn-icon btn-success btn-detail" data-toggle="tooltip" title="detail waktu absensi"><i class="fas fa-calendar-alt"></i></button>
                         <button class="btn btn-icon btn-primary btn-sm btn-print-hdr" data-toggle="tooltip" title="Print slip gaji ${row.Nama}"><i class="fas fa-print"></i></button>
                         </div>`;
@@ -377,15 +398,20 @@ $(document).ready(function () {
 			}],
 			columnDefs: [{
 				className: "text-center",
-				targets: [1, 2, 3, 4, 5, 6],
+				targets: [1, 2, 3, 4, 5, 6, 7, 8, 9],
 			}],
 			bAutoWidth: false,
-			responsive: true,
+			responsive: false,
 			rowCallback: function (row, data) {
 				// for change color tr
 			},
 			preDrawCallback: function () {
 				$("#Table-Hdr  tbody td").addClass("blurry");
+			},
+			initComplete: function () {
+				$('table#Table-Hdr th').css('font-size', '0.8em');
+				$('table#Table-Hdr td').css('font-size', '0.8em');
+				$('table#Table-Hdr td').css('color', 'black');
 			},
 			language: {
 				processing: '<i style="color:#4a4a4a" class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only"></span><p><span style="color:#4a4a4a" class="loading-text">Loading Data</span> ',
@@ -409,8 +435,24 @@ $(document).ready(function () {
 	$('#Table-Event tbody').on('dblclick', 'tr', function () {
 		let Row = tbl.row(this).data();
 		Fn_Initialized_DataTable_Hdr(Row.TagID)
-		console.log(Row.TagID)
+
+		$('#tab-event').animate({
+			opacity: 0
+		}, 1000, function () {
+			$('#tab-event').hide();
+		});
+		$('#tab-hdr').show("slow");
 	});
+
+	$('#show-main-calculate').on('click', function () {
+		$('#tab-hdr').hide("slow");
+
+		$('#tab-event').css("opacity", 0).show().animate({
+			opacity: 1
+		}, 1000, function () {
+			// Kode yang dijalankan setelah animasi selesai
+		});
+	})
 
 	$('#Table-Hdr').DataTable();
 

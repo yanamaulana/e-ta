@@ -160,7 +160,7 @@ class CalculatePayroll extends CI_Controller
 
             $Nominal_Potongan_Keanggotaan_Pgri = 0;
             $SqlPgri = $this->db->get_where($this->qview_payroll_cuts_pgri, ['ID' => $nik]);
-            if ($SqlPgri->num_rows > 0) {
+            if ($SqlPgri->num_rows() > 0) {
                 $RowPgri = $SqlPgri->row();
                 $Nominal_Potongan_Keanggotaan_Pgri = floatval($RowPgri->Nominal);
             }
@@ -202,16 +202,16 @@ class CalculatePayroll extends CI_Controller
                 AND Access_ID = $karyawan->ID
                 group by Access_ID, Date_Att")->row();
 
-
-                $TunjanganPokok = floatval($karyawan->Nominal_Tunjangan_Pokok) * floatval($Att_Per_Day->Sum_Stand_Hour);
-                $TunjanganLain  = 0;
-                $Sum_Stand_Hour = $Att_Per_Day->Sum_Stand_Hour;
-                $Total_Att = $Att_Per_Day->Total_Att;
                 if (empty($Att_Per_Day)) {
                     $TunjanganPokok = 0;
                     $TunjanganLain  = 0;
                     $Sum_Stand_Hour = 0;
                     $Total_Att = 0;
+                } else {
+                    $TunjanganPokok = floatval($karyawan->Nominal_Tunjangan_Pokok) * floatval($Att_Per_Day->Sum_Stand_Hour);
+                    $TunjanganLain  = 0;
+                    $Sum_Stand_Hour = $Att_Per_Day->Sum_Stand_Hour;
+                    $Total_Att = $Att_Per_Day->Total_Att;
                 }
 
                 $ot = $this->db->get_where($this->ttrx_over_time, ['ID' => $nik, 'Tanggal' => $date]);

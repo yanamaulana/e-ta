@@ -89,12 +89,12 @@
                         <div class="row fv-row mb-7">
                             <div class="col-xl-12">
                                 <label class="form-label fw-bolder text-dark fs-6">Telephone Number :</label>
-                                <input class="form-control form-control-lg form-control-solid" type="number" id="Telpon" name="Telpon" placeholder="Telephone Number..." autocomplete="off" required />
+                                <input class="form-control form-control-lg form-control-solid" type="number" id="Telpon" name="Telpon" placeholder="Telephone Number..." autocomplete="off" />
                             </div>
                         </div>
                         <div class="fv-row mb-7">
                             <label class="form-label fw-bolder text-dark fs-6">Email :</label>
-                            <input class="form-control form-control-lg form-control-solid" type="email" placeholder="Email..." id="Email" name="Email" autocomplete="off" required />
+                            <input class="form-control form-control-lg form-control-solid" type="email" placeholder="Email..." id="Email" name="Email" autocomplete="off" />
                         </div>
                         <div class="row fv-row mb-7">
                             <div class="col-xl-12">
@@ -113,7 +113,7 @@
                         </div>
                         <div class="fv-row mb-7">
                             <label class="form-label fw-bolder text-dark fs-6">Address :</label>
-                            <textarea required class="form-control form-control-lg form-control-solid" id="Full_address" name="Full_address" placeholder="Address..."></textarea>
+                            <textarea class="form-control form-control-lg form-control-solid" id="Full_address" name="Full_address" placeholder="Address..."></textarea>
                         </div>
                         <div class="fv-row mb-7">
                             <label class="form-label fw-bolder text-dark fs-6">Office Position :</label>

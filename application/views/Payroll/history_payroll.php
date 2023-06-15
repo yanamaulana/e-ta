@@ -1,12 +1,12 @@
 <div class="row gx-5 gx-xl-10">
-    <div class="col-xl-6">
+    <div class="col-xl-12" id="tab-event">
         <div class="card card-flush overflow-hidden h-xl-100">
             <div class="card-header py-5">
                 <h3 class="card-title align-items-start flex-column">
                     <span class="card-label fw-bold text-dark" id="table-title">Recap Event Payroll</span>
                 </h3>
                 <div class="card-toolbar">
-                    <a href="<?= base_url('Dashboard') ?>" type="button" class="btn btn-sm btn-light-danger"><i class="far fa-arrow-alt-circle-left"></i> Back</a>
+                    <a href="<?= base_url('Dashboard') ?>" type="button" class="btn btn-sm btn-light-danger"><i class="far fa-arrow-alt-circle-left"></i> Back to Main Menu</a>
                 </div>
             </div>
             <div class="card-body pt-0">
@@ -31,14 +31,14 @@
             </div>
         </div>
     </div>
-    <div class="col-xl-6">
+    <div class="col-xl-12 mt-6" id="tab-hdr" style="display: none;">
         <div class="card card-flush overflow-hidden h-xl-100">
             <div class="card-header py-5">
                 <h3 class="card-title align-items-start flex-column">
                     <span class="card-label fw-bold text-dark" id="table-title">Detail Recap Even Payroll Per-Employee</span>
                 </h3>
                 <div class="card-toolbar">
-                    <a href="<?= base_url('Dashboard') ?>" type="button" class="btn btn-sm btn-light-danger"><i class="far fa-arrow-alt-circle-left"></i> Back</a>
+                    <button type="button" id="show-main-calculate" class="btn btn-primary"><i class="bi bi-receipt-cutoff"></i> Show Main Calculate</button>
                 </div>
             </div>
             <div class="card-body pt-0">
@@ -52,7 +52,9 @@
                                 <th class="text-center align-middle text-white">Nama <i class="fas fa-user"></i></th>
                                 <th class="text-center align-middle text-white">Dept</th>
                                 <th class="text-center align-middle text-white">Jabatan</th>
-                                <th class="text-center align-middle text-white">Activation</th>
+                                <th class="text-center align-middle text-white"><i class="text-white bi bi-scissors fs-2"></i> Kasbon</th>
+                                <th class="text-center align-middle text-white"><i class="text-white bi bi-scissors fs-2"></i> Pgri</th>
+                                <th class="text-center align-middle text-white"><i class="text-white bi bi-person-check-fill fs-2"></i></th>
                                 <th class="text-center align-middle text-white"><i class="fas fa-cogs text-white fs-2"></i></th>
                             </tr>
                         </thead>

@@ -24,6 +24,7 @@ class HistoryPayroll extends CI_Controller
     private $ttrx_payroll_upacara = 'ttrx_payroll_upacara';
     private $qview_mst_hdr_kasbon_all = 'qview_mst_hdr_kasbon_all';
     private $ttrx_dtl_transaksi_kasbon = 'ttrx_dtl_transaksi_kasbon';
+    private $tmst_hdr_kasbon = 'tmst_hdr_kasbon';
 
     private $qview_dtl_peserta_rapat = 'qview_dtl_peserta_rapat';
     private $ttrx_dtl_peserta_rapat = 'ttrx_dtl_peserta_rapat';
@@ -59,26 +60,29 @@ class HistoryPayroll extends CI_Controller
         $this->history->Hst_Event_Payroll($row_event, 'DELETE');
         foreach ($row_hdr as $li) {
             if ($li->Include_Angsuran_Kasbon == 1) {
-                $RowKasbon = $this->db->get_where($this->qview_mst_hdr_kasbon_all, ['ID' => $li->NIK])->row();
-                $this->db->insert($this->ttrx_dtl_transaksi_kasbon, [
-                    'ID' => $li->NIK,
-                    'Aritmatics' => '+',
-                    'IN_OUT' => floatval($li->Nominal_Angsuran_Kasbon),
-                    'Saldo_Before' => floatval($RowKasbon->Saldo_Kasbon),
-                    'Saldo_After' => floatval($RowKasbon->Saldo_Kasbon) + floatval($li->Nominal_Angsuran_Kasbon),
-                    'Remark_System' => 'DELETE PAYROLL ROLLBACK KASBON',
-                    'Note' => '',
-                    'Created_by' => $this->session->userdata('sys_username'),
-                    'Created_at' => $this->date_time,
-                    'Tag_Hdr' => $li->TagID_PerNIK,
-                ]);
+                $ValidateKasbonTrue = $this->db->get_where($this->ttrx_dtl_transaksi_kasbon, ['Tag_Hdr' => $li->TagID_PerNIK]);
+                if ($ValidateKasbonTrue->num_rows() > 0) {
+                    $RowKasbon = $this->db->get_where($this->qview_mst_hdr_kasbon_all, ['ID' => $li->NIK])->row();
+                    $this->db->insert($this->ttrx_dtl_transaksi_kasbon, [
+                        'ID' => $li->NIK,
+                        'Aritmatics' => '+',
+                        'IN_OUT' => floatval($li->Nominal_Angsuran_Kasbon),
+                        'Saldo_Before' => floatval($RowKasbon->Saldo_Kasbon),
+                        'Saldo_After' => floatval($RowKasbon->Saldo_Kasbon) + floatval($li->Nominal_Angsuran_Kasbon),
+                        'Remark_System' => 'DELETE PAYROLL ROLLBACK KASBON',
+                        'Note' => '',
+                        'Created_by' => $this->session->userdata('sys_username'),
+                        'Created_at' => $this->date_time,
+                        'Tag_Hdr' => $li->TagID_PerNIK,
+                    ]);
 
-                $this->db->where('ID', $li->NIK);
-                $this->db->update($this->tmst_hdr_kasbon, [
-                    'Saldo_Kasbon' => floatval($RowKasbon->Saldo_Kasbon) + floatval($li->Nominal_Angsuran_Kasbon),
-                    'Last_Updated_by' => $this->session->userdata('sys_username'),
-                    'Last_Updated_at' => $this->date_time
-                ]);
+                    $this->db->where('ID', $li->NIK);
+                    $this->db->update($this->tmst_hdr_kasbon, [
+                        'Saldo_Kasbon' => floatval($RowKasbon->Saldo_Kasbon) + floatval($li->Nominal_Angsuran_Kasbon),
+                        'Last_Updated_by' => $this->session->userdata('sys_username'),
+                        'Last_Updated_at' => $this->date_time
+                    ]);
+                }
             }
             $this->history->History_Hdr_Payroll($li, 'DELETE');
             $detail = $this->db->get_where($this->ttrx_dtl_payroll, ['TagID_PerNIK_Hdr' => $li->TagID_PerNIK]);
@@ -229,62 +233,6 @@ class HistoryPayroll extends CI_Controller
         header('Content-Type: application/json');
         echo $this->M_Datatables->get_tables_where($tables, $search, $where, $isWhere);
     }
-    // {
-    //     $TagID = $this->input->post('TagID');
-    //     $requestData = $_REQUEST;
-    //     $columns = array(
-    //         0 => 'SysId',
-    //         1 => 'TagID_PerNIK',
-    //         2 => 'NIK',
-    //         3 => 'Nama',
-    //         4 => 'Work_Status',
-    //         5 => 'Jabatan',
-    //         6 => 'is_active',
-    //     );
-    //     $order = $columns[$requestData['order']['0']['column']];
-    //     $dir = $requestData['order']['0']['dir'];
-
-    //     $sql = "SELECT * from qview_payroll_hdr_karyawan WHERE TagID_Event  = '$TagID' ";
-
-    //     $totalData = $this->db->query($sql)->num_rows();
-    //     if (!empty($requestData['search']['value'])) {
-    //         $sql .= " AND (TagID_PerNIK LIKE '%" . $requestData['search']['value'] . "%' ";
-    //         $sql .= " OR NIK LIKE '%" . $requestData['search']['value'] . "%' ";
-    //         $sql .= " OR Nama LIKE '%" . $requestData['search']['value'] . "%' ";
-    //         $sql .= " OR Work_Status LIKE '%" . $requestData['search']['value'] . "%' ";
-    //         $sql .= " OR Jabatan LIKE '%" . $requestData['search']['value'] . "%') ";
-    //     }
-    //     //----------------------------------------------------------------------------------
-    //     $totalFiltered = $this->db->query($sql)->num_rows();
-    //     $sql .= " ORDER BY $order $dir LIMIT " . $requestData['start'] . " ," . $requestData['length'] . " ";
-    //     $query = $this->db->query($sql);
-    //     $data = array();
-    //     foreach ($query->result_array() as $row) {
-    //         $nestedData = array();
-    //         $nestedData['SysId'] = $row["SysId"];
-    //         $nestedData['TagID_Event'] = $row["TagID_Event"];
-    //         $nestedData['TagID_PerNIK'] = $row["TagID_PerNIK"];
-    //         $nestedData['NIK'] = $row["NIK"];
-    //         $nestedData['Nama'] = $row["Nama"];
-    //         $nestedData['Jabatan'] = $row["Jabatan"];
-    //         $nestedData['Work_Status'] = $row["Work_Status"];
-    //         $nestedData['is_active'] = $row["is_active"];
-    //         $nestedData['Tgl_Dari'] = $row["Tgl_Dari"];
-    //         $nestedData['Tgl_Sampai'] = $row["Tgl_Sampai"];
-    //         $nestedData['Payment_Status'] = $row["Payment_Status"];
-
-    //         $data[] = $nestedData;
-    //     }
-    //     //----------------------------------------------------------------------------------
-    //     $json_data = array(
-    //         "draw" => intval($requestData['draw']),
-    //         "recordsTotal" => intval($totalData),
-    //         "recordsFiltered" => intval($totalFiltered),
-    //         "data" => $data,
-    //     );
-    //     //----------------------------------------------------------------------------------
-    //     echo json_encode($json_data);
-    // }
 
     public function change_status_event_payroll($sysid)
     {

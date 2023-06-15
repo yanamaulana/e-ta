@@ -100,7 +100,7 @@ class ManageSalary extends CI_Controller
             11 => 'Nominal_Tunjangan_Jabatan_2',
             12 => 'Tunjangan_Jabatan_3',
             13 => 'Nominal_Tunjangan_Jabatan_3',
-            14 => 'Tunjangan_Lain',
+            14 => 'Label_Tunjangan_Lain',
             15 => 'Nominal_Tunjangan_Lain',
             16 => 'Bank',
             17 => 'No_Rekening',
@@ -170,7 +170,7 @@ class ManageSalary extends CI_Controller
             $nestedData['Fk_Tunjangan_Jabatan_3'] = $row["Fk_Tunjangan_Jabatan_3"];
             $nestedData['Tunjangan_Jabatan_3'] = $row["Tunjangan_Jabatan_3"];
             $nestedData['Nominal_Tunjangan_Jabatan_3'] = $this->help->format_idr($row["Nominal_Tunjangan_Jabatan_3"]);
-            $nestedData['Tunjangan_Lain'] = $row["Tunjangan_Lain"];
+            $nestedData['Label_Tunjangan_Lain'] = $row["Label_Tunjangan_Lain"];
             $nestedData['Nominal_Tunjangan_Lain'] = $this->help->format_idr($row["Nominal_Tunjangan_Lain"]);
             $nestedData['Bank'] = $row["Bank"];
             $nestedData['No_Rekening'] = $row["No_Rekening"];

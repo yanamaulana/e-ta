@@ -91,8 +91,8 @@ $(document).ready(function () {
 				name: "Nominal_Tunjangan_Jabatan_3",
 			},
 			{
-				data: "Tunjangan_Lain",
-				name: "Tunjangan_Lain",
+				data: "Label_Tunjangan_Lain",
+				name: "Label_Tunjangan_Lain",
 			},
 			{
 				data: "Nominal_Tunjangan_Lain",

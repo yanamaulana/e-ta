@@ -16,7 +16,7 @@ $(document).ready(function () {
 			destroy: true,
 			processing: true,
 			serverSide: true,
-			paging: true,
+			// paging: true,
 			dom: 'lBfrtip',
 			select: true,
 			orderCellsTop: true,

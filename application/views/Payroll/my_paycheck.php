@@ -19,9 +19,10 @@
                                 <th class="text-center align-middle text-white">Tag-Gaji</th>
                                 <th class="text-center align-middle text-white">NIK</th>
                                 <th class="text-center align-middle text-white">Nama <i class="fas fa-user"></i></th>
-                                <th class="text-center align-middle text-white">Dept</th>
                                 <th class="text-center align-middle text-white">Jabatan</th>
                                 <th class="text-center align-middle text-white">Status</th>
+                                <th class="text-center align-middle text-white"><i class="calendar"></i> Awal</th>
+                                <th class="text-center align-middle text-white"><i class="calendar"></i> Akhir</th>
                                 <th class="text-center align-middle text-white"><i class="fas fa-cogs text-white fs-2"></i></th>
                             </tr>
                         </thead>

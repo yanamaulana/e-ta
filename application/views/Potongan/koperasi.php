@@ -2,14 +2,14 @@
     <div class="col-xl-12">
         <div class="card card-flush overflow-hidden h-xl-100">
             <div class="card-header py-5">
-                <ul class="nav nav-pills nav-fill mb-5 fs-6">
+                <ul class="nav nav-pills flex-sm-fill mb-5 fs-6">
                     <li class="nav-item">
-                        <a class="nav-link mr-5" data-bs-toggle="tab" href="#container-tab-1">
+                        <a class="nav-link flex-sm-fill text-sm-center mr-5" id="nav-tab-1" data-bs-toggle="tab" href="#container-tab-1">
                             <h4 class="card-title" id="table-title-main">Form Input Hutang Koperasi</h4>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" data-bs-toggle="tab" href="#container-tab-3">
+                        <a class="nav-link flex-sm-fill text-sm-center active" id="nav-tab-2" data-bs-toggle="tab" href="#container-tab-2">
                             <h4 class="card-title" id="table-title-detail">Saldo Hutang dan History Angsuran Koperasi</h4>
                         </a>
                     </li>
@@ -34,9 +34,9 @@
                                     </div>
                                     <div class="col-md-12 col-xl-6">
                                         <div class="form-group py-3">
-                                            <label for="nominal" class="col-form-label">Nominal Kasbon :</label>
+                                            <label for="nominal" class="col-form-label">Nominal Hutang Koperasi :</label>
                                             <div class="col-sm-11">
-                                                <input type="number" min="1" required class="form-control" id="nominal_kasbon" name="nominal_kasbon" placeholder="Nominal Kasbon...">
+                                                <input type="number" min="1" required class="form-control" id="nominal_utang" name="nominal_utang" placeholder="Nominal Utang...">
                                             </div>
                                         </div>
                                     </div>
@@ -62,9 +62,9 @@
                                 <div class="row">
                                     <div class="col-md-12 col-xl-6">
                                         <div class="form-group py-3" id="el-saldo-lama" style="display: none;">
-                                            <label for="nominal" class="col-form-label">Sisa Tunggakan Kasbon :</label>
+                                            <label for="nominal" class="col-form-label">Sisa Tunggakan Koperasi :</label>
                                             <div class="col-sm-6">
-                                                <input type="number" min="1" readonly style="border:none;" required value="0" class="form-control" id="saldo_kasbon" name="saldo_kasbon" placeholder="Sisa Tunggakan kasbon...">
+                                                <input type="number" min="1" readonly style="border:none;" required value="0" class="form-control" id="saldo_utang" name="saldo_utang" placeholder="Sisa Tunggakan kasbon...">
                                             </div>
                                         </div>
                                     </div>
@@ -80,13 +80,13 @@
                                 <hr />
                                 <div class="row">
                                     <div class="d-grid gap-2 col-md-10 col-xl-3">
-                                        <button class="btn btn-primary btn-lg mt-3" id="submit-main-form">Submit Data Hutang &nbsp;&nbsp;&nbsp; <i class="fas fa-save fs-2"></i></button>
+                                        <button class="btn btn-primary btn-lg mt-3" id="submit-main-form">Submit Data Hutang Koperasi &nbsp;&nbsp;&nbsp; <i class="fas fa-save fs-2"></i></button>
                                     </div>
                                 </div>
                             </div>
                         </form>
-                    </div>    
-                    <div class="tab-pane fade active show" id="container-tab-3" role="tabpanel">
+                    </div>
+                    <div class="tab-pane fade active show" id="container-tab-2" role="tabpanel">
                         <div class="pb-5 table-responsive">
                             <table id="TableData" class="table-sm align-middle display compact dt-nowrap table-rounded w-100 table-striped table-bordered border gy-5 gs-5">
                                 <thead style="background-color: #3B6D8C;">

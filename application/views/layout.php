@@ -15,7 +15,7 @@
     <meta property="og:site_name" content="E-Teacher Attendance" />
     <link rel="canonical" href="<?= base_url() ?>" />
     <link rel="shortcut icon" href="<?= base_url() ?>assets/E-TA_assets/web-logo/favicon.ico" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
+    <link rel="stylesheet" href="<?= base_url() ?>assets/E-TA_assets/font/main-font.css">
     <link href="<?= base_url() ?>assets/Metronic/dist/assets/plugins/custom/fullcalendar/fullcalendar.bundle.css" rel="stylesheet" type="text/css" />
     <link href="<?= base_url() ?>assets/Metronic/dist/assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
     <link href="<?= base_url() ?>assets/Metronic/dist/assets/css/style.bundle.css" rel="stylesheet" type="text/css" />

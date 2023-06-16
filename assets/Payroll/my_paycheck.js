@@ -60,11 +60,14 @@ $(document).ready(function () {
 				data: "Nama",
 				name: "Nama "
 			}, {
-				data: "Work_Status",
-				name: "Work_Status "
-			}, {
 				data: "Jabatan",
 				name: "Jabatan "
+			}, {
+				data: "Tgl_Dari",
+				name: "Tgl_Dari "
+			}, {
+				data: "Tgl_Sampai",
+				name: "Tgl_Sampai "
 			}, {
 				data: "Payment_Status",
 				name: "Payment_Status ",
@@ -82,21 +85,21 @@ $(document).ready(function () {
 				render: function (data, type, row, meta) {
 					if (row.kasbon == 0 || row.Payment_Status == 1) {
 						return `<div class="btn-group-vertical" role="group">
-                        <button data-pk="${row.SysId}" class="btn btn-sm btn-icon btn-success btn-detail" data-toggle="tooltip" title="detail waktu absensi"><i class="fas fa-calendar-alt"></i></button>
-                        <button class="btn btn-icon btn-primary btn-sm btn-icon btn-print-hdr" data-toggle="tooltip" title="Print slip gaji ${row.Nama}"><i class="fas fa-print"></i></button>
+                        <button data-pk="${row.SysId}" class="btn btn-sm btn-icon btn-success btn-detail" data-toggle="tooltip" data-bs-custom-class="tooltip-dark" title="detail waktu absensi"><i class="fas fa-calendar-alt"></i></button>
+                        <button class="btn btn-icon btn-primary btn-sm btn-icon btn-print-hdr" data-toggle="tooltip" data-bs-custom-class="tooltip-dark" title="Print slip gaji ${row.Nama}"><i class="fas fa-print"></i></button>
                         </div>`;
 					} else {
-						// <button data-pk="${row.SysId}" class="btn btn-sm btn-icon btn-warning btn-kasbon" data-toggle="tooltip" title="Potongan Kasbon"><i class="fas fa-fax"></i></button>
+						// <button data-pk="${row.SysId}" class="btn btn-sm btn-icon btn-warning btn-kasbon" data-toggle="tooltip" data-bs-custom-class="tooltip-dark" title="Potongan Kasbon"><i class="fas fa-fax"></i></button>
 						return `<div class="btn-group-vertical" role="group">
-                        <button data-pk="${row.SysId}" class="btn btn-sm btn-icon btn-success btn-detail" data-toggle="tooltip" title="detail waktu absensi"><i class="fas fa-calendar-alt"></i></button>
-                        <button class="btn btn-icon btn-primary btn-sm btn-print-hdr" data-toggle="tooltip" title="Print slip gaji ${row.Nama}"><i class="fas fa-print"></i></button>
+                        <button data-pk="${row.SysId}" class="btn btn-sm btn-icon btn-success btn-detail" data-toggle="tooltip" data-bs-custom-class="tooltip-dark" title="detail waktu absensi"><i class="fas fa-calendar-alt"></i></button>
+                        <button class="btn btn-icon btn-primary btn-sm btn-print-hdr" data-toggle="tooltip" data-bs-custom-class="tooltip-dark" title="Print slip gaji ${row.Nama}"><i class="fas fa-print"></i></button>
                         </div>`;
 					}
 				}
 			}],
 			columnDefs: [{
 				className: "text-center",
-				targets: [1, 2, 3, 4, 5, 6],
+				targets: [1, 2, 3, 4, 5, 6, 7, 8],
 			}],
 			bAutoWidth: false,
 			responsive: true,

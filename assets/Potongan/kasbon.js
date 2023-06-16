@@ -85,7 +85,7 @@ $(document).ready(function () {
 				searchable: false,
 				orderable: false,
 				render: function (data, type, row, meta) {
-					return `<button data-pk="${row.SysId}" class="btn btn-info btn-icon btn-trx" data-toggle="tooltip" data-pk="${row.SysId}" title="Angsuran & Kasbon"><i class="bi bi-book-half"></i></button>`;
+					return `<button data-pk="${row.SysId}" class="btn btn-info btn-icon btn-trx" data-toggle="tooltip" data-bs-custom-class="tooltip-dark" data-pk="${row.SysId}" title="Angsuran & Kasbon"><i class="fas fa-book fs-2x" style="rotate: 45deg;"></i></button>`;
 				}
 			}
 		],
@@ -274,7 +274,15 @@ $(document).ready(function () {
 				Swal.close()
 				if (response.code == 200) {
 					$('#main-form')[0].reset();
-					$("#TableData").DataTable().ajax.reload(null, false);
+					$("#TableData").DataTable().ajax.reload();
+
+					$("#nav-tab-1").removeClass('active')
+					$("#nav-tab-2").addClass('active')
+					$("#container-tab-1").removeClass('active')
+					$("#container-tab-1").removeClass('show')
+					$("#container-tab-2").addClass('active')
+					$("#container-tab-2").addClass('show')
+
 					Swal.fire({
 						icon: 'success',
 						title: 'Notifikasi System',

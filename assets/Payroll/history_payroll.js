@@ -39,7 +39,7 @@ $(document).ready(function () {
 		],
 		"ajax": {
 			"url": $('meta[name="base_url"]').attr('content') + "HistoryPayroll/Event_Payroll_DataTable",
-			"type": "GET",
+			"type": "POST",
 		},
 		"columns": [{
 			data: "SysId",
@@ -50,21 +50,21 @@ $(document).ready(function () {
 				return meta.row + meta.settings._iDisplayStart + 1;
 			}
 		}, {
-			data: null,
-			name: "Handle",
+			data: "SysId",
+			name: "SysId",
 			orderable: false,
 			render: function (data, type, row, meta) {
 				if (row.Payment_Status == 0) {
 					return `<div class="btn-group" role="group">
-                    <button class="btn btn-icon btn-sm btn-warning btn-recalculate" data-toggle="tooltip" title="Recalculate slip ${row.Tot_Employee_Calculated} karyawan"><i class="fas fa-calculator"></i></button>
-                    <button class="btn btn-icon btn-sm btn-primary btn-print-all" data-toggle="tooltip" title="Print slip ${row.Tot_Employee_Calculated} karyawan"><i class="fas fa-print"></i></button>
-                    <button class="btn btn-icon btn-sm btn-success btn-finish" data-toggle="tooltip" title="Ubah status jadi selesai dibayarkan"><i class="fas fa-flag-checkered"></i></button>
-                    <button class="btn btn-icon btn-sm btn-danger btn-delete" data-toggle="tooltip" title="delete"><i class="fas fa-trash"></i></button>
+                    <button class="btn btn-icon btn-sm btn-warning btn-recalculate" data-toggle="tooltip" data-bs-custom-class="tooltip-dark" title="Recalculate slip ${row.Tot_Employee_Calculated} karyawan"><i class="fas fa-calculator"></i></button>
+                    <button class="btn btn-icon btn-sm btn-primary btn-print-all" data-toggle="tooltip" data-bs-custom-class="tooltip-dark" title="Print slip ${row.Tot_Employee_Calculated} karyawan"><i class="fas fa-print"></i></button>
+                    <button class="btn btn-icon btn-sm btn-success btn-finish" data-toggle="tooltip" data-bs-custom-class="tooltip-dark" title="Ubah status jadi selesai dibayarkan"><i class="fas fa-flag-checkered"></i></button>
+                    <button class="btn btn-icon btn-sm btn-danger btn-delete" data-toggle="tooltip" data-bs-custom-class="tooltip-dark" title="delete"><i class="fas fa-trash"></i></button>
                     </div>`;
 				} else {
 					return `<div class="btn-group btn-group-sm" role="group">
-                    <button class="btn btn-icon btn-secondary" data-toggle="tooltip" title="Gaji ${row.Tot_Employee_Calculated} karyawan Telah diBayar"><i class="fas fa-flag-checkered"></i></button>
-                    <button class="btn btn-icon btn-primary btn-print-all" data-toggle="tooltip" title="Print slip ${row.Tot_Employee_Calculated} karyawan"><i class="fas fa-print"></i></button></div>`;
+                    <button class="btn btn-icon btn-secondary" data-toggle="tooltip" data-bs-custom-class="tooltip-dark" title="Gaji ${row.Tot_Employee_Calculated} karyawan Telah diBayar"><i class="fas fa-flag-checkered"></i></button>
+                    <button class="btn btn-icon btn-primary btn-print-all" data-toggle="tooltip" data-bs-custom-class="tooltip-dark" title="Print slip ${row.Tot_Employee_Calculated} karyawan"><i class="fas fa-print"></i></button></div>`;
 				}
 			}
 		}, {
@@ -384,14 +384,14 @@ $(document).ready(function () {
 				render: function (data, type, row, meta) {
 					if (row.kasbon == 0 || row.Payment_Status == 1) {
 						return `<div class="btn-group" role="group">
-                        <button data-pk="${row.SysId}" class="btn btn-sm btn-icon btn-success btn-detail" data-toggle="tooltip" title="detail waktu absensi"><i class="fas fa-calendar-alt"></i></button>
-                        <button class="btn btn-icon btn-primary btn-sm btn-icon btn-print-hdr" data-toggle="tooltip" title="Print slip gaji ${row.Nama}"><i class="fas fa-print"></i></button>
+                        <button data-pk="${row.SysId}" class="btn btn-sm btn-icon btn-success btn-detail" data-toggle="tooltip" data-bs-custom-class="tooltip-dark" title="detail waktu absensi"><i class="fas fa-calendar-alt"></i></button>
+                        <button class="btn btn-icon btn-primary btn-sm btn-icon btn-print-hdr" data-toggle="tooltip" data-bs-custom-class="tooltip-dark" title="Print slip gaji ${row.Nama}"><i class="fas fa-print"></i></button>
                         </div>`;
 					} else {
-						// <button data-pk="${row.SysId}" class="btn btn-sm btn-icon btn-warning btn-kasbon" data-toggle="tooltip" title="Potongan Kasbon"><i class="fas fa-fax"></i></button>
+						// <button data-pk="${row.SysId}" class="btn btn-sm btn-icon btn-warning btn-kasbon" data-toggle="tooltip" data-bs-custom-class="tooltip-dark" title="Potongan Kasbon"><i class="fas fa-fax"></i></button>
 						return `<div class="btn-group" role="group">
-                        <button data-pk="${row.SysId}" class="btn btn-sm btn-icon btn-success btn-detail" data-toggle="tooltip" title="detail waktu absensi"><i class="fas fa-calendar-alt"></i></button>
-                        <button class="btn btn-icon btn-primary btn-sm btn-print-hdr" data-toggle="tooltip" title="Print slip gaji ${row.Nama}"><i class="fas fa-print"></i></button>
+                        <button data-pk="${row.SysId}" class="btn btn-sm btn-icon btn-success btn-detail" data-toggle="tooltip" data-bs-custom-class="tooltip-dark" title="detail waktu absensi"><i class="fas fa-calendar-alt"></i></button>
+                        <button class="btn btn-icon btn-primary btn-sm btn-print-hdr" data-toggle="tooltip" data-bs-custom-class="tooltip-dark" title="Print slip gaji ${row.Nama}"><i class="fas fa-print"></i></button>
                         </div>`;
 					}
 				}

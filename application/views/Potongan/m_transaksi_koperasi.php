@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="table-title-detail">History Transaksi Kasbon : <?= $Hdr->Nama ?></h5>
+                <h5 class="modal-title" id="table-title-detail">History Angsuran Debit/Kredit Koperasi : <?= $Hdr->Nama ?></h5>
                 <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
                     <span class="svg-icon svg-icon-2x"><i class="fas fa-times"></i></span>
                 </div>
@@ -76,7 +76,7 @@
                 [15, 30, 90, 1000]
             ],
             ajax: {
-                url: $('meta[name="base_url"]').attr('content') + "PotonganKasbon/DT_List_Trx_Employee",
+                url: $('meta[name="base_url"]').attr('content') + "PotonganKoperasi/DT_List_Trx_Employee",
                 dataType: "json",
                 type: "POST",
                 data: {

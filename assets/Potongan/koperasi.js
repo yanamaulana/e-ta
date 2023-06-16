@@ -37,7 +37,7 @@ $(document).ready(function () {
 			[15, 30, 90, 1000]
 		],
 		ajax: {
-			url: $('meta[name="base_url"]').attr('content') + "PotonganKasbon/DT_Master_Hdr_Kasbon",
+			url: $('meta[name="base_url"]').attr('content') + "PotonganKoperasi/DT_Master_Hdr_Koperasi",
 			dataType: "json",
 			type: "POST",
 		},
@@ -59,8 +59,8 @@ $(document).ready(function () {
 				name: "Nama",
 			},
 			{
-				data: "Saldo_Kasbon",
-				name: "Saldo_Kasbon",
+				data: "Saldo_Utang",
+				name: "Saldo_Utang",
 				render: function (data) {
 					return rupiah(data)
 				}
@@ -85,7 +85,7 @@ $(document).ready(function () {
 				searchable: false,
 				orderable: false,
 				render: function (data, type, row, meta) {
-					return `<button data-pk="${row.SysId}" class="btn btn-info btn-icon btn-trx" data-toggle="tooltip" data-pk="${row.SysId}" title="Angsuran & Kasbon"><i class="bi bi-book-half"></i></button>`;
+					return `<button data-pk="${row.SysId}" class="btn btn-info btn-icon btn-trx" data-toggle="tooltip" data-bs-custom-class="tooltip-dark" data-pk="${row.SysId}" title="Angsuran & Kasbon"><i class="las la-book fs-2qx" style="rotate: 45deg;"></i></button>`;
 				}
 			}
 		],
@@ -172,11 +172,11 @@ $(document).ready(function () {
 		}
 	})
 
-	$("#nominal_kasbon, #jumlah_angsuran, #saldo_kasbon").on('input', function () {
+	$("#nominal_utang, #jumlah_angsuran, #saldo_utang").on('input', function () {
 		// Mendapatkan nilai dari input "nominal_kasbon" dan "jumlah_angsuran"
-		var nominal_kasbon = parseFloat($("#nominal_kasbon").val());
+		var nominal_kasbon = parseFloat($("#nominal_utang").val());
 		var jumlah_angsuran = parseFloat($("#jumlah_angsuran").val());
-		var saldo_kasbon = parseFloat($("#saldo_kasbon").val());
+		var saldo_kasbon = parseFloat($("#saldo_utang").val());
 
 		// Memastikan nilai nominal_kasbon dan jumlah_angsuran adalah angka yang valid
 		if (!isNaN(nominal_kasbon) && !isNaN(jumlah_angsuran) && !isNaN(saldo_kasbon) && jumlah_angsuran !== 0) {
@@ -190,11 +190,11 @@ $(document).ready(function () {
 			$("#nominal_angsuran").val("0");
 		}
 	});
-	$("#nominal_kasbon, #jumlah_angsuran, #saldo_kasbon").on('change', function () {
+	$("#nominal_utang, #jumlah_angsuran, #saldo_utang").on('change', function () {
 		// Mendapatkan nilai dari input "nominal_kasbon" dan "jumlah_angsuran"
-		var nominal_kasbon = parseFloat($("#nominal_kasbon").val());
+		var nominal_kasbon = parseFloat($("#nominal_utang").val());
 		var jumlah_angsuran = parseFloat($("#jumlah_angsuran").val());
-		var saldo_kasbon = parseFloat($("#saldo_kasbon").val());
+		var saldo_kasbon = parseFloat($("#saldo_utang").val());
 
 		// Memastikan nilai nominal_kasbon dan jumlah_angsuran adalah angka yang valid
 		if (!isNaN(nominal_kasbon) && !isNaN(jumlah_angsuran) && !isNaN(saldo_kasbon) && jumlah_angsuran !== 0) {
@@ -211,9 +211,9 @@ $(document).ready(function () {
 
 	function Generate_Nominal_Angsuran() {
 		// Mendapatkan nilai dari input "nominal_kasbon" dan "jumlah_angsuran"
-		var nominal_kasbon = parseFloat($("#nominal_kasbon").val());
+		var nominal_kasbon = parseFloat($("#nominal_utang").val());
 		var jumlah_angsuran = parseFloat($("#jumlah_angsuran").val());
-		var saldo_kasbon = parseFloat($("#saldo_kasbon").val());
+		var saldo_kasbon = parseFloat($("#saldo_utang").val());
 
 		// Memastikan nilai nominal_kasbon dan jumlah_angsuran adalah angka yang valid
 		if (!isNaN(nominal_kasbon) && !isNaN(jumlah_angsuran) && !isNaN(saldo_kasbon) && jumlah_angsuran !== 0) {
@@ -268,13 +268,19 @@ $(document).ready(function () {
 		$.ajax({
 			dataType: "json",
 			type: "POST",
-			url: $('meta[name="base_url"]').attr('content') + "PotonganKasbon/Store",
+			url: $('meta[name="base_url"]').attr('content') + "PotonganKoperasi/Store",
 			data: DataForm,
 			success: function (response) {
 				Swal.close()
 				if (response.code == 200) {
 					$('#main-form')[0].reset();
-					$("#TableData").DataTable().ajax.reload(null, false);
+					$("#TableData").DataTable().ajax.reload();
+
+					$("#nav-tab-1").removeClass('active')
+					$("#nav-tab-2").addClass('active')
+					$("#container-tab-1").removeClass('active show')
+					$("#container-tab-2").addClass('active show')
+
 					Swal.fire({
 						icon: 'success',
 						title: 'Notifikasi System',
@@ -308,13 +314,13 @@ $(document).ready(function () {
 					});
 				}
 			},
-			error: function () {
-				Swal.close()
+			error: function (xhr, status, error) {
+				var statusCode = xhr.status;
+				var errorMessage = xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : xhr.responseText ? xhr.responseText : "Terjadi kesalahan: " + error;
 				Swal.fire({
-					icon: 'error',
-					title: 'Oops...',
-					text: 'A error occured, please report this error to administrator !',
-					footer: '<a href="javascript:void(0)">Notification System</a>'
+					icon: "error",
+					title: "Error!",
+					html: `Kode HTTP: ${statusCode}<br\>Pesan: ${errorMessage}`,
 				});
 			}
 		});
@@ -323,7 +329,7 @@ $(document).ready(function () {
 	$(document).on('click', '.btn-trx', function () {
 		$("#location").empty()
 		$.ajax({
-			url: $('meta[name="base_url"]').attr('content') + "PotonganKasbon/M_detail_transaksi_kasbon",
+			url: $('meta[name="base_url"]').attr('content') + "PotonganKoperasi/M_detail_transaksi_koperasi",
 			type: "GET",
 			data: {
 				SysId: $(this).attr('data-pk')
@@ -342,12 +348,13 @@ $(document).ready(function () {
 				$("#location").html(ajaxData);
 				$("#Modal-Detail").modal('show');
 			},
-			error: function () {
+			error: function (xhr, status, error) {
+				var statusCode = xhr.status;
+				var errorMessage = xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : xhr.responseText ? xhr.responseText : "Terjadi kesalahan: " + error;
 				Swal.fire({
-					title: "Error!",
-					text: "Terjadi kesalahan teknis, Hubungi MIS dept!",
 					icon: "error",
-					allowOutsideClick: false,
+					title: "Error!",
+					html: `Kode HTTP: ${statusCode}<br\>Pesan: ${errorMessage}`,
 				});
 			}
 		});

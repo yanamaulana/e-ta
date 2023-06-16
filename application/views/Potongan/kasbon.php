@@ -2,14 +2,14 @@
     <div class="col-xl-12">
         <div class="card card-flush overflow-hidden h-xl-100">
             <div class="card-header py-5">
-                <ul class="nav nav-pills nav-fill mb-5 fs-6">
+                <ul class="nav nav-pills nav-sm flex-sm-row mb-5 fs-6">
                     <li class="nav-item">
-                        <a class="nav-link mr-5" data-bs-toggle="tab" href="#container-tab-1">
+                        <a class="nav-link flex-sm-fill text-sm-center mr-5" id="nav-tab-1" data-bs-toggle="tab" href="#container-tab-1">
                             <h4 class="card-title" id="table-title-main">Form Kasbon</h4>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" data-bs-toggle="tab" href="#container-tab-3">
+                        <a class="nav-link flex-sm-fill text-sm-center active" id="nav-tab-2" data-bs-toggle="tab" href="#container-tab-2">
                             <h4 class="card-title" id="table-title-detail">Saldo Kasbon dan History Angsuran</h4>
                         </a>
                     </li>
@@ -86,7 +86,7 @@
                             </div>
                         </form>
                     </div>
-                    <div class="tab-pane fade active show" id="container-tab-3" role="tabpanel">
+                    <div class="tab-pane fade active show" id="container-tab-2" role="tabpanel">
                         <div class="pb-5 table-responsive">
                             <table id="TableData" class="table-sm align-middle display compact dt-nowrap table-rounded w-100 table-striped table-bordered border gy-5 gs-5">
                                 <thead style="background-color: #3B6D8C;">

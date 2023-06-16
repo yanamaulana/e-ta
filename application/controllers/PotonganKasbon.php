@@ -52,6 +52,7 @@ class PotonganKasbon extends CI_Controller
             ]);
 
             $this->db->insert($this->ttrx_dtl_transaksi_kasbon, [
+                'ID' => $ID_employee,
                 'Aritmatics' => '+',
                 'IN_OUT' => $nominal_kasbon,
                 'Saldo_Before' => 0,
@@ -76,6 +77,7 @@ class PotonganKasbon extends CI_Controller
             $RowKasbonHdr = $ValidationRedundanHdr->row();
             if ($RowKasbonHdr->Saldo_Kasbon == 0) {
                 $this->db->insert($this->ttrx_dtl_transaksi_kasbon, [
+                    'ID' => $ID_employee,
                     'Aritmatics' => '+',
                     'IN_OUT' => $nominal_kasbon,
                     'Saldo_Before' => $RowKasbonHdr->Saldo_Kasbon,
@@ -113,6 +115,7 @@ class PotonganKasbon extends CI_Controller
                 ]);
             } else if ($sisa_kasbon > 0) {
                 $this->db->insert($this->ttrx_dtl_transaksi_kasbon, [
+                    'ID' => $ID_employee,
                     'Aritmatics' => '+',
                     'IN_OUT' => $nominal_kasbon,
                     'Saldo_Before' => $RowKasbonHdr->Saldo_Kasbon,
@@ -152,7 +155,7 @@ class PotonganKasbon extends CI_Controller
                 return $this->help->Fn_resulting_response([
                     'code' => 302,
                     'saldo' => floatval($RowKasbonHdr->Saldo_Kasbon),
-                    'msg'  => "Yang bersangkutan masih memiliki tunggakan kasbon, harp kalkulasikan kembali dengan jumlah angsuran !",
+                    'msg'  => "Yang bersangkutan masih memiliki tunggakan kasbon, harap kalkulasikan kembali dengan jumlah angsuran !",
                 ]);
             }
         }

@@ -3,31 +3,26 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class HistoryPayroll extends CI_Controller
 {
-    private $layout             = 'layout';
-    private $date_time;
-    private $tbl_employee       = 'qview_employee_active';
-    private $tbl_overtime       = 'ttrx_over_time';
-    private $Qview_TTrx_Lembur  = 'qview_ttrx_lembur';
-
+    private $layout                     = 'layout';
     private $tmst_other_payment         = 'tmst_other_payment';
-    private $PaymentCode_Piket                = 'GURU_PIKET';
-    private $PaymentCode_Rapat                = 'K_RAPAT';
+    private $ttrx_over_time             = 'ttrx_over_time';
+    private $ttrx_payroll_guru_piket    = 'ttrx_payroll_guru_piket';
+    private $ttrx_hdr_payroll           = 'ttrx_hdr_payroll';
+    private $qview_employee_active      = 'qview_employee_active';
+    private $qview_payroll_hdr_karyawan = 'qview_payroll_hdr_karyawan';
+    private $att_trans                  = 'att_trans';
+    private $ttrx_dtl_payroll           = 'ttrx_dtl_payroll';
+    private $ttrx_event_payroll         = 'ttrx_event_payroll';
+    private $ttrx_payroll_upacara       = 'ttrx_payroll_upacara';
+    private $qview_mst_hdr_kasbon_all   = 'qview_mst_hdr_kasbon_all';
+    private $ttrx_dtl_transaksi_kasbon  = 'ttrx_dtl_transaksi_kasbon';
+    private $tmst_hdr_kasbon            = 'tmst_hdr_kasbon';
+    private $qview_dtl_peserta_rapat    = 'qview_dtl_peserta_rapat';
+    private $ttrx_dtl_peserta_rapat     = 'ttrx_dtl_peserta_rapat';
 
-    private $ttrx_over_time = 'ttrx_over_time';
-    private $ttrx_payroll_guru_piket = 'ttrx_payroll_guru_piket';
-
-    private $ttrx_hdr_payroll       = 'ttrx_hdr_payroll';
-    private $qview_employee_active  = 'qview_employee_active';
-    private $att_trans  = 'att_trans';
-    private $ttrx_dtl_payroll = 'ttrx_dtl_payroll';
-    private $ttrx_event_payroll = 'ttrx_event_payroll';
-    private $ttrx_payroll_upacara = 'ttrx_payroll_upacara';
-    private $qview_mst_hdr_kasbon_all = 'qview_mst_hdr_kasbon_all';
-    private $ttrx_dtl_transaksi_kasbon = 'ttrx_dtl_transaksi_kasbon';
-    private $tmst_hdr_kasbon = 'tmst_hdr_kasbon';
-
-    private $qview_dtl_peserta_rapat = 'qview_dtl_peserta_rapat';
-    private $ttrx_dtl_peserta_rapat = 'ttrx_dtl_peserta_rapat';
+    private $date_time;
+    private $PaymentCode_Piket = 'GURU_PIKET';
+    private $PaymentCode_Rapat = 'K_RAPAT';
 
     public function __construct()
     {
@@ -60,7 +55,7 @@ class HistoryPayroll extends CI_Controller
         $this->history->Hst_Event_Payroll($row_event, 'DELETE');
         foreach ($row_hdr as $li) {
             if ($li->Include_Angsuran_Kasbon == 1) {
-                $ValidateKasbonTrue = $this->db->get_where($this->ttrx_dtl_transaksi_kasbon, ['Tag_Hdr' => $li->TagID_PerNIK]);
+                $ValidateKasbonTrue = $this->db->order_by('SysId', 'DESC')->get_where($this->ttrx_dtl_transaksi_kasbon, ['Tag_Hdr' => $li->TagID_PerNIK]);
                 if ($ValidateKasbonTrue->num_rows() > 0) {
                     $RowKasbon = $this->db->get_where($this->qview_mst_hdr_kasbon_all, ['ID' => $li->NIK])->row();
                     $this->db->insert($this->ttrx_dtl_transaksi_kasbon, [
@@ -165,60 +160,11 @@ class HistoryPayroll extends CI_Controller
 
     public function Event_Payroll_DataTable()
     {
-
-
-
-        $requestData = $_REQUEST;
-        $columns = array(
-            0 => 'SysId',
-            2 => 'TagID',
-            3 => 'Tot_Employee_Calculated',
-            4 => 'Tgl_Dari',
-            5 => 'Tgl_Sampai',
-            6 => 'Created_by',
-            7 => 'Payment_Status',
-
-        );
-        $order = $columns[$requestData['order']['0']['column']];
-        $dir = $requestData['order']['0']['dir'];
-
-        $sql = "SELECT * from ttrx_event_payroll WHERE SysId is not null";
-
-        $totalData = $this->db->query($sql)->num_rows();
-        if (!empty($requestData['search']['value'])) {
-            $sql .= " AND (TagID LIKE '%" . $requestData['search']['value'] . "%' ";
-            $sql .= " OR Tot_Employee_Calculated LIKE '%" . $requestData['search']['value'] . "%' ";
-            $sql .= " OR Tgl_Dari LIKE '%" . $requestData['search']['value'] . "%' ";
-            $sql .= " OR Tgl_Sampai LIKE '%" . $requestData['search']['value'] . "%' ";
-            $sql .= " OR Created_by LIKE '%" . $requestData['search']['value'] . "%') ";
-        }
-        //----------------------------------------------------------------------------------
-        $totalFiltered = $this->db->query($sql)->num_rows();
-        $sql .= " ORDER BY $order $dir LIMIT " . $requestData['start'] . " ," . $requestData['length'] . " ";
-        $query = $this->db->query($sql);
-        $data = array();
-        foreach ($query->result_array() as $row) {
-            $nestedData = array();
-            $nestedData['SysId'] = $row["SysId"];
-            $nestedData['TagID'] = $row["TagID"];
-            $nestedData['Tot_Employee_Calculated'] = $row["Tot_Employee_Calculated"];
-            $nestedData['Tgl_Dari'] = $row["Tgl_Dari"];
-            $nestedData['Tgl_Sampai'] = $row["Tgl_Sampai"];
-            $nestedData['Payment_Status'] = $row["Payment_Status"];
-            $nestedData['Created_by'] = $row["Created_by"];
-            $nestedData['Created_at'] = $row["Created_at"];
-
-            $data[] = $nestedData;
-        }
-        //----------------------------------------------------------------------------------
-        $json_data = array(
-            "draw" => intval($requestData['draw']),
-            "recordsTotal" => intval($totalData),
-            "recordsFiltered" => intval($totalFiltered),
-            "data" => $data,
-        );
-        //----------------------------------------------------------------------------------
-        echo json_encode($json_data);
+        $tables = $this->ttrx_event_payroll;
+        $search = ['SysId', 'TagID', 'Tot_Employee_Calculated', 'Tgl_Dari', 'Tgl_Sampai', 'Created_by', 'Payment_Status'];
+        $isWhere = null;
+        header('Content-Type: application/json');
+        echo $this->M_Datatables->get_tables($tables, $search, $isWhere);
     }
 
     public function Hdr_Payroll_DataTable()
@@ -227,9 +173,7 @@ class HistoryPayroll extends CI_Controller
         $tables = "qview_payroll_hdr_karyawan";
         $search = array('TagID_PerNIK', 'NIK', 'Nama', 'Work_Status', 'Jabatan');
         $where  = array('TagID_Event' => $TagID);
-        // jika memakai IS NULL pada where sql
         $isWhere = null;
-        // $isWhere = 'artikel.deleted_at IS NULL';
         header('Content-Type: application/json');
         echo $this->M_Datatables->get_tables_where($tables, $search, $where, $isWhere);
     }
@@ -325,13 +269,16 @@ class HistoryPayroll extends CI_Controller
             $currentDate = clone $DatePayFormat_Start;
 
             if ($row->Include_Angsuran_Kasbon == 1) {
-                $RowAngsuranPayroll = $this->db->get_where($this->ttrx_dtl_transaksi_kasbon, ['Tag_Hdr' => $row->TagID_PerNIK]);
+                $RowAngsuranPayroll = $this->db->order_by('SysId', 'DESC')->get_where($this->ttrx_dtl_transaksi_kasbon, ['Tag_Hdr' => $row->TagID_PerNIK]);
                 if ($RowAngsuranPayroll->num_rows() > 0) {
                     $RowAngsuranPayroll = $RowAngsuranPayroll->row();
                     $RowHdrKasbon = $this->db->get_where($this->qview_mst_hdr_kasbon_all, ['ID' => $nik])->row();
                     if ($RowAngsuranPayroll->IN_OUT != $RowHdrKasbon->Nominal_Angsuran) {
+
                         $this->history->History_Hdr_Payroll($row, 'RECALCULATE KASBON');
                         $this->history->Hst_Transaksi_Kasbon($RowAngsuranPayroll, 'AKSI CALCULATE : PERUBAHAN TRANSAKSI ANGSURAN, KARNA MASTER ANGSURAN KASBON TELAH BERUBAH');
+
+
                         $this->db->where('SysId', $RowAngsuranPayroll->SysId);
                         $this->db->update($this->ttrx_dtl_transaksi_kasbon, [
                             'IN_OUT' => floatval($RowHdrKasbon->Nominal_Angsuran),
@@ -462,58 +409,11 @@ class HistoryPayroll extends CI_Controller
     public function Hdr_Payroll_DataTable_Paycheck()
     {
         $NIK = $this->input->post('NIK');
-        $requestData = $_REQUEST;
-        $columns = array(
-            0 => 'SysId',
-            1 => 'TagID_PerNIK',
-            2 => 'NIK',
-            3 => 'Nama',
-            4 => 'Work_Status',
-            5 => 'Jabatan',
-            6 => 'Payment_Status',
-        );
-        $order = $columns[$requestData['order']['0']['column']];
-        $dir = $requestData['order']['0']['dir'];
-
-        $sql = "SELECT * from qview_payroll_hdr_karyawan WHERE NIK  = '$NIK' ";
-
-        $totalData = $this->db->query($sql)->num_rows();
-        if (!empty($requestData['search']['value'])) {
-            $sql .= " AND (TagID_PerNIK LIKE '%" . $requestData['search']['value'] . "%' ";
-            $sql .= " OR NIK LIKE '%" . $requestData['search']['value'] . "%' ";
-            $sql .= " OR Nama LIKE '%" . $requestData['search']['value'] . "%' ";
-            $sql .= " OR Work_Status LIKE '%" . $requestData['search']['value'] . "%' ";
-            $sql .= " OR Jabatan LIKE '%" . $requestData['search']['value'] . "%') ";
-        }
-        //----------------------------------------------------------------------------------
-        $totalFiltered = $this->db->query($sql)->num_rows();
-        $sql .= " ORDER BY $order $dir LIMIT " . $requestData['start'] . " ," . $requestData['length'] . " ";
-        $query = $this->db->query($sql);
-        $data = array();
-        foreach ($query->result_array() as $row) {
-            $nestedData = array();
-            $nestedData['SysId'] = $row["SysId"];
-            $nestedData['TagID_Event'] = $row["TagID_Event"];
-            $nestedData['TagID_PerNIK'] = $row["TagID_PerNIK"];
-            $nestedData['NIK'] = $row["NIK"];
-            $nestedData['Nama'] = $row["Nama"];
-            $nestedData['Jabatan'] = $row["Jabatan"];
-            $nestedData['Work_Status'] = $row["Work_Status"];
-            $nestedData['Payment_Status'] = $row["is_active"];
-            $nestedData['Tgl_Dari'] = $row["Tgl_Dari"];
-            $nestedData['Tgl_Sampai'] = $row["Tgl_Sampai"];
-            $nestedData['Payment_Status'] = $row["Payment_Status"];
-
-            $data[] = $nestedData;
-        }
-        //----------------------------------------------------------------------------------
-        $json_data = array(
-            "draw" => intval($requestData['draw']),
-            "recordsTotal" => intval($totalData),
-            "recordsFiltered" => intval($totalFiltered),
-            "data" => $data,
-        );
-        //----------------------------------------------------------------------------------
-        echo json_encode($json_data);
+        $tables = $this->qview_payroll_hdr_karyawan;
+        $search = array('SysId', 'TagID_PerNIK', 'NIK', 'Nama', 'Jabatan', 'Payment_Status', 'Tgl_Dari', 'Tgl_Sampai');
+        $where  = array('NIK' => $NIK);
+        $isWhere = null;
+        header('Content-Type: application/json');
+        echo $this->M_Datatables->get_tables_where($tables, $search, $where, $isWhere);
     }
 }

@@ -33,6 +33,7 @@ class m_history extends CI_Model
             'Nominal_Tunjangan_Lain' => $data->Nominal_Tunjangan_Lain,
             'Include_Angsuran_Kasbon' => $data->Include_Angsuran_Kasbon,
             'Nominal_Angsuran_Kasbon' => $data->Nominal_Angsuran_Kasbon,
+            'Nominal_Angsuran_Utang_Koperasi' => $data->Nominal_Angsuran_Utang_Koperasi,
             'Nominal_Potongan_Keanggotaan_Pgri' => $data->Nominal_Potongan_Keanggotaan_Pgri,
             'Status_History' => $status,
             'History_by' => $this->session->userdata('sys_username')

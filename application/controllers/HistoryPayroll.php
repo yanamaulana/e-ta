@@ -19,6 +19,10 @@ class HistoryPayroll extends CI_Controller
     private $tmst_hdr_kasbon            = 'tmst_hdr_kasbon';
     private $qview_dtl_peserta_rapat    = 'qview_dtl_peserta_rapat';
     private $ttrx_dtl_peserta_rapat     = 'ttrx_dtl_peserta_rapat';
+    private $qview_mst_hdr_koperasi = 'qview_mst_hdr_koperasi';
+    private $qview_mst_hdr_koperasi_all = 'qview_mst_hdr_koperasi_all';
+    private $ttrx_dtl_transaksi_koperasi = 'ttrx_dtl_transaksi_koperasi';
+    private $tmst_hdr_utang_koperasi = 'tmst_hdr_utang_koperasi';
 
     private $date_time;
     private $PaymentCode_Piket = 'GURU_PIKET';
@@ -79,6 +83,29 @@ class HistoryPayroll extends CI_Controller
                     ]);
                 }
             }
+
+            if (floatval($li->Nominal_Angsuran_Utang_Koperasi) > 0) {
+                $RowUtangKoperasi = $this->db->get_where($this->qview_mst_hdr_koperasi, ['ID' => $li->NIK])->row();
+                $this->db->insert($this->ttrx_dtl_transaksi_koperasi, [
+                    'ID' => $li->NIK,
+                    'Aritmatics' => '+',
+                    'IN_OUT' => floatval($li->Nominal_Angsuran_Utang_Koperasi),
+                    'Saldo_Before' => floatval($RowUtangKoperasi->Saldo_Utang),
+                    'Saldo_After' => floatval($RowUtangKoperasi->Saldo_Utang) + floatval($li->Nominal_Angsuran_Utang_Koperasi),
+                    'Remark_System' => 'DELETE PAYROLL ROLLBACK ANGSURAN KOPERASI',
+                    'Note' => '',
+                    'Created_by' => $this->session->userdata('sys_username'),
+                    'Created_at' => $this->date_time,
+                    'Tag_Hdr' => $li->TagID_PerNIK,
+                ]);
+                $this->db->where('ID', $li->NIK);
+                $this->db->update($this->tmst_hdr_utang_koperasi, [
+                    'Saldo_Utang' => floatval($RowKasbon->Saldo_Utang) + floatval($li->Nominal_Angsuran_Utang_Koperasi),
+                    'Last_Updated_by' => $this->session->userdata('sys_username'),
+                    'Last_Updated_at' => $this->date_time
+                ]);
+            }
+
             $this->history->History_Hdr_Payroll($li, 'DELETE');
             $detail = $this->db->get_where($this->ttrx_dtl_payroll, ['TagID_PerNIK_Hdr' => $li->TagID_PerNIK]);
             foreach ($detail->result() as $dtl) {

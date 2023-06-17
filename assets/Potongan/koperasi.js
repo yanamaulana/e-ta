@@ -278,8 +278,10 @@ $(document).ready(function () {
 
 					$("#nav-tab-1").removeClass('active')
 					$("#nav-tab-2").addClass('active')
-					$("#container-tab-1").removeClass('active show')
-					$("#container-tab-2").addClass('active show')
+					$("#container-tab-1").removeClass('active')
+					$("#container-tab-1").removeClass('show')
+					$("#container-tab-2").addClass('active')
+					$("#container-tab-2").addClass('show')
 
 					Swal.fire({
 						icon: 'success',
@@ -289,21 +291,8 @@ $(document).ready(function () {
 						confirmButtonText: 'Ya, Confirm!',
 						footer: '<a href="javascript:void(0)">Notifikasi System</a>'
 					})
-				} else if (response.code == 302) {
-					$('#saldo_kasbon').val(response.saldo)
-					$('#el-saldo-lama').show()
-					Swal.fire({
-						icon: 'info',
-						title: 'Notifikasi System',
-						text: response.msg,
-						confirmButtonColor: '#3085d6',
-						confirmButtonText: 'Ya, Confirm!',
-						footer: '<a href="javascript:void(0)">Notifikasi System</a>'
-					}).then((result) => {
-						$('#el-saldo-lama').show()
-					});
-					Generate_Nominal_Angsuran()
 				} else {
+					$('#main-form')[0].reset();
 					Swal.fire({
 						icon: 'error',
 						title: 'Oops...',

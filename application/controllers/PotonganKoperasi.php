@@ -114,49 +114,10 @@ class PotonganKoperasi extends CI_Controller
                     'Last_Updated_at' => $this->date_time,
                     'Last_Updated_by' => $this->session->userdata('sys_username'),
                 ]);
-            } else if ($sisa_utang > 0) {
-                $this->db->insert($this->ttrx_dtl_transaksi_koperasi, [
-                    'ID' => $ID_employee,
-                    'Aritmatics' => '+',
-                    'IN_OUT' => $nominal_utang,
-                    'Saldo_Before' => $RowUtangHdr->Saldo_Utang,
-                    'Saldo_After' => floatval($RowUtangHdr->Saldo_Utang) + $nominal_utang,
-                    'Remark_System' => 'PENAMBAHAN SALDO UTANG KOPERASI',
-                    'Note' => $note,
-                    'Created_by' => $this->session->userdata('sys_username'),
-                    'Created_at' => $this->date_time,
-                    'Tag_Hdr' => NULL,
-                ]);
-
-                $AngsuranBefore = $this->db->get_where($this->tmst_angsuran_utang_koperasi, ['ID' => $ID_employee])->row();
-
-                $this->db->insert($this->thst_angsuran_kasbon, [
-                    'ID' => $AngsuranBefore->ID,
-                    'Nominal_Angsuran' => $AngsuranBefore->Nominal_Angsuran,
-                    'Remark_System' => $AngsuranBefore->Remark_System,
-                    'Created_by' => $this->session->userdata('sys_username'),
-                    'Created_at' => $this->date_time,
-                ]);
-
-                $this->db->where('ID', $ID_employee);
-                $this->db->update($this->tmst_angsuran_utang_koperasi, [
-                    'Nominal_Angsuran' => ($sisa_utang + $nominal_utang) / $jumlah_angsuran,
-                    'Remark_System' => 'PENAMBAHAN SALDO UTANG KOPERASI',
-                    'Last_Updated_by' => $this->session->userdata('sys_username'),
-                    'Last_Updated_at' => $this->date_time,
-                ]);
-
-                $this->db->where('ID', $ID_employee);
-                $this->db->update($this->tmst_hdr_utang_koperasi, [
-                    'Saldo_Utang' => floatval($RowUtangHdr->Saldo_Utang) + $nominal_utang,
-                    'Last_Updated_at' => $this->date_time,
-                    'Last_Updated_by' => $this->session->userdata('sys_username'),
-                ]);
             } else {
                 return $this->help->Fn_resulting_response([
-                    'code' => 302,
-                    'saldo' => floatval($RowUtangHdr->Saldo_Utang),
-                    'msg'  => "Yang bersangkutan masih memiliki tunggakan utang koperasi, harap kalkulasikan kembali dengan jumlah angsuran !",
+                    'code' => 500,
+                    'msg'  => "Yang bersangkutan masih memiliki tunggakan utang koperasi, tunggu sampai hutang koperasinya lunas !",
                 ]);
             }
         }

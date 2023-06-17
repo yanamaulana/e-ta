@@ -8,28 +8,25 @@ class CalculatePayroll extends CI_Controller
 {
     private $layout             = 'layout';
     private $date_time;
-    private $tbl_employee       = 'qview_employee_active';
     private $tmst_employee      = 'tbl_employee';
-    private $tbl_overtime       = 'ttrx_over_time';
-    private $Qview_TTrx_Lembur  = 'qview_ttrx_lembur';
 
     private $ttrx_payroll_guru_piket = 'ttrx_payroll_guru_piket';
     private $ttrx_payroll_upacara = 'ttrx_payroll_upacara';
     private $qview_dtl_peserta_rapat = 'qview_dtl_peserta_rapat';
     private $ttrx_dtl_peserta_rapat = 'ttrx_dtl_peserta_rapat';
-    private $tmst_other_payment = 'tmst_other_payment';
-    private $PaymentCode = 'GURU_PIKET';
 
     private $ttrx_hdr_payroll       = 'ttrx_hdr_payroll';
     private $qview_employee_active  = 'qview_employee_active';
     private $att_trans  = 'att_trans';
     private $ttrx_over_time = 'ttrx_over_time';
     private $ttrx_dtl_payroll = 'ttrx_dtl_payroll';
-    private $ttrx_event_payroll = 'ttrx_event_payroll';
 
     private $qview_mst_hdr_kasbon = 'qview_mst_hdr_kasbon';
     private $ttrx_dtl_transaksi_kasbon = 'ttrx_dtl_transaksi_kasbon';
     private $tmst_hdr_kasbon = 'tmst_hdr_kasbon';
+    private $qview_mst_hdr_koperasi = 'qview_mst_hdr_koperasi';
+    private $ttrx_dtl_transaksi_koperasi = 'ttrx_dtl_transaksi_koperasi';
+    private $tmst_hdr_utang_koperasi = 'tmst_hdr_utang_koperasi';
     private $qview_payroll_cuts_pgri = 'qview_payroll_cuts_pgri';
 
     public function __construct()
@@ -158,6 +155,32 @@ class CalculatePayroll extends CI_Controller
                 }
             }
 
+            $Nominal_Angsuran_Utang_Koperasi = 0;
+            $SqlUtangKoperasi = $this->db->get_where($this->qview_mst_hdr_koperasi, ['ID' => $nik]);
+            if ($SqlUtangKoperasi->num_rows() > 0) {
+                $RowUtangKoperasi = $SqlUtangKoperasi->row();
+                $Nominal_Angsuran_Utang_Koperasi = floatval($RowUtangKoperasi->Nominal_Angsuran);
+                $this->db->insert($this->ttrx_dtl_transaksi_koperasi, [
+                    'ID' => $nik,
+                    'Aritmatics' => '-',
+                    'IN_OUT' => $Nominal_Angsuran_Utang_Koperasi,
+                    'Saldo_Before' => floatval($RowUtangKoperasi->Saldo_Utang),
+                    'Saldo_After' => floatval($RowUtangKoperasi->Saldo_Utang) - $Nominal_Angsuran_Utang_Koperasi,
+                    'Remark_System' => "PAYROLL POTONGAN ANGSURAN KOPERASI",
+                    'Note' => '',
+                    'Created_by' => $this->session->userdata('sys_username'),
+                    'Created_at' => $this->date_time,
+                    'Tag_Hdr' => $TagID . ':' . $nik,
+                ]);
+
+                $this->db->where('ID', $nik);
+                $this->db->update($this->tmst_hdr_utang_koperasi, [
+                    'Saldo_Utang' => floatval($RowUtangKoperasi->Saldo_Utang) - $Nominal_Angsuran_Utang_Koperasi,
+                    'Last_Updated_by' => $this->session->userdata('sys_username'),
+                    'Last_Updated_at' => $this->date_time
+                ]);
+            }
+
             $Nominal_Potongan_Keanggotaan_Pgri = 0;
             $SqlPgri = $this->db->get_where($this->qview_payroll_cuts_pgri, ['ID' => $nik]);
             if ($SqlPgri->num_rows() > 0) {
@@ -189,6 +212,7 @@ class CalculatePayroll extends CI_Controller
                 'Nominal_Tunjangan_Lain' => $Nominal_Tunjangan_Lain,
                 'Include_Angsuran_Kasbon' => $Include_Angsuran_Kasbon,
                 'Nominal_Angsuran_Kasbon' => $Nominal_Angsuran_Kasbon,
+                'Nominal_Angsuran_Utang_Koperasi' => $Nominal_Angsuran_Utang_Koperasi,
                 'Nominal_Potongan_Keanggotaan_Pgri' => $Nominal_Potongan_Keanggotaan_Pgri
             ]);
             $currentDate = clone $DatePayFormat_Start;

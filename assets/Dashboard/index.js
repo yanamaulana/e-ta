@@ -39,4 +39,17 @@ $(document).ready(function () {
 		}],
 		order: [3, 'asc'],
 	});
+
+	$('#Today-Piket').DataTable({
+		dom: 'frtip',
+		"lengthMenu": [
+			[1000],
+			[1000]
+		],
+		columnDefs: [{
+			className: "align-middle text-center",
+			targets: [0, 1],
+		}],
+		order: [0, 'asc'],
+	});
 })

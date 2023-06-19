@@ -224,8 +224,8 @@ $(document).ready(function () {
 				visible: false,
 			},
 			{
-				data: "Tunjangan_Lain",
-				name: "Tunjangan_Lain",
+				data: "Label_Tunjangan_Lain",
+				name: "Label_Tunjangan_Lain",
 				visible: false,
 			},
 			{

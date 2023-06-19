@@ -61,6 +61,8 @@ class Auth extends CI_Controller
 			$employee = $this->db->get_where('qview_employee_active', [
 				'UserName' => $login->username,
 			])->row_array();
+
+			$is_kurikulum = $this->Fn_Is_Kurikulum($employee);
 			$session_data = array(
 				'sys_nama'	 			=> $user['Nama'],
 				'sys_ID'	 			=> $user['ID'],
@@ -68,7 +70,8 @@ class Auth extends CI_Controller
 				'sys_role'	 			=> $user['Role'],
 				'sys_jabatan'			=> $employee['Jabatan'],
 				'sys_email'	 			=> $user['Email'],
-				'sys_telp'	 			=> $user['Telpon']
+				'sys_telp'	 			=> $user['Telpon'],
+				'sys_kurikulum'			=> $is_kurikulum
 			);
 			$this->session->set_userdata($session_data);
 			$response = [
@@ -100,6 +103,21 @@ class Auth extends CI_Controller
 				];
 				return $this->help->Fn_resulting_response($response);
 			}
+		}
+	}
+
+	private function Fn_Is_Kurikulum($row)
+	{
+		if ($row['Tunjangan_Jabatan_1'] == 'Kurikulum') {
+			return 1;
+		} elseif ($row['Tunjangan_Jabatan_2'] == 'Kurikulum') {
+			return 1;
+		} elseif ($row['Tunjangan_Jabatan_3'] == 'Kurikulum') {
+			return 1;
+		} elseif ($row['Label_Tunjangan_Lain'] == 'Kurikulum') {
+			return 1;
+		} else {
+			return 0;
 		}
 	}
 

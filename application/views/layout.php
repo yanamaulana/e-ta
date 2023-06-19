@@ -45,6 +45,7 @@
                 <?php
                 $Menu = $this->uri->segment(1);
                 $Role = $this->session->userdata('sys_role');
+                $is_kurikulum = $this->session->userdata('sys_kurikulum');
                 ?>
                 <div class="aside-menu flex-column-fluid">
                     <div class="hover-scroll-overlay-y my-5 my-lg-5" id="kt_aside_menu_wrapper" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-height="auto" data-kt-scroll-dependencies="#kt_aside_logo, #kt_aside_footer" data-kt-scroll-wrappers="#kt_aside_menu" data-kt-scroll-offset="0">
@@ -164,7 +165,7 @@
                                             <span class="menu-title">Form Jadwal</span>
                                         </a>
                                     </div>
-                                    <?php if ($Role == 'ADMINISTRATOR') : ?>
+                                    <?php if ($Role == 'ADMINISTRATOR' || $is_kurikulum == 1) : ?>
                                         <div class="menu-item">
                                             <a class="menu-link <?= ($Menu == 'ApprovalSchedule') ? 'active' : null ?>" href="<?= base_url('ApprovalSchedule') ?>">
                                                 <span class="menu-icon">

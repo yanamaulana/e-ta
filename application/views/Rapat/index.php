@@ -43,7 +43,7 @@
                                 <div class="form-group py-3">
                                     <label for="jumlah_jam" class="col-form-label">Ketua Rapat :</label>
                                     <div class="col-sm-10">
-                                        <select required class="form-control select2" id="ketua_rapat" name="ketua_rapat">
+                                        <select required class="form-select" id="ketua_rapat" name="ketua_rapat" data-control="select2">
                                             <option selected disabled>-Pilih Ketua-</option>
                                             <?php foreach ($Employees as $li) :  ?>
                                                 <option value="<?= $li->UserName ?>"><?= $li->Nama ?></option>

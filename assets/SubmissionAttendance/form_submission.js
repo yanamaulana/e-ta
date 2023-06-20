@@ -62,7 +62,7 @@ $(document).ready(function () {
 		}).data()[0];
 
 		$('#Schedule_ID').val(Dataa[7])
-		$('#Schedule').val(Dataa[1] + ', ' + Dataa[2] + ', ' + Dataa[3] + ', ' + Dataa[4] + ' : Stand Hour (' + Dataa[6] + ')');
+		$('#Schedule').val(Dataa[1] + ', ' + Dataa[2] + ', ' + Dataa[3] + ', ' + Dataa[4] + ' : Jam Berdiri (' + Dataa[6] + ')');
 		$('#modal-browse').modal('hide');
 	})
 

@@ -168,7 +168,7 @@ class SubmissionAttendance extends CI_Controller
             4 => 'Date_Att',
             5 => 'Time_Att',
             6 => 'Schedule_Number',
-            7 => 'Day',
+            7 => 'Hari',
             8 => 'Kelas',
             9 => 'Mata_Pelajaran',
             10 => 'Time_Start',
@@ -189,7 +189,7 @@ class SubmissionAttendance extends CI_Controller
             $sql .= " OR Schedule_Number LIKE '%" . $requestData['search']['value'] . "%' ";
             $sql .= " OR Time_Att LIKE '%" . $requestData['search']['value'] . "%' ";
             $sql .= " OR Card LIKE '%" . $requestData['search']['value'] . "%' ";
-            $sql .= " OR Day LIKE '%" . $requestData['search']['value'] . "%' ";
+            $sql .= " OR Hari LIKE '%" . $requestData['search']['value'] . "%' ";
             $sql .= " OR Kelas LIKE '%" . $requestData['search']['value'] . "%' ";
             $sql .= " OR Stand_Hour LIKE '%" . $requestData['search']['value'] . "%' ";
             $sql .= " OR Time_Start LIKE '%" . $requestData['search']['value'] . "%' ";
@@ -210,7 +210,7 @@ class SubmissionAttendance extends CI_Controller
             $nestedData['Date_Att'] = $row['Date_Att'];
             $nestedData['Time_Att'] = $row['Time_Att'];
             $nestedData['Schedule_Number'] = $row['Schedule_Number'];
-            $nestedData['Day'] = $row['Day'];
+            $nestedData['Hari'] = $row['Hari'];
             $nestedData['Kelas'] = $row['Kelas'];
             $nestedData['Mata_Pelajaran'] = $row['Mata_Pelajaran'];
             $nestedData['Time_Start'] = $row['Time_Start'];
@@ -242,7 +242,7 @@ class SubmissionAttendance extends CI_Controller
             4 => 'Date_Att',
             5 => 'Time_Att',
             6 => 'Schedule_Number',
-            7 => 'Day',
+            7 => 'Hari',
             8 => 'Kelas',
             9 => 'Mata_Pelajaran',
             10 => 'Time_Start',
@@ -263,7 +263,7 @@ class SubmissionAttendance extends CI_Controller
             $sql .= " OR Schedule_Number LIKE '%" . $requestData['search']['value'] . "%' ";
             $sql .= " OR Time_Att LIKE '%" . $requestData['search']['value'] . "%' ";
             $sql .= " OR Card LIKE '%" . $requestData['search']['value'] . "%' ";
-            $sql .= " OR Day LIKE '%" . $requestData['search']['value'] . "%' ";
+            $sql .= " OR Hari LIKE '%" . $requestData['search']['value'] . "%' ";
             $sql .= " OR Kelas LIKE '%" . $requestData['search']['value'] . "%' ";
             $sql .= " OR Stand_Hour LIKE '%" . $requestData['search']['value'] . "%' ";
             $sql .= " OR Time_Start LIKE '%" . $requestData['search']['value'] . "%' ";
@@ -284,7 +284,7 @@ class SubmissionAttendance extends CI_Controller
             $nestedData['Date_Att'] = $row['Date_Att'];
             $nestedData['Time_Att'] = $row['Time_Att'];
             $nestedData['Schedule_Number'] = $row['Schedule_Number'];
-            $nestedData['Day'] = $row['Day'];
+            $nestedData['Hari'] = $row['Hari'];
             $nestedData['Kelas'] = $row['Kelas'];
             $nestedData['Mata_Pelajaran'] = $row['Mata_Pelajaran'];
             $nestedData['Time_Start'] = $row['Time_Start'];

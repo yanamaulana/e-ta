@@ -27,18 +27,18 @@
                                     <thead style="background-color: #3B6D8C;">
                                         <tr class="text-start text-white fw-bolder text-uppercase">
                                             <th class="text-center text-white">#</th>
-                                            <th class="text-center text-white">NAME</th>
+                                            <th class="text-center text-white">NAMA</th>
                                             <th class="text-center text-white">ID ACCESS</th>
-                                            <th class="text-center text-white">SOURCE</th>
-                                            <th class="text-center text-white">DATE</th>
-                                            <th class="text-center text-white">TIME</th>
-                                            <th class="text-center text-white">SCHEDULE NUMBER</th>
-                                            <th class="text-center text-white">DAY</th>
-                                            <th class="text-center text-white">CLASS</th>
-                                            <th class="text-center text-white">SUBJECT</th>
-                                            <th class="text-center text-white">START TIME</th>
-                                            <th class="text-center text-white">TIME OVER</th>
-                                            <th class="text-center text-white">STAND HOUR</th>
+                                            <th class="text-center text-white">SUMBER</th>
+                                            <th class="text-center text-white">TGL</th>
+                                            <th class="text-center text-white">WAKTU</th>
+                                            <th class="text-center text-white">NO. JADWAL</th>
+                                            <th class="text-center text-white">HARI</th>
+                                            <th class="text-center text-white">KELAS</th>
+                                            <th class="text-center text-white">MAPEL</th>
+                                            <th class="text-center text-white">MULAI</th>
+                                            <th class="text-center text-white">SELESAI</th>
+                                            <th class="text-center text-white">JAM BERDIRI</th>
                                             <th class="text-center text-white">STATUS</th>
                                         </tr>
                                     </thead>
@@ -55,18 +55,18 @@
                                     <thead style="background-color: #3B6D8C;">
                                         <tr class="text-start text-white fw-bolder text-uppercase">
                                             <th class="text-center text-white">#</th>
-                                            <th class="text-center text-white">NAME</th>
+                                            <th class="text-center text-white">NAMA</th>
                                             <th class="text-center text-white">ID ACCESS</th>
-                                            <th class="text-center text-white">SOURCE</th>
-                                            <th class="text-center text-white">DATE</th>
-                                            <th class="text-center text-white">TIME</th>
-                                            <th class="text-center text-white">SCHEDULE NUMBER</th>
-                                            <th class="text-center text-white">DAY</th>
-                                            <th class="text-center text-white">CLASS</th>
-                                            <th class="text-center text-white">SUBJECT</th>
-                                            <th class="text-center text-white">START TIME</th>
-                                            <th class="text-center text-white">TIME OVER</th>
-                                            <th class="text-center text-white">STAND HOUR</th>
+                                            <th class="text-center text-white">SUMBER</th>
+                                            <th class="text-center text-white">TGL</th>
+                                            <th class="text-center text-white">WAKTU</th>
+                                            <th class="text-center text-white">NO. JADWAL</th>
+                                            <th class="text-center text-white">HARI</th>
+                                            <th class="text-center text-white">KELAS</th>
+                                            <th class="text-center text-white">MAPEL</th>
+                                            <th class="text-center text-white">MULAI</th>
+                                            <th class="text-center text-white">SELESAI</th>
+                                            <th class="text-center text-white">JAM BERDIRI</th>
                                             <th class="text-center text-white">STATUS</th>
                                         </tr>
                                     </thead>

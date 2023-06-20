@@ -22,7 +22,7 @@
                             </div>
                             <div class="col-xl-12 col-md-12">
                                 <div class="fv-row mb-5">
-                                    <label class="form-label">Schedule :</label>
+                                    <label class="form-label">Jadwal :</label>
                                     <input type="hidden" name="Schedule_ID" id="Schedule_ID" readonly required>
                                     <div class="input-group">
                                         <input type="text" required readonly class="form-control" id="Schedule" name="Schedule" placeholder="Schedule Number...">
@@ -35,8 +35,8 @@
                                     <label class="form-label">Remark :</label>
                                     <select class="form-control" id="Card" name="Card" required class="form-select form-control" data-control="select2" data-placeholder="Select an option">
                                         <option></option>
-                                        <option value="FORGOT ATTENDANCE">FORGOT ATTENDANCE</option>
-                                        <option value="ACTIVITIES OUTSIDE SCHOOL">ACTIVITIES OUTSIDE SCHOOL</option>
+                                        <option value="Lupa Absen">Lupa Absen</option>
+                                        <option value="Aktivitas Di Luar Sekolah">Aktivitas Di Luar Sekolah</option>
 
                                     </select>
                                 </div>
@@ -77,12 +77,12 @@
                             <thead style="background-color: #3B6D8C;">
                                 <tr class="text-start text-white fw-bolder text-uppercase">
                                     <th class="text-center text-white">#</th>
-                                    <th class="text-center text-white">DAY</th>
-                                    <th class="text-center text-white">CLASS</th>
-                                    <th class="text-center text-white">SUBJECT</th>
-                                    <th class="text-center text-white">TIME START</th>
-                                    <th class="text-center text-white">TIME OVER</th>
-                                    <th class="text-center text-white">HOUR STANDS</th>
+                                    <th class="text-center text-white">HARI</th>
+                                    <th class="text-center text-white">KELAS</th>
+                                    <th class="text-center text-white">MAPEL</th>
+                                    <th class="text-center text-white">JAM START</th>
+                                    <th class="text-center text-white">JAM SELESAI</th>
+                                    <th class="text-center text-white">JAM BERDIRI</th>
                                     <th class="text-center text-white">SYSID</th>
                                 </tr>
                             </thead>
@@ -91,7 +91,7 @@
                                 <?php foreach ($Dtl_Schedule as $dtl) : ?>
                                     <tr>
                                         <td><?= $i; ?></td>
-                                        <td><?= $dtl->Day ?></td>
+                                        <td><?= $dtl->Hari ?></td>
                                         <td><?= $dtl->Kelas ?></td>
                                         <td><?= $dtl->Mata_Pelajaran ?></td>
                                         <td><?= $dtl->Start_Time ?></td>

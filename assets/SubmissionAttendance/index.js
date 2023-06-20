@@ -64,8 +64,8 @@ $(document).ready(function () {
 				name: "Schedule_Number",
 			},
 			{
-				data: "Day",
-				name: "Day",
+				data: "Hari",
+				name: "Hari",
 			},
 			{
 				data: "Kelas",
@@ -301,8 +301,8 @@ $(document).ready(function () {
 				name: "Schedule_Number",
 			},
 			{
-				data: "Day",
-				name: "Day",
+				data: "Hari",
+				name: "Hari",
 			},
 			{
 				data: "Kelas",

@@ -104,7 +104,7 @@ class ApprovalAttendance extends CI_Controller
             $this->db->trans_commit();
             return $this->help->Fn_resulting_response([
                 'code' => 200,
-                'msg' => 'Successfully approve submission attendance !',
+                'msg' => 'Berhasil approve pengajuan absensi !',
             ]);
         }
     }
@@ -159,7 +159,7 @@ class ApprovalAttendance extends CI_Controller
             $this->db->trans_commit();
             return $this->help->Fn_resulting_response([
                 'code' => 200,
-                'msg' => 'Successfully Reject submission attendance !',
+                'msg' => 'Pengajuan absensi telah di riject !',
             ]);
         }
     }

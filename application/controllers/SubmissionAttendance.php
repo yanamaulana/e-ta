@@ -64,7 +64,7 @@ class SubmissionAttendance extends CI_Controller
         if ($Schedule->Day != $day) {
             return $this->help->Fn_resulting_response([
                 'code' => 505,
-                'msg'  => "You must choose $Schedule->Day for this schedule !",
+                'msg'  => "Anda harus memilih tanggal dengan hari $Schedule->Day untuk absensi yang anda ajukan !",
             ]);
         }
 
@@ -76,7 +76,7 @@ class SubmissionAttendance extends CI_Controller
         if ($ValidateRedundanAttTran->num_rows() > 0) {
             return $this->help->Fn_resulting_response([
                 'code' => 505,
-                'msg'  => "The data you entered already exists in the attendance system !",
+                'msg'  => "Data yang anda ajukan telah terdaftar dalam system, anda mungkin melakukan absensi pada tanggal dan jadwal tersebut atau melakukan pengajuan dengan tanggal dan jadwal yang sama 2x !",
             ]);
         }
 
@@ -129,7 +129,7 @@ class SubmissionAttendance extends CI_Controller
             $this->db->trans_commit();
             return $this->help->Fn_resulting_response([
                 'code' => 200,
-                'msg' => 'Successfully insert new records !',
+                'msg' => 'Berhasil menambahkan data pengajuan absensi !',
             ]);
         }
     }
@@ -152,7 +152,7 @@ class SubmissionAttendance extends CI_Controller
             $this->db->trans_commit();
             return $this->help->Fn_resulting_response([
                 'code' => 200,
-                'msg' => 'Your submission successfully deleted !',
+                'msg' => 'Pengajuan absensi anda berhasil di hapus !',
             ]);
         }
     }

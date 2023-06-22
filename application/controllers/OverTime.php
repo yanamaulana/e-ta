@@ -52,7 +52,7 @@ class OverTime extends CI_Controller
                 $this->db->trans_rollback();
                 return $this->help->Fn_resulting_response([
                     'code' => 500,
-                    'msg' => "Employe with ID access : $ID, was having overtime in $tanggal !"
+                    'msg' => "User dengan ID Access : $ID, sudah memiliki data lembur pada tanggal: $tanggal !"
                 ]);
             } else {
                 $this->db->insert($this->tbl_overtime, [
@@ -78,7 +78,7 @@ class OverTime extends CI_Controller
             $this->db->trans_commit();
             return $this->help->Fn_resulting_response([
                 'code' => 200,
-                'msg' => 'Successfully insert new records !',
+                'msg' => 'Data lembur berhasil di tambahkan !',
             ]);
         }
     }
@@ -104,7 +104,7 @@ class OverTime extends CI_Controller
             $this->db->trans_commit();
             return $this->help->Fn_resulting_response([
                 'code' => 200,
-                'msg' => 'Over time record successfully deleted from system !',
+                'msg' => 'Data lembur berhasil dihapus !',
             ]);
         }
     }
@@ -142,7 +142,7 @@ class OverTime extends CI_Controller
             $this->db->trans_commit();
             return $this->help->Fn_resulting_response([
                 'code' => 200,
-                'msg' => 'Over time record successfully updated !',
+                'msg' => 'Berhasil memperbarui data lembur !',
             ]);
         }
     }

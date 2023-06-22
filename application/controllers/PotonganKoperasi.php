@@ -133,7 +133,7 @@ class PotonganKoperasi extends CI_Controller
             $this->db->trans_commit();
             return $this->help->Fn_resulting_response([
                 'code' => 200,
-                'msg' => 'Berhasil menambahkan data kasbon !',
+                'msg' => 'Berhasil menambahkan data hutang koperasi !',
             ]);
         }
     }

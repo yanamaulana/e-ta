@@ -15,11 +15,11 @@
                         <thead style="background-color: #3B6D8C;">
                             <tr class="text-start text-white fw-bolder text-uppercase">
                                 <th class="text-center text-white">#</th>
-                                <th class="text-center text-white">SCHEDULE NUMB</th>
-                                <th class="text-center text-white">TEACHER</th>
-                                <th class="text-center text-white">WORK STATUS</th>
-                                <th class="text-center text-white">OFFICE POSITION</th>
-                                <th class="text-center text-white">DATE CREATE</th>
+                                <th class="text-center text-white">NO. JADWAL</th>
+                                <th class="text-center text-white">NAMA GURU</th>
+                                <th class="text-center text-white">STATUS KERJA</th>
+                                <th class="text-center text-white">JABATAN POKOK</th>
+                                <th class="text-center text-white">TGL DI BUAT</th>
                                 <th class="text-center text-white"><i class="fas fa-cogs text-white"></i></th>
                             </tr>
                         </thead>

@@ -49,37 +49,37 @@ class FormSchedule extends CI_Controller
             if (empty($this->input->post('day')[$x])) {
                 return $this->help->Fn_resulting_response([
                     'code' => 505,
-                    'msg' => 'You must select day, on row ' . $x + 1 . ' !'
+                    'msg' => 'Silahkan pilih hari, pada baris ' . $x + 1 . ' !'
                 ]);
             }
             if (empty($this->input->post('class')[$x])) {
                 return $this->help->Fn_resulting_response([
                     'code' => 505,
-                    'msg' => 'You must select class, on row ' . $x + 1 . ' !'
+                    'msg' => 'Silahkan pilih kelas, pada baris ' . $x + 1 . ' !'
                 ]);
             }
             if (empty($this->input->post('subject')[$x])) {
                 return $this->help->Fn_resulting_response([
                     'code' => 505,
-                    'msg' => 'You must select subjects, on row ' . $x + 1 . ' !'
+                    'msg' => 'Pilih mata pelajaran, pada baris ' . $x + 1 . ' !'
                 ]);
             }
             if (empty($this->input->post('time_start')[$x])) {
                 return $this->help->Fn_resulting_response([
                     'code' => 505,
-                    'msg' => 'You must select start time, on row ' . $x + 1 . ' !'
+                    'msg' => 'Pilih waktu mulai jam pelajaran, pada baris ' . $x + 1 . ' !'
                 ]);
             }
             if (empty($this->input->post('time_over')[$x])) {
                 return $this->help->Fn_resulting_response([
                     'code' => 505,
-                    'msg' => 'You must select end time, on row ' . $x + 1 . ' !'
+                    'msg' => 'Pilih waktu selesai waktu jam pelajaran, pada baris ' . $x + 1 . ' !'
                 ]);
             }
             if ($this->input->post('time_start')[$x] == $this->input->post('time_over')[$x]) {
                 return $this->help->Fn_resulting_response([
                     'code' => 505,
-                    'msg' => 'time start and time over, on row ' . $x + 1 . ' is equal, please select other time !'
+                    'msg' => 'Waktu mulai dan waktu selesai, pada baris ' . $x + 1 . ' memiliki nilai yang sama !'
                 ]);
             }
             // $start = strtotime($this->input->post('time_start')[$x]);
@@ -88,13 +88,13 @@ class FormSchedule extends CI_Controller
             // if ($mins != 35 * floatval($this->input->post('hour_stand')[$x])) {
             //     return $this->help->Fn_resulting_response([
             //         'code' => 505,
-            //         'msg' => 'time range between start and end time, must ' . 35 * floatval($this->input->post('hour_stand')[$x]) . ' minutes for ' . floatval($this->input->post('hour_stand')) . ' stand hour, on row ' . $x + 1 . ' !'
+            //         'msg' => 'time range between start and end time, must ' . 35 * floatval($this->input->post('hour_stand')[$x]) . ' minutes for ' . floatval($this->input->post('hour_stand')) . ' stand hour, pada baris ' . $x + 1 . ' !'
             //     ]);
             // }
             if (empty($this->input->post('hour_stand')[$x])) {
                 return $this->help->Fn_resulting_response([
                     'code' => 505,
-                    'msg' => 'You must select stand hour, on row ' . $x + 1 . ' !'
+                    'msg' => 'Pilih jam berdiri, pada baris ' . $x + 1 . ' !'
                 ]);
             }
         }
@@ -148,7 +148,7 @@ class FormSchedule extends CI_Controller
                 'code' => 200,
                 'Schedule_Number' => $Sch_Numb,
                 'ID' => $insert_id,
-                'msg' => 'Successfully insert new records !',
+                'msg' => 'Data jadwal berhasil di simpan silahkan memonitoring status jadwal pada menu Jadwal Saya !',
             ]);
         }
     }

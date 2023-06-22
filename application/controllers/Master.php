@@ -63,7 +63,7 @@ class Master extends CI_Controller
             $this->db->trans_commit();
             return $this->help->Fn_resulting_response([
                 'code' => 200,
-                'msg' => 'Successfully change activation status !',
+                'msg' => 'Status aktivasi telah berubah !',
             ]);
         }
     }
@@ -120,7 +120,7 @@ class Master extends CI_Controller
         if ($ValidateID->num_rows() > 0) {
             return $this->help->Fn_resulting_response([
                 'code' => 505,
-                'msg'  => "ID Access Control has been taken by other user !",
+                'msg'  => "ID Akses finger print sudah di gunakan oleh user lain !",
             ]);
         }
 
@@ -128,7 +128,7 @@ class Master extends CI_Controller
         if ($ValidateUname->num_rows() > 0) {
             return $this->help->Fn_resulting_response([
                 'code' => 505,
-                'msg'  => "Username has been taken by other user !",
+                'msg'  => "Username sudah dimiliki oleh user lain !",
             ]);
         }
 
@@ -183,7 +183,7 @@ class Master extends CI_Controller
             $this->db->trans_commit();
             return $this->help->Fn_resulting_response([
                 'code' => 200,
-                'msg' => 'Successfully insert new records !',
+                'msg' => 'Berhasil menambahkan user baru !',
             ]);
         }
     }
@@ -236,7 +236,7 @@ class Master extends CI_Controller
             $this->db->trans_commit();
             return $this->help->Fn_resulting_response([
                 'code' => 200,
-                'msg' => 'Successfully update records data !',
+                'msg' => 'Perubahan data berhasil disimpan !',
             ]);
         }
     }
@@ -278,14 +278,14 @@ class Master extends CI_Controller
         if ($Account->Password != md5($old_pw)) {
             return $this->help->Fn_resulting_response([
                 'code' => 500,
-                'msg' => 'Wrong Password, Please correct your current password !'
+                'msg' => 'Password salah, pastikan anda memsukan password anda saat ini !'
             ]);
         }
 
         if ($new_pw != $new_pw_rpt) {
             return $this->help->Fn_resulting_response([
                 'code' => 500,
-                'msg' => 'Please Repeat your new password correctly !'
+                'msg' => 'Harap ulangi password anda dengan benar !'
             ]);
         }
 
@@ -311,7 +311,7 @@ class Master extends CI_Controller
             $this->db->trans_commit();
             return $this->help->Fn_resulting_response([
                 'code' => 200,
-                'msg' => 'Your Password has change !',
+                'msg' => 'Password telah diubah !',
             ]);
         }
     }
@@ -350,7 +350,7 @@ class Master extends CI_Controller
             $this->db->trans_commit();
             return $this->help->Fn_resulting_response([
                 'code' => 200,
-                'msg' => 'Successfully change activation status !',
+                'msg' => 'Berhasil merubah status aktivasi data !',
             ]);
         }
     }
@@ -524,7 +524,7 @@ class Master extends CI_Controller
         if ($ValidateCode->num_rows() > 0) {
             return $this->help->Fn_resulting_response([
                 'code' => 505,
-                'msg'  => "Subjects code already taken !",
+                'msg'  => "Kode mata pelajaran sudah di miliki oleh Mata Pelajaran lain !",
             ]);
         }
 
@@ -551,7 +551,7 @@ class Master extends CI_Controller
             $this->db->trans_commit();
             return $this->help->Fn_resulting_response([
                 'code' => 200,
-                'msg' => 'Successfully insert new records !',
+                'msg' => 'Berhasil menambahkan data Mata Pelajaran baru !',
             ]);
         }
     }
@@ -600,7 +600,7 @@ class Master extends CI_Controller
             $this->db->trans_commit();
             return $this->help->Fn_resulting_response([
                 'code' => 200,
-                'msg' => 'Successfully insert new records !',
+                'msg' => 'Berhasil Menambahkan data Kelas !',
             ]);
         }
     }
@@ -682,7 +682,7 @@ class Master extends CI_Controller
             $this->db->trans_commit();
             return $this->help->Fn_resulting_response([
                 'code' => 200,
-                'msg' => 'Successfully update records data !',
+                'msg' => 'Berhasil menambahkan data kelas baru !',
             ]);
         }
     }
@@ -749,7 +749,7 @@ class Master extends CI_Controller
         if ($ValidateOfficePositionCode->num_rows() > 0) {
             return $this->help->Fn_resulting_response([
                 'code' => 505,
-                'msg'  => "Office Position Code already taken !",
+                'msg'  => "Kode Jabatan sudah dimiliki oleh jabatan lain !",
             ]);
         }
 
@@ -774,7 +774,7 @@ class Master extends CI_Controller
             $this->db->trans_commit();
             return $this->help->Fn_resulting_response([
                 'code' => 200,
-                'msg' => 'Successfully insert new records !',
+                'msg' => 'Berhasil menambahkan jabatan baru !',
             ]);
         }
     }
@@ -853,7 +853,7 @@ class Master extends CI_Controller
             $this->db->trans_commit();
             return $this->help->Fn_resulting_response([
                 'code' => 200,
-                'msg' => 'Successfully insert new records !',
+                'msg' => 'Berhasil menambahkan master data status kerja !',
             ]);
         }
     }
@@ -948,7 +948,7 @@ class Master extends CI_Controller
             $this->db->trans_commit();
             return $this->help->Fn_resulting_response([
                 'code' => 200,
-                'msg' => 'Successfully insert new records !',
+                'msg' => 'Berhasil menambahkan master data tunjangan !',
             ]);
         }
     }
@@ -1039,7 +1039,7 @@ class Master extends CI_Controller
             $this->db->trans_commit();
             return $this->help->Fn_resulting_response([
                 'code' => 200,
-                'msg' => 'Successfully insert new records !',
+                'msg' => 'Berhasil menambahkan data master gaji pokok !',
             ]);
         }
     }

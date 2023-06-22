@@ -53,7 +53,7 @@ class ApprovalSchedule extends CI_Controller
             $this->db->trans_commit();
             return $this->help->Fn_resulting_response([
                 'code' => 200,
-                'msg' => 'Successfully approve schedule !',
+                'msg' => 'Jadwal berhasil di approve !',
             ]);
         }
     }
@@ -83,7 +83,7 @@ class ApprovalSchedule extends CI_Controller
             $this->db->trans_commit();
             return $this->help->Fn_resulting_response([
                 'code' => 200,
-                'msg' => 'Successfully approve schedule !',
+                'msg' => 'Schedule telah di reject !',
             ]);
         }
     }

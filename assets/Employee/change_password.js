@@ -72,14 +72,17 @@ $(document).ready(function () {
 			success: function (response) {
 				Swal.close()
 				if (response.code == 200) {
+					DataForm[0].reset();
 					Swal.fire({
 						icon: 'success',
 						title: 'Success!',
 						text: response.msg,
 						footer: '<a href="javascript:void(0)">Notifikasi System</a>'
-					});
-					DataForm[0].reset();
-					window.location.href = $('meta[name="base_url"]').attr('content') + "Dashboard";
+					}).then((result) => {
+						if (result.isConfirmed) {
+							window.location.href = $('meta[name="base_url"]').attr('content') + "Dashboard";
+						}
+					})
 				} else {
 					Toast.fire({
 						icon: 'error',

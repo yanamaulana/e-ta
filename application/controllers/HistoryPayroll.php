@@ -180,7 +180,7 @@ class HistoryPayroll extends CI_Controller
             $this->db->trans_commit();
             return $this->help->Fn_resulting_response([
                 'code' => 200,
-                'msg' => 'Data Calculate Payroll successfully deleted !',
+                'msg' => 'Data kalkulasi payroll berhasil di kalkulasi ulang !',
             ]);
         }
     }
@@ -228,7 +228,7 @@ class HistoryPayroll extends CI_Controller
             $this->db->trans_commit();
             return $this->help->Fn_resulting_response([
                 'code' => 200,
-                'msg' => 'Data Kalkulasi Berhasil dinyatakan paid !',
+                'msg' => 'Data Kalkulasi Berhasil dinyatakan paid (telah dibayarkan) !',
             ]);
         }
     }

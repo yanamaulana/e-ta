@@ -222,6 +222,3 @@ class GuruPiket extends CI_Controller
         }
     }
 }
-
-// SELECT SysId, ID, Tanggal, Waktu_Piket, Calculated, created_at, created_by
-// FROM eta_db.ttrx_payroll_guru_piket;

@@ -16,19 +16,19 @@
                                 <div class="row">
                                     <div class="col-xl-3 col-md-6">
                                         <div class="fv-row mb-5">
-                                            <label class="form-label">Schedule Number :</label>
+                                            <label class="form-label">No. Jadwal :</label>
                                             <input type="text" readonly class="form-control form-control-sm" id="schedule_number" name="schedule_number" value="<?= $Hdr_Schedule->Schedule_Number ?>" placeholder="AUTO...">
                                         </div>
                                     </div>
                                     <div class="col-xl-3 col-md-6">
                                         <div class="fv-row mb-5">
-                                            <label class="form-label">Teacher Name :</label>
+                                            <label class="form-label">Nama Guru :</label>
                                             <input type="text" readonly class="form-control form-control-sm" id="Nama" name="Nama" value="<?= $employee->Nama ?>" placeholder="Nama...">
                                         </div>
                                     </div>
                                     <div class="col-xl-3 col-md-6">
                                         <label class="form-label <?php if (floatval($Hdr_Schedule->Sch_Rev) > 0) echo 'text-danger' ?>">
-                                            *Revision : <?= $Hdr_Schedule->Sch_Rev ?> times
+                                            *Jumlah Revisi : <?= $Hdr_Schedule->Sch_Rev ?>X
                                         </label>
                                         <div class="fv-row mb-5" id="el-status">
                                             <?php if ($Hdr_Schedule->Approve == 0) : ?>
@@ -98,7 +98,7 @@
                                                             <td>
                                                                 <div class="fv-row">
                                                                     <select class="form-select form-select-sm" disabled required style="width: 100%;" name="class[]">
-                                                                        <option selected disabled value="">Select Class...</option>
+                                                                        <option selected disabled value="">Pilih Kelas...</option>
                                                                         <?php foreach ($Class as $class) : ?>
                                                                             <option <?php if ($dtl->Kelas_ID == $class->SysId) echo 'selected' ?> value="<?= $class->SysId ?>"><?= $class->Kelas ?></option>
                                                                         <?php endforeach ?>
@@ -108,7 +108,7 @@
                                                             <td>
                                                                 <div class="fv-row">
                                                                     <select disabled class="form-select form-select-sm subject" required style="width: 100%;" name="subject[]">
-                                                                        <option selected disabled value="">Select Subjects...</option>
+                                                                        <option selected disabled value="">Select Mapel...</option>
                                                                         <?php foreach ($Subjects as $subject) : ?>
                                                                             <option <?php if ($dtl->Subject_ID == $subject->SysId) echo 'selected' ?> value="<?= $subject->SysId ?>"><?= $subject->Mata_Pelajaran ?></option>
                                                                         <?php endforeach ?>
@@ -116,10 +116,10 @@
                                                                 </div>
                                                             </td>
                                                             <td>
-                                                                <div class="fv-row"><input placeholder="Time Start..." disabled value="<?= $dtl->Start_Time ?>" type="text" class="form-control text-center form-control-sm time_start" required name="time_start[]"></div>
+                                                                <div class="fv-row"><input placeholder="Waktu Mulai..." disabled value="<?= $dtl->Start_Time ?>" type="text" class="form-control text-center form-control-sm time_start" required name="time_start[]"></div>
                                                             </td>
                                                             <td>
-                                                                <div class="fv-row"><input placeholder="Time Over..." disabled value="<?= $dtl->Time_Over ?>" type="text" class="form-control text-center form-control-sm time_over" required name="time_over[]"></div>
+                                                                <div class="fv-row"><input placeholder="Waktu Selesai..." disabled value="<?= $dtl->Time_Over ?>" type="text" class="form-control text-center form-control-sm time_over" required name="time_over[]"></div>
                                                             </td>
                                                             <td>
                                                                 <div class="fv-row">

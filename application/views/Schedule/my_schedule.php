@@ -15,18 +15,18 @@
                             <div class="row">
                                 <div class="col-xl-3 col-md-6">
                                     <div class="fv-row mb-5">
-                                        <label class="form-label">Schedule Number :</label>
+                                        <label class="form-label">No. Jadwal :</label>
                                         <input type="text" readonly class="form-control form-control-sm" id="schedule_number" name="schedule_number" value="<?= $Hdr_Schedule->Schedule_Number ?>" placeholder="AUTO...">
                                     </div>
                                 </div>
                                 <div class="col-xl-3 col-md-6">
                                     <div class="fv-row mb-5">
-                                        <label class="form-label">Teacher Name :</label>
+                                        <label class="form-label">Nama Guru :</label>
                                         <input type="text" readonly class="form-control form-control-sm" id="Nama" name="Nama" value="<?= $employee->Nama ?>" placeholder="Nama...">
                                     </div>
                                 </div>
                                 <div class="col-xl-3 col-md-6">
-                                    <label class="form-label">Status Schedule :</label>
+                                    <label class="form-label">Status Jadwal :</label>
                                     <div class="fv-row mb-5" id="el-status">
                                         <?php if ($Hdr_Schedule->Approve == 0) : ?>
                                             <button type="button" class="form-control text-dark btn btn-light-warning"><i class="far fa-question-circle"></i> Un-Approve</button>
@@ -82,7 +82,7 @@
                                                         <td>
                                                             <div class="fv-row">
                                                                 <select class="form-select form-select-sm day" disabled required style="width: 100%;" name="day[]">
-                                                                    <option selected disabled value="">Select Day...</option>
+                                                                    <option selected disabled value="">Hari...</option>
                                                                     <option <?php if ($dtl->Day == "Monday") echo 'selected' ?> value="Monday">Senin</option>
                                                                     <option <?php if ($dtl->Day == "Tuesday") echo 'selected' ?> value="Tuesday">Selasa</option>
                                                                     <option <?php if ($dtl->Day == "Wednesday") echo 'selected' ?> value="Wednesday">Rabu</option>
@@ -95,7 +95,7 @@
                                                         <td>
                                                             <div class="fv-row">
                                                                 <select class="form-select form-select-sm" disabled required style="width: 100%;" name="class[]">
-                                                                    <option selected disabled value="">Select Class...</option>
+                                                                    <option selected disabled value="">Kelas...</option>
                                                                     <?php foreach ($Class as $class) : ?>
                                                                         <option <?php if ($dtl->Kelas_ID == $class->SysId) echo 'selected' ?> value="<?= $class->SysId ?>"><?= $class->Kelas ?></option>
                                                                     <?php endforeach ?>
@@ -105,7 +105,7 @@
                                                         <td>
                                                             <div class="fv-row">
                                                                 <select disabled class="form-select form-select-sm subject" required style="width: 100%;" name="subject[]">
-                                                                    <option selected disabled value="">Select Subjects...</option>
+                                                                    <option selected disabled value="">Mapel...</option>
                                                                     <?php foreach ($Subjects as $subject) : ?>
                                                                         <option <?php if ($dtl->Subject_ID == $subject->SysId) echo 'selected' ?> value="<?= $subject->SysId ?>"><?= $subject->Mata_Pelajaran ?></option>
                                                                     <?php endforeach ?>
@@ -113,15 +113,15 @@
                                                             </div>
                                                         </td>
                                                         <td>
-                                                            <div class="fv-row"><input placeholder="Time Start..." disabled value="<?= $dtl->Start_Time ?>" type="text" class="form-control text-center form-control-sm time_start" required name="time_start[]"></div>
+                                                            <div class="fv-row"><input placeholder="Mulai pada..." disabled value="<?= $dtl->Start_Time ?>" type="text" class="form-control text-center form-control-sm time_start" required name="time_start[]"></div>
                                                         </td>
                                                         <td>
-                                                            <div class="fv-row"><input placeholder="Time Over..." disabled value="<?= $dtl->Time_Over ?>" type="text" class="form-control text-center form-control-sm time_over" required name="time_over[]"></div>
+                                                            <div class="fv-row"><input placeholder="Selesai pada..." disabled value="<?= $dtl->Time_Over ?>" type="text" class="form-control text-center form-control-sm time_over" required name="time_over[]"></div>
                                                         </td>
                                                         <td>
                                                             <div class="fv-row">
                                                                 <select class="form-select form-select-sm text-center stand_hour" disabled required name="hour_stand[]">
-                                                                    <option selected disabled value="">Hour Stand...</option>
+                                                                    <option selected disabled value="">Jam berdiri...</option>
                                                                     <option <?php if ($dtl->Stand_Hour == "1") echo 'selected' ?> value="1">1</option>
                                                                     <option <?php if ($dtl->Stand_Hour == "2") echo 'selected' ?> value="2">2</option>
                                                                     <option <?php if ($dtl->Stand_Hour == "3") echo 'selected' ?> value="3">3</option>
@@ -160,8 +160,8 @@
                                 <!--end::Icon-->
                                 <!--begin::Content-->
                                 <div class="d-flex flex-column pe-0 pe-sm-10">
-                                    <h5 class="mb-1">Your schedule on approval progress !</h5>
-                                    <span>Please contact headmaster or administrator to continue your schedule approval progress...</span>
+                                    <h5 class="mb-1">Jadwal anda masih dalam proses approval !</h5>
+                                    <span>Harap hubungi Administrator/Kurikulum untuk mengetahui proses approval jadwal anda...</span>
                                 </div>
                                 <!--end::Content-->
                                 <!--begin::Close-->
@@ -176,18 +176,18 @@
                             <div class="row">
                                 <div class="col-xl-3 col-md-6">
                                     <div class="fv-row mb-5">
-                                        <label class="form-label">Schedule Number :</label>
+                                        <label class="form-label">No. Jadwal :</label>
                                         <input type="text" readonly class="form-control form-control-sm" id="schedule_number" name="schedule_number" value="<?= $Hdr_Schedule->Schedule_Number ?>" placeholder="AUTO...">
                                     </div>
                                 </div>
                                 <div class="col-xl-3 col-md-6">
                                     <div class="fv-row mb-5">
-                                        <label class="form-label">Teacher Name :</label>
+                                        <label class="form-label">Nama Guru :</label>
                                         <input type="text" readonly class="form-control form-control-sm" id="Nama" name="Nama" value="<?= $employee->Nama ?>" placeholder="Nama...">
                                     </div>
                                 </div>
                                 <div class="col-xl-3 col-md-6">
-                                    <label class="form-label">Status Schedule :</label>
+                                    <label class="form-label">Status Jadwal :</label>
                                     <div class="fv-row mb-5" id="el-status">
                                         <?php if ($Hdr_Schedule->Approve == 0) : ?>
                                             <button type="button" class="form-control text-dark btn btn-light-warning"><i class="far fa-question-circle"></i> Un-Approve</button>

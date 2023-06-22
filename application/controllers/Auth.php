@@ -40,7 +40,7 @@ class Auth extends CI_Controller
 		if (empty($login->username) && empty($login->password)) {
 			$response = [
 				"code" => 404,
-				"msg" => "Username & Password is required!"
+				"msg" => "Username & Password wajib terisi!"
 			];
 			return $this->help->Fn_resulting_response($response);
 		}
@@ -54,13 +54,15 @@ class Auth extends CI_Controller
 			if ($user['is_active'] == 0) {
 				$response = [
 					"code" => 404,
-					"msg" => "User is not active !"
+					"msg" => "User telah di non-aktifkan !"
 				];
 				return $this->help->Fn_resulting_response($response);
 			}
 			$employee = $this->db->get_where('qview_employee_active', [
 				'UserName' => $login->username,
 			])->row_array();
+
+			$this->delete_cache();
 
 			$is_kurikulum = $this->Fn_Is_Kurikulum($employee);
 			$session_data = array(
@@ -76,7 +78,7 @@ class Auth extends CI_Controller
 			$this->session->set_userdata($session_data);
 			$response = [
 				"code" => 200,
-				"msg" => "Successfully sign-in to " . $this->config->item('app_name') . " !"
+				"msg" => "Berhasil Login ke " . $this->config->item('app_name') . " !"
 			];
 			return $this->help->Fn_resulting_response($response);
 		} else {
@@ -86,20 +88,20 @@ class Auth extends CI_Controller
 			if ($users->num_rows() == 0) {
 				$response = [
 					"code" => 404,
-					"msg" => "User not found !"
+					"msg" => "User tidak ditemukan !"
 				];
 				return $this->help->Fn_resulting_response($response);
 			}
 			if ($users->num_rows() > 0) {
 				$response = [
 					"code" => 505,
-					"msg" => "Password not match !"
+					"msg" => "Password tidak sesuai !"
 				];
 				return $this->help->Fn_resulting_response($response);
 			} else {
 				$response = [
 					"code" => 505,
-					"msg" => "Username & Password not registered!"
+					"msg" => "Username & Password tidak terdaftar !"
 				];
 				return $this->help->Fn_resulting_response($response);
 			}
@@ -133,7 +135,7 @@ class Auth extends CI_Controller
 		if ($this->input->post("password") != $this->input->post("confirm-password")) {
 			return $this->help->Fn_resulting_response([
 				'code' => 505,
-				'msg'  => "Please type password correctly !",
+				'msg'  => "Harap ulangi password anda dengan benar !",
 			]);
 		}
 
@@ -141,7 +143,7 @@ class Auth extends CI_Controller
 		if ($ValidateID->num_rows() > 0) {
 			return $this->help->Fn_resulting_response([
 				'code' => 505,
-				'msg'  => "ID Access Control has been taken by other user !",
+				'msg'  => "ID Access Control Absensi telah di gunakan oleh user lain !",
 			]);
 		}
 
@@ -149,7 +151,7 @@ class Auth extends CI_Controller
 		if ($ValidateUname->num_rows() > 0) {
 			return $this->help->Fn_resulting_response([
 				'code' => 505,
-				'msg'  => "Username has been taken by other user !",
+				'msg'  => "Username sudah dipakai oleh user lain !",
 			]);
 		}
 
@@ -197,9 +199,16 @@ class Auth extends CI_Controller
 			$this->db->trans_commit();
 			return $this->help->Fn_resulting_response([
 				'code' => 200,
-				'msg' => 'Successfully register new account !',
+				'msg' => 'Registrasi berhasil, silahkan login !',
 			]);
 		}
+	}
+
+	private function delete_cache()
+	{
+		$this->load->helper('file');
+
+		delete_files(APPPATH . 'cache', true);
 	}
 
 	public function logout()

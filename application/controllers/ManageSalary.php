@@ -76,7 +76,7 @@ class ManageSalary extends CI_Controller
             $this->db->trans_commit();
             return $this->help->Fn_resulting_response([
                 'code' => 200,
-                'msg' => 'Successfully update salary data !',
+                'msg' => 'Berhasil memperbarui data tunjangan !',
             ]);
         }
     }

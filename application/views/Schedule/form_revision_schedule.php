@@ -22,18 +22,18 @@
                         <div class="row">
                             <div class="col-xl-3 col-md-6">
                                 <div class="fv-row mb-5">
-                                    <label class="form-label">Schedule Number :</label>
+                                    <label class="form-label">Nomor Jadwal :</label>
                                     <input type="text" readonly class="form-control form-control-sm" id="schedule_number" name="schedule_number" value="<?= $Hdr_Schedule->Schedule_Number ?>" placeholder="AUTO...">
                                 </div>
                             </div>
                             <div class="col-xl-3 col-md-6">
                                 <div class="fv-row mb-5">
-                                    <label class="form-label">Teacher Name :</label>
+                                    <label class="form-label">Nama Guru :</label>
                                     <input type="text" readonly class="form-control form-control-sm" id="Nama" name="Nama" value="<?= $employee->Nama ?>" placeholder="Nama...">
                                 </div>
                             </div>
                             <div class="col-xl-3 col-md-6">
-                                <label class="form-label">Status Schedule :</label>
+                                <label class="form-label">Status Jadwal :</label>
                                 <div class="fv-row mb-5" id="el-status">
                                     <?php if ($Hdr_Schedule->Approve == 0) : ?>
                                         <button type="button" class="form-control text-dark btn btn-light-warning"><i class="far fa-question-circle"></i> Un-Approve</button>
@@ -68,7 +68,7 @@
                                                     <td>
                                                         <div class="fv-row">
                                                             <select class="form-select form-select-sm day" required style="width: 100%;" name="day[]">
-                                                                <option selected disabled value="">Select Day...</option>
+                                                                <option selected disabled value="">Pilih Hari...</option>
                                                                 <option <?php if ($dtl->Day == "Monday") echo 'selected' ?> value="Monday">Senin</option>
                                                                 <option <?php if ($dtl->Day == "Tuesday") echo 'selected' ?> value="Tuesday">Selasa</option>
                                                                 <option <?php if ($dtl->Day == "Wednesday") echo 'selected' ?> value="Wednesday">Rabu</option>
@@ -99,10 +99,10 @@
                                                         </div>
                                                     </td>
                                                     <td>
-                                                        <div class="fv-row"><input placeholder="Time Start..." value="<?= $dtl->Start_Time ?>" type="text" class="form-control text-center form-control-sm time_start" required name="time_start[]"></div>
+                                                        <div class="fv-row"><input placeholder="Mulai pada..." value="<?= $dtl->Start_Time ?>" type="text" class="form-control text-center form-control-sm time_start" required name="time_start[]"></div>
                                                     </td>
                                                     <td>
-                                                        <div class="fv-row"><input placeholder="Time Over..." value="<?= $dtl->Time_Over ?>" type="text" class="form-control text-center form-control-sm time_over" required name="time_over[]"></div>
+                                                        <div class="fv-row"><input placeholder="Selesai pada..." value="<?= $dtl->Time_Over ?>" type="text" class="form-control text-center form-control-sm time_over" required name="time_over[]"></div>
                                                     </td>
                                                     <td>
                                                         <div class="fv-row">
@@ -132,8 +132,8 @@
                     </form>
                 </div>
                 <div class="card-footer bg-warning">
-                    <a href="<?= base_url('Dashboard') ?>" id="cancel-form" class="btn btn-danger float-end"><i class="far fa-times-circle"></i> Back</a>
-                    <button type="button" id="submit--data" class="btn btn-primary float-start"><i class="far fa-save"></i> Save Change</button>
+                    <a href="<?= base_url('Dashboard') ?>" id="cancel-form" class="btn btn-danger float-end"><i class="far fa-times-circle"></i> Kembali</a>
+                    <button type="button" id="submit--data" class="btn btn-primary float-start"><i class="far fa-save"></i> Simpan Perubahan</button>
                 </div>
             </div>
         </div>

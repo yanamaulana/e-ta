@@ -6,7 +6,7 @@
                     <div class="symbol symbol-75px mb-5">
                         <img src="<?= base_url() ?>assets/Metronic/dist/assets/media/svg/files/folder-document.svg" alt="">
                     </div>
-                    <div class="fs-5 fw-bolder mb-2"><i class="fas fa-users fs-2"></i>&nbsp;&nbsp; Employee</div>
+                    <div class="fs-5 fw-bolder mb-2"><i class="fas fa-users fs-2"></i>&nbsp;&nbsp; Pekerja</div>
                 </a>
                 <div class="fs-7 fw-bold text-gray-400">List employee, Non-active employee , Active employee, Add new employee & Update data employee</div>
             </div>
@@ -19,7 +19,7 @@
                     <div class="symbol symbol-75px mb-5">
                         <img src="<?= base_url() ?>assets/Metronic/dist/assets/media/svg/files/folder-document.svg" alt="">
                     </div>
-                    <div class="fs-5 fw-bolder mb-2"><i class="fas fa-briefcase fs-2"></i>&nbsp;&nbsp; Subjects</div>
+                    <div class="fs-5 fw-bolder mb-2"><i class="fas fa-briefcase fs-2"></i>&nbsp;&nbsp; Mata Pelajaran</div>
                 </a>
                 <div class="fs-7 fw-bold text-gray-400">List Subjects, Non-active Subjects , Active Subjects, Add new Subjects & Update data Subjects</div>
             </div>
@@ -32,7 +32,7 @@
                     <div class="symbol symbol-75px mb-5">
                         <img src="<?= base_url() ?>assets/Metronic/dist/assets/media/svg/files/folder-document.svg" alt="">
                     </div>
-                    <div class="fs-5 fw-bolder mb-2"><i class="fas fa-clipboard fs-2"></i>&nbsp;&nbsp; Class</div>
+                    <div class="fs-5 fw-bolder mb-2"><i class="fas fa-clipboard fs-2"></i>&nbsp;&nbsp; Kelas & Ruang Kelas</div>
                 </a>
                 <div class="fs-7 fw-bold text-gray-400">List Class, Non-active Class , Active Class, Add new Class & Update data Class</div>
             </div>
@@ -45,7 +45,7 @@
                     <div class="symbol symbol-75px mb-5">
                         <img src="<?= base_url() ?>assets/Metronic/dist/assets/media/svg/files/folder-document.svg" alt="">
                     </div>
-                    <div class="fs-5 fw-bolder mb-2"><i class="fas fa-tags fs-2"></i>&nbsp;&nbsp; Office Postion (Jabatan)</div>
+                    <div class="fs-5 fw-bolder mb-2"><i class="fas fa-tags fs-2"></i>&nbsp;&nbsp; Jabatan Pokok (Office Position)</div>
                 </a>
                 <div class="fs-7 fw-bold text-gray-400">List Office Position, Non-active Office Position , Active Office Position, Add new Office Position & Update data Office Position</div>
             </div>
@@ -58,7 +58,7 @@
                     <div class="symbol symbol-75px mb-5">
                         <img src="<?= base_url() ?>assets/Metronic/dist/assets/media/svg/files/folder-document.svg" alt="">
                     </div>
-                    <div class="fs-5 fw-bolder mb-2"><i class="fas fa-tag fs-2"></i>&nbsp;&nbsp; Work Status</div>
+                    <div class="fs-5 fw-bolder mb-2"><i class="fas fa-tag fs-2"></i>&nbsp;&nbsp; Status Kerja</div>
                 </a>
                 <div class="fs-7 fw-bold text-gray-400">List Work Status, Non-active Work Status , Active Work Status, Add new Work Status & Update data Work Status</div>
             </div>
@@ -71,7 +71,7 @@
                     <div class="symbol symbol-75px mb-5">
                         <img src="<?= base_url() ?>assets/Metronic/dist/assets/media/svg/files/folder-document.svg" alt="">
                     </div>
-                    <div class="fs-5 fw-bolder mb-2"><i class="fas fa-dollar-sign fs-2"></i>&nbsp;&nbsp; Master Salary</div>
+                    <div class="fs-5 fw-bolder mb-2"><i class="fas fa-dollar-sign fs-2"></i>&nbsp;&nbsp; Master Gaji Pokok</div>
                 </a>
                 <div class="fs-7 fw-bold text-gray-400">List Salary, Non-active Salary , Active Salary, Add new Salary & Update data Salary</div>
             </div>
@@ -84,7 +84,7 @@
                     <div class="symbol symbol-75px mb-5">
                         <img src="<?= base_url() ?>assets/Metronic/dist/assets/media/svg/files/folder-document.svg" alt="">
                     </div>
-                    <div class="fs-5 fw-bolder mb-2"><i class="fas fa-donate fs-2"></i>&nbsp;&nbsp; Allowance (Tunjangan)</div>
+                    <div class="fs-5 fw-bolder mb-2"><i class="fas fa-donate fs-2"></i>&nbsp;&nbsp; Master Tunjangan</div>
                 </a>
                 <div class="fs-7 fw-bold text-gray-400">List Allowance, Non-active Allowance , Active Allowance, Add new Allowance & Update data Allowance</div>
             </div>

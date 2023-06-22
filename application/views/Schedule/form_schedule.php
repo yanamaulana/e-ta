@@ -32,8 +32,8 @@
                                 <!--end::Icon-->
                                 <!--begin::Content-->
                                 <div class="d-flex flex-column pe-0 pe-sm-10">
-                                    <h5 class="mb-1">You still have active schedule !</h5>
-                                    <span>Before create new schedule you must archive your last scedule...</span>
+                                    <h5 class="mb-1">Anda masih memiliki jadwdal yang aktif !</h5>
+                                    <span>Sebelum membuat jadwal baru, anda harus meng-arsipkan jadwal terkini anda, maka form jadwal akan terbuka...</span>
                                 </div>
                                 <!--end::Content-->
                                 <!--begin::Close-->
@@ -58,8 +58,8 @@
                                 <!--end::Icon-->
                                 <!--begin::Content-->
                                 <div class="d-flex flex-column pe-0 pe-sm-10">
-                                    <h5 class="mb-1">Your schedule on approval progress !</h5>
-                                    <span>Please contact headmaster or administrator to continue your schedule approval progress...</span>
+                                    <h5 class="mb-1">Jadwal anda masih dalam Proses approval !</h5>
+                                    <span>Harap hubungi Administrator/Kurikulum untuk menindak lanjuti proses approval jadwal anda...</span>
                                 </div>
                                 <!--end::Content-->
                                 <!--begin::Close-->
@@ -170,7 +170,7 @@
                     <?php endif; ?>
                 </div>
                 <div class="card-footer">
-                    <a href="<?= base_url('Dashboard') ?>" id="cancel-form" class="btn btn-danger float-end"><i class="far fa-times-circle"></i> Cancel</a>
+                    <a href="<?= base_url('Dashboard') ?>" id="cancel-form" class="btn btn-danger float-end"><i class="far fa-times-circle"></i> Kembali</a>
                     <button type="button" id="submit--data" class="btn btn-primary float-start"><i class="far fa-save"></i> Submit</button>
                 </div>
             </div>

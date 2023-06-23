@@ -273,10 +273,10 @@
                                                             </div>
                                                         </td>
                                                         <td>
-                                                            <div class="fv-row"><input placeholder="Time Start..." disabled value="<?= $dtl->Start_Time ?>" type="text" class="form-control text-center form-control-sm time_start" required name="time_start[]"></div>
+                                                            <div class="fv-row"><input placeholder="Mulai pada..." disabled value="<?= $dtl->Start_Time ?>" type="text" class="form-control text-center form-control-sm time_start" required name="time_start[]"></div>
                                                         </td>
                                                         <td>
-                                                            <div class="fv-row"><input placeholder="Time Over..." disabled value="<?= $dtl->Time_Over ?>" type="text" class="form-control text-center form-control-sm time_over" required name="time_over[]"></div>
+                                                            <div class="fv-row"><input placeholder="Selesai pada..." disabled value="<?= $dtl->Time_Over ?>" type="text" class="form-control text-center form-control-sm time_over" required name="time_over[]"></div>
                                                         </td>
                                                         <td>
                                                             <div class="fv-row">
@@ -313,8 +313,8 @@
                                 <!--end::Icon-->
                                 <!--begin::Content-->
                                 <div class="d-flex flex-column pe-0 pe-sm-10">
-                                    <h5 class="mb-1">You doesnt have any schedule active !</h5>
-                                    <span>To create schedule you have go to Form schedule menu.... <br /> if your schedule still on approval prosess please contact Head master or Administrator !</span>
+                                    <h5 class="mb-1">Anda tidak memiliki jadwal yang aktif !</h5>
+                                    <span>To create schedule you have go to Form Jadwal menu.... <br /> if your schedule still on approval prosess please contact Administrator/Kurikulum !</span>
                                 </div>
                                 <!--end::Content-->
                                 <!--begin::Close-->

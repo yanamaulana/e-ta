@@ -88,12 +88,13 @@ $(function () {
 					$('#btn--login').html(`<i class="fas fa-sign-in-alt"></i> Sign-In`);
 				}
 			},
-			error: function () {
+			error: function (xhr, status, error) {
+				var statusCode = xhr.status;
+				var errorMessage = xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : xhr.responseText ? xhr.responseText : "Terjadi kesalahan: " + error;
 				Swal.fire({
-					icon: 'error',
-					title: 'Oops...',
-					text: 'Terjadi kesalahan teknis segera lapor pada admin!',
-					footer: '<a href="javascript:void(0)">Notification System</a>'
+					icon: "error",
+					title: "Error!",
+					html: `Kode HTTP: ${statusCode}<br\>Pesan: ${errorMessage}`,
 				});
 				$("#btn--login").prop("disabled", false);
 				$('#btn--login').html(`<i class="fas fa-sign-in-alt"></i> Sign-In`);

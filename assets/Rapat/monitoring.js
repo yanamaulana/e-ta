@@ -428,13 +428,13 @@ $(document).ready(function () {
 							});
 						}
 					},
-					error: function () {
-						Swal.close()
+					error: function (xhr, status, error) {
+						var statusCode = xhr.status;
+						var errorMessage = xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : xhr.responseText ? xhr.responseText : "Terjadi kesalahan: " + error;
 						Swal.fire({
-							icon: 'error',
-							title: 'Oops...',
-							text: 'A error occured, please report this error to administrator !',
-							footer: '<a href="javascript:void(0)">Notification System</a>'
+							icon: "error",
+							title: "Error!",
+							html: `Kode HTTP: ${statusCode}<br\>Pesan: ${errorMessage}`,
 						});
 					}
 				});
@@ -498,12 +498,13 @@ $(document).ready(function () {
 				$("#location").html(ajaxData);
 				$("#Modal-Detail").modal('show');
 			},
-			error: function () {
+			error: function (xhr, status, error) {
+				var statusCode = xhr.status;
+				var errorMessage = xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : xhr.responseText ? xhr.responseText : "Terjadi kesalahan: " + error;
 				Swal.fire({
-					title: "Error!",
-					text: "Terjadi kesalahan teknis, Hubungi MIS dept!",
 					icon: "error",
-					allowOutsideClick: false,
+					title: "Error!",
+					html: `Kode HTTP: ${statusCode}<br\>Pesan: ${errorMessage}`,
 				});
 			}
 		});
@@ -573,13 +574,13 @@ $(document).ready(function () {
 					});
 				}
 			},
-			error: function () {
-				Swal.close()
+			error: function (xhr, status, error) {
+				var statusCode = xhr.status;
+				var errorMessage = xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : xhr.responseText ? xhr.responseText : "Terjadi kesalahan: " + error;
 				Swal.fire({
-					icon: 'error',
-					title: 'Oops...',
-					text: 'A error occured, please report this error to administrator !',
-					footer: '<a href="javascript:void(0)">Notification System</a>'
+					icon: "error",
+					title: "Error!",
+					html: `Kode HTTP: ${statusCode}<br\>Pesan: ${errorMessage}`,
 				});
 			}
 		});
@@ -637,13 +638,13 @@ $(document).ready(function () {
 							});
 						}
 					},
-					error: function () {
-						Swal.close()
+					error: function (xhr, status, error) {
+						var statusCode = xhr.status;
+						var errorMessage = xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : xhr.responseText ? xhr.responseText : "Terjadi kesalahan: " + error;
 						Swal.fire({
-							icon: 'error',
-							title: 'Oops...',
-							text: 'A error occured, please report this error to administrator !',
-							footer: '<a href="javascript:void(0)">Notification System</a>'
+							icon: "error",
+							title: "Error!",
+							html: `Kode HTTP: ${statusCode}<br\>Pesan: ${errorMessage}`,
 						});
 					}
 				});
@@ -703,13 +704,13 @@ $(document).ready(function () {
 							});
 						}
 					},
-					error: function () {
-						Swal.close()
+					error: function (xhr, status, error) {
+						var statusCode = xhr.status;
+						var errorMessage = xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : xhr.responseText ? xhr.responseText : "Terjadi kesalahan: " + error;
 						Swal.fire({
-							icon: 'error',
-							title: 'Oops...',
-							text: 'A error occured, please report this error to administrator !',
-							footer: '<a href="javascript:void(0)">Notification System</a>'
+							icon: "error",
+							title: "Error!",
+							html: `Kode HTTP: ${statusCode}<br\>Pesan: ${errorMessage}`,
 						});
 					}
 				});

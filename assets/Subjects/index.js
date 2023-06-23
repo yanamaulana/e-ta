@@ -198,13 +198,13 @@ $(document).ready(function () {
 							});
 						}
 					},
-					error: function () {
-						Swal.close()
+					error: function (xhr, status, error) {
+						var statusCode = xhr.status;
+						var errorMessage = xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : xhr.responseText ? xhr.responseText : "Terjadi kesalahan: " + error;
 						Swal.fire({
-							icon: 'error',
-							title: 'Oops...',
-							text: 'A error occured, please report this error to administrator !',
-							footer: '<a href="javascript:void(0)">Notifikasi System</a>'
+							icon: "error",
+							title: "Error!",
+							html: `Kode HTTP: ${statusCode}<br\>Pesan: ${errorMessage}`,
 						});
 					}
 				});
@@ -288,13 +288,13 @@ $(document).ready(function () {
 				}
 				BtnAction.prop("disabled", false);
 			},
-			error: function () {
-				Swal.close()
+			error: function (xhr, status, error) {
+				var statusCode = xhr.status;
+				var errorMessage = xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : xhr.responseText ? xhr.responseText : "Terjadi kesalahan: " + error;
 				Swal.fire({
-					icon: 'error',
-					title: 'Oops...',
-					text: 'A error occured, please report this error to administrator !',
-					footer: '<a href="javascript:void(0)">Notifikasi System</a>'
+					icon: "error",
+					title: "Error!",
+					html: `Kode HTTP: ${statusCode}<br\>Pesan: ${errorMessage}`,
 				});
 				BtnAction.prop("disabled", false);
 			}

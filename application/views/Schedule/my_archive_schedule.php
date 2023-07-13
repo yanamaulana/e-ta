@@ -129,6 +129,7 @@
                                                                         <option <?php if ($dtl->Stand_Hour == "2") echo 'selected' ?> value="2">2</option>
                                                                         <option <?php if ($dtl->Stand_Hour == "3") echo 'selected' ?> value="3">3</option>
                                                                         <option <?php if ($dtl->Stand_Hour == "4") echo 'selected' ?> value="4">4</option>
+                                                                        <option <?php if ($dtl->Stand_Hour == "5") echo 'selected' ?> value="5">5</option>
                                                                     </select>
                                                                 </div>
                                                             </td>
